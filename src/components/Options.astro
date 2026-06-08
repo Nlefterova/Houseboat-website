@@ -1,0 +1,206 @@
+---
+interface Props {
+  lang?: "ru" | "en";
+}
+const { lang = "ru" } = Astro.props;
+
+const copy = lang === "ru"
+  ? {
+      eyebrow: "Дополнительные опции",
+      title: "Под вас. От тика до встроенной техники.",
+      body1:
+        "Каждое судно собирается под заказ. Палубное покрытие Flexiteek, мебель из массива дуба, декоративные вставки из композитного алюминия, морской винил, бронзовые акценты. Материалы, которые становятся только красивее со временем.",
+      body2:
+        "Опционально: автопилот Simrad AP44, съёмный тандыр в кормовой зоне, садок для живой рыбы с аэратором, стиральная и сушильная машина, телевизоры в каждой каюте, акустика на открытых палубах, премиальный свет от Artlight. Полный список — по запросу.",
+      ctaLabel: "Обсудить комплектацию",
+    }
+  : {
+      eyebrow: "Optional Equipment",
+      title: "Built around you. From teak to integrated tech.",
+      body1:
+        "Each vessel is built to order. Flexiteek deck surfacing, solid-oak furniture, composite aluminum inserts, marine vinyl, bronze accents. Materials that only become more beautiful with time.",
+      body2:
+        "Optional: Simrad AP44 autopilot, removable tandoor at the stern, live-fish well with aerator, washer + dryer, TVs in every cabin, outdoor audio, premium Artlight lighting. Full list on request.",
+      ctaLabel: "Discuss the build",
+    };
+
+// Small carousel slides — option categories with placeholder gradient tints
+// matching the photo placeholder pattern used elsewhere.
+const slides = lang === "ru"
+  ? [
+      { name: "Камбуз", note: "Тандыр · Садок · Стирка", tint: "linear-gradient(135deg, #2a3640 0%, #131a21 60%, #06090b 100%)" },
+      { name: "Декор и материалы", note: "Дуб · Бронза · Композит", tint: "linear-gradient(135deg, #3a3320 0%, #1d1813 60%, #0a0805 100%)" },
+      { name: "Палуба", note: "Flexiteek · Модульная мебель", tint: "linear-gradient(135deg, #20303a 0%, #131a21 60%, #06090b 100%)" },
+      { name: "Развлечения", note: "8× TV · Аудио · Wi-Fi", tint: "linear-gradient(135deg, #2a2a2a 0%, #161616 60%, #060606 100%)" },
+      { name: "Навигация", note: "Simrad AP44 · GPS · Радар", tint: "linear-gradient(135deg, #1f2a32 0%, #0e1418 55%, #06090b 100%)" },
+    ]
+  : [
+      { name: "Galley", note: "Tandoor · Fish well · Laundry", tint: "linear-gradient(135deg, #2a3640 0%, #131a21 60%, #06090b 100%)" },
+      { name: "Materials & Decor", note: "Oak · Bronze · Composite", tint: "linear-gradient(135deg, #3a3320 0%, #1d1813 60%, #0a0805 100%)" },
+      { name: "Deck", note: "Flexiteek · Modular furniture", tint: "linear-gradient(135deg, #20303a 0%, #131a21 60%, #06090b 100%)" },
+      { name: "Entertainment", note: "8× TV · Audio · Wi-Fi", tint: "linear-gradient(135deg, #2a2a2a 0%, #161616 60%, #060606 100%)" },
+      { name: "Navigation", note: "Simrad AP44 · GPS · Radar", tint: "linear-gradient(135deg, #1f2a32 0%, #0e1418 55%, #06090b 100%)" },
+    ];
+
+const total = slides.length;
+---
+
+<section id="options" class="bg-[var(--color-paper)] py-24 sm:py-32">
+  <div class="mx-auto max-w-[1440px] px-8">
+    <div class="grid grid-cols-12 gap-x-10 gap-y-12">
+      <!-- LEFT: text -->
+      <div class="col-span-12 lg:col-span-5">
+        <p class="eyebrow">{copy.eyebrow}</p>
+        <hr class="rule-ink mt-4" />
+
+        <h2
+          class="display mt-8 text-[34px] leading-[1.08] text-[var(--color-ink)] sm:text-[44px] md:text-[52px]"
+        >
+          {copy.title}
+        </h2>
+
+        <p class="mt-8 text-[16px] leading-[1.7] text-[var(--color-deep-grey)]">{copy.body1}</p>
+        <p class="mt-4 text-[16px] leading-[1.7] text-[var(--color-deep-grey)]">{copy.body2}</p>
+
+        <div class="mt-12">
+          <a
+            href="#inquire"
+            class="group inline-flex items-center gap-3 rounded-full border border-[var(--color-ink)] px-7 py-3.5 text-[12px] uppercase tracking-[var(--tracking-cap)] text-[var(--color-ink)] transition-colors hover:bg-[var(--color-ink)] hover:text-[var(--color-paper)]"
+          >
+            <span>{copy.ctaLabel}</span>
+            <svg width="12" height="12" viewBox="0 0 12 12" fill="none" class="transition-transform group-hover:translate-x-0.5">
+              <path d="M2 10 L10 2 M10 2 H4 M10 2 V8" stroke="currentColor" stroke-width="1.4" />
+            </svg>
+          </a>
+        </div>
+      </div>
+
+      <!-- RIGHT: small carousel — same aspect-video size as the Overview video card -->
+      <div class="col-span-12 lg:col-span-7">
+        <div data-options-carousel data-total={total}>
+          <!-- Photo card -->
+          <div
+            class="relative aspect-video w-full overflow-hidden rounded-[4px] bg-[var(--color-ink)]"
+          >
+            {slides.map((s, i) => (
+              <div
+                data-slide-index={i}
+                data-slide-name={s.name}
+                data-slide-note={s.note}
+                class={`absolute inset-0 transition-opacity duration-500 ${i === 0 ? "opacity-100" : "opacity-0"}`}
+                style={`background: ${s.tint};`}
+                aria-hidden={i !== 0}
+              ></div>
+            ))}
+
+            <!-- Bottom gradient for caption legibility -->
+            <div
+              class="pointer-events-none absolute inset-x-0 bottom-0 h-1/2"
+              style="background: linear-gradient(180deg, rgba(0,0,0,0) 0%, rgba(0,0,0,0.7) 100%);"
+            ></div>
+
+            <!-- Top-right counter -->
+            <div class="absolute right-5 top-5 flex items-baseline gap-1 text-[var(--color-paper)]">
+              <span data-current-index class="text-[14px] font-light tabular-nums">01</span>
+              <span class="text-[10px] uppercase tracking-[var(--tracking-cap)] text-[color-mix(in_srgb,white_55%,transparent)]">
+                / {String(total).padStart(2, "0")}
+              </span>
+            </div>
+
+            <!-- Chevrons -->
+            <button
+              type="button"
+              data-prev
+              aria-label="Previous"
+              class="absolute left-3 top-1/2 z-10 flex h-10 w-10 -translate-y-1/2 items-center justify-center rounded-[2px] bg-[color-mix(in_srgb,black_55%,transparent)] text-[var(--color-paper)] backdrop-blur-md transition-colors hover:bg-[var(--color-paper)] hover:text-[var(--color-ink)]"
+            >
+              <svg width="16" height="16" viewBox="0 0 20 20" fill="none">
+                <path d="M12 4 L6 10 L12 16" stroke="currentColor" stroke-width="1.6" stroke-linecap="square" />
+              </svg>
+            </button>
+            <button
+              type="button"
+              data-next
+              aria-label="Next"
+              class="absolute right-3 top-1/2 z-10 flex h-10 w-10 -translate-y-1/2 items-center justify-center rounded-[2px] bg-[color-mix(in_srgb,black_55%,transparent)] text-[var(--color-paper)] backdrop-blur-md transition-colors hover:bg-[var(--color-paper)] hover:text-[var(--color-ink)]"
+            >
+              <svg width="16" height="16" viewBox="0 0 20 20" fill="none">
+                <path d="M8 4 L14 10 L8 16" stroke="currentColor" stroke-width="1.6" stroke-linecap="square" />
+              </svg>
+            </button>
+
+            <!-- Slide caption overlaid bottom-left -->
+            <div class="absolute inset-x-5 bottom-5 sm:inset-x-7 sm:bottom-7">
+              <p
+                data-caption-note
+                class="text-[10px] uppercase tracking-[var(--tracking-wide-cap)] text-[color-mix(in_srgb,white_70%,transparent)]"
+              >
+                {slides[0].note}
+              </p>
+              <h3
+                data-caption-name
+                class="display mt-2 text-[22px] leading-[1.05] text-[var(--color-paper)] sm:text-[28px]"
+              >
+                {slides[0].name}
+              </h3>
+            </div>
+          </div>
+
+          <!-- Progress segments -->
+          <div class="mt-3 flex gap-1.5">
+            {slides.map((_, i) => (
+              <button
+                type="button"
+                data-dot-index={i}
+                aria-label={`Slide ${i + 1}`}
+                class={`h-[2px] flex-1 transition-colors ${i === 0 ? "bg-[var(--color-ink)]" : "bg-[var(--color-grey)] hover:bg-[var(--color-fog)]"}`}
+              ></button>
+            ))}
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<script>
+  document.querySelectorAll<HTMLElement>("[data-options-carousel]").forEach((root) => {
+    const total = Number(root.dataset.total ?? 0);
+    if (!total) return;
+    const slides = root.querySelectorAll<HTMLElement>("[data-slide-index]");
+    const dots = root.querySelectorAll<HTMLElement>("[data-dot-index]");
+    const counter = root.querySelector<HTMLElement>("[data-current-index]");
+    const captionName = root.querySelector<HTMLElement>("[data-caption-name]");
+    const captionNote = root.querySelector<HTMLElement>("[data-caption-note]");
+    const prev = root.querySelector<HTMLElement>("[data-prev]");
+    const next = root.querySelector<HTMLElement>("[data-next]");
+    let i = 0;
+
+    function go(n: number) {
+      i = ((n % total) + total) % total;
+      slides.forEach((el, idx) => {
+        el.style.opacity = idx === i ? "1" : "0";
+        el.setAttribute("aria-hidden", idx === i ? "false" : "true");
+      });
+      dots.forEach((el, idx) => {
+        if (idx === i) {
+          el.classList.remove("bg-[var(--color-grey)]", "hover:bg-[var(--color-fog)]");
+          el.classList.add("bg-[var(--color-ink)]");
+        } else {
+          el.classList.remove("bg-[var(--color-ink)]");
+          el.classList.add("bg-[var(--color-grey)]", "hover:bg-[var(--color-fog)]");
+        }
+      });
+      if (counter) counter.textContent = String(i + 1).padStart(2, "0");
+      const activeSlide = slides[i] as HTMLElement | undefined;
+      if (activeSlide) {
+        if (captionName) captionName.textContent = activeSlide.dataset.slideName ?? "";
+        if (captionNote) captionNote.textContent = activeSlide.dataset.slideNote ?? "";
+      }
+    }
+
+    prev?.addEventListener("click", () => go(i - 1));
+    next?.addEventListener("click", () => go(i + 1));
+    dots.forEach((dot, idx) => dot.addEventListener("click", () => go(idx)));
+  });
+</script>

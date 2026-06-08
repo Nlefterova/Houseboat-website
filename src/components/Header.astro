@@ -1,0 +1,81 @@
+---
+interface Props {
+  lang?: "ru" | "en";
+}
+const { lang = "ru" } = Astro.props;
+
+// Nav mirrors the actual sections on the page (in scroll order).
+// Hero has no anchor (top of page). Заявка is the CTA pill on the right.
+const nav = lang === "ru"
+  ? [
+      { label: "Обзор", href: "#overview" },
+      { label: "Внешний вид", href: "#exterior" },
+      { label: "Интерьер", href: "#interior" },
+      { label: "Палубы", href: "#layouts" },
+      { label: "Спецификация", href: "#spec" },
+      { label: "Наследие", href: "#heritage" },
+      { label: "Локации", href: "#locations" },
+    ]
+  : [
+      { label: "Overview", href: "#overview" },
+      { label: "Exterior", href: "#exterior" },
+      { label: "Interior", href: "#interior" },
+      { label: "Layouts", href: "#layouts" },
+      { label: "Specs", href: "#spec" },
+      { label: "Heritage", href: "#heritage" },
+      { label: "Locations", href: "#locations" },
+    ];
+
+const ctaLabel = lang === "ru" ? "Заявка" : "Inquire";
+---
+
+<header class="absolute inset-x-0 top-0 z-50">
+  <div class="mx-auto flex max-w-[1440px] items-center justify-between px-8 py-6">
+    <a href={lang === "en" ? "/en/" : "/"} class="flex items-baseline gap-3">
+      <span class="text-[15px] font-bold uppercase tracking-[var(--tracking-cap)] text-[var(--color-paper)]">
+        KARTEL
+      </span>
+      <span class="hidden text-[10px] uppercase tracking-[var(--tracking-cap)] text-[color-mix(in_srgb,white_55%,transparent)] sm:inline">
+        Expedition&nbsp;65 Lux
+      </span>
+    </a>
+
+    <nav class="hidden items-center gap-10 md:flex">
+      {nav.map((item) => (
+        <a
+          href={item.href}
+          class="text-[12px] tracking-[var(--tracking-cap)] uppercase text-[color-mix(in_srgb,white_75%,transparent)] transition-colors hover:text-[var(--color-paper)]"
+        >
+          {item.label}
+        </a>
+      ))}
+    </nav>
+
+    <div class="flex items-center gap-5">
+      <div class="hidden items-center gap-2 text-[11px] tracking-[var(--tracking-cap)] uppercase sm:flex">
+        <a
+          href="/"
+          class={lang === "ru" ? "text-[var(--color-paper)]" : "text-[color-mix(in_srgb,white_50%,transparent)] hover:text-[var(--color-paper)]"}
+        >
+          RU
+        </a>
+        <span class="text-[color-mix(in_srgb,white_30%,transparent)]">·</span>
+        <a
+          href="/en/"
+          class={lang === "en" ? "text-[var(--color-paper)]" : "text-[color-mix(in_srgb,white_50%,transparent)] hover:text-[var(--color-paper)]"}
+        >
+          EN
+        </a>
+      </div>
+      <a
+        href="#inquire"
+        class="group inline-flex items-center gap-2 rounded-full border border-[color-mix(in_srgb,white_50%,transparent)] bg-[color-mix(in_srgb,black_40%,transparent)] px-5 py-2.5 text-[11px] uppercase tracking-[var(--tracking-cap)] text-[var(--color-paper)] backdrop-blur-md transition-colors hover:border-[var(--color-paper)] hover:bg-[var(--color-paper)] hover:text-[var(--color-ink)]"
+      >
+        <span>{ctaLabel}</span>
+        <svg width="12" height="12" viewBox="0 0 12 12" fill="none" class="transition-transform group-hover:translate-x-0.5">
+          <path d="M2 10 L10 2 M10 2 H4 M10 2 V8" stroke="currentColor" stroke-width="1.4" />
+        </svg>
+      </a>
+    </div>
+  </div>
+</header>

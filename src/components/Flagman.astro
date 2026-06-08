@@ -1,0 +1,152 @@
+---
+interface Props {
+  lang?: "ru" | "en";
+}
+const { lang = "ru" } = Astro.props;
+
+const copy = lang === "ru"
+  ? {
+      videoChip: "Проект-предшественник",
+      videoCaption: "Сибирский Исследователь · 2 мин",
+      videoNote: "Видео загружается",
+      flagshipEyebrow: "Флагман · Партнёр РГО",
+      flagshipTitle: "«Сибирский Исследователь»",
+      flagshipLede:
+        "18-метровый стальной корабль класса «река-море», созданный на наших стапелях для выполнения миссий РГО в высоких широтах Арктики.",
+      flagshipSpecs: [
+        { label: "Длина", value: "18 м" },
+        { label: "Класс", value: "Река-море" },
+        { label: "Сталь", value: "09Г2С" },
+        { label: "Миссии", value: "РГО / Арктика" },
+      ],
+      forbesAttribution: "Forbes Russia",
+      forbesQuote:
+        "Особенность судна — защитные накладки, усиливающие киль вдвое. Это позволяет работать в условиях сложной навигации, недоступных для обычных яхт.",
+      bridgeEyebrow: "От «Сибирского Исследователя» к вашему проекту",
+      bridgeBody:
+        "История проекта началась в суровых водах Енисея. Мы применили тот же бескомпромиссный инженерный подход: корпус из нержавеющей стали для прохождения льдов, автономность на недели вперёд, технологии выживания. Expedition 65 Lux — гражданская версия экспедиционного судна. Роскошь, защищённая бронёй.",
+    }
+  : {
+      videoChip: "Predecessor Project",
+      videoCaption: "Siberian Explorer · 2 min",
+      videoNote: "Video loading",
+      flagshipEyebrow: "Flagship · RGS Partner",
+      flagshipTitle: "Siberian Explorer",
+      flagshipLede:
+        "An 18-metre steel river-sea class vessel, built on our slipways for Russian Geographical Society missions in the high Arctic latitudes.",
+      flagshipSpecs: [
+        { label: "Length", value: "18 m" },
+        { label: "Class", value: "River-Sea" },
+        { label: "Steel", value: "09G2S" },
+        { label: "Missions", value: "RGS / Arctic" },
+      ],
+      forbesAttribution: "Forbes Russia",
+      forbesQuote:
+        "A distinguishing feature of the vessel is the protective overlays that double the keel strength. This allows it to work in complex navigation conditions inaccessible to ordinary yachts.",
+      bridgeEyebrow: "From the Siberian Explorer to your project",
+      bridgeBody:
+        "The project began in the harsh waters of the Yenisei. We've applied the same uncompromising engineering approach: stainless-steel hull for breaking through ice, autonomy for weeks ahead, survival-grade technology. Expedition 65 Lux — the civilian version of an expedition vessel. Luxury protected by armor.",
+    };
+---
+
+<section id="flagman" class="border-y border-[var(--color-grey)] bg-[var(--color-bone)] py-20 sm:py-28">
+  <div class="mx-auto max-w-[1440px] px-8">
+    <!-- Top: video LEFT + flagship spec/title RIGHT -->
+    <div class="grid grid-cols-12 gap-x-10 gap-y-12">
+      <!-- LEFT: video card -->
+      <div class="col-span-12 lg:col-span-7">
+        <button
+          type="button"
+          aria-label={copy.flagshipTitle}
+          class="group relative block aspect-video w-full overflow-hidden rounded-[2px] bg-[var(--color-ink)] text-left"
+        >
+          <div
+            class="absolute inset-0 transition-transform duration-700 group-hover:scale-[1.02]"
+            style="background: linear-gradient(160deg, #2a3640 0%, #131a21 55%, #06090b 100%);"
+          ></div>
+          <div
+            class="absolute inset-0"
+            style="background: linear-gradient(180deg, rgba(0,0,0,0) 0%, rgba(0,0,0,0) 55%, rgba(0,0,0,0.6) 100%);"
+          ></div>
+
+          <!-- Top-left chip -->
+          <span
+            class="absolute left-5 top-5 inline-flex items-center gap-2 rounded-[2px] border border-[color-mix(in_srgb,white_45%,transparent)] px-3 py-1.5 text-[10px] uppercase tracking-[var(--tracking-cap)] text-[var(--color-paper)] backdrop-blur-md"
+          >
+            <span class="h-1.5 w-1.5 rounded-full bg-[var(--color-paper)]"></span>
+            {copy.videoChip}
+          </span>
+
+          <!-- Top-right placeholder note -->
+          <span class="absolute right-5 top-5 text-[10px] uppercase tracking-[var(--tracking-wide-cap)] text-[color-mix(in_srgb,white_45%,transparent)]">
+            [{copy.videoNote}]
+          </span>
+
+          <!-- Center play button -->
+          <span
+            class="pointer-events-none absolute inset-0 m-auto flex h-20 w-20 items-center justify-center rounded-full border border-[color-mix(in_srgb,white_60%,transparent)] bg-[color-mix(in_srgb,black_40%,transparent)] text-[var(--color-paper)] backdrop-blur-md transition-all duration-300 group-hover:scale-110 group-hover:border-[var(--color-paper)] group-hover:bg-[var(--color-paper)] group-hover:text-[var(--color-ink)]"
+          >
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor">
+              <path d="M8 5 L20 12 L8 19 Z" />
+            </svg>
+          </span>
+
+          <!-- Bottom caption -->
+          <span class="absolute bottom-5 left-5 text-[10px] uppercase tracking-[var(--tracking-wide-cap)] text-[color-mix(in_srgb,white_70%,transparent)]">
+            {copy.videoCaption}
+          </span>
+        </button>
+      </div>
+
+      <!-- RIGHT: title + lede + specs -->
+      <div class="col-span-12 lg:col-span-5">
+        <p class="text-[10px] uppercase tracking-[var(--tracking-wide-cap)] text-[var(--color-fog)]">
+          {copy.flagshipEyebrow}
+        </p>
+        <h3 class="display mt-5 text-[32px] leading-[1.05] text-[var(--color-ink)] sm:text-[40px]">
+          {copy.flagshipTitle}
+        </h3>
+        <p class="mt-5 text-[15px] leading-[1.7] text-[var(--color-deep-grey)]">
+          {copy.flagshipLede}
+        </p>
+
+        <dl class="mt-8 grid grid-cols-2 gap-x-6 gap-y-5 border-t border-[var(--color-grey)] pt-6">
+          {copy.flagshipSpecs.map((s) => (
+            <div>
+              <dt class="text-[10px] uppercase tracking-[var(--tracking-wide-cap)] text-[var(--color-fog)]">
+                {s.label}
+              </dt>
+              <dd class="mt-2 text-[18px] font-light tracking-[-0.01em] text-[var(--color-ink)]">
+                {s.value}
+              </dd>
+            </div>
+          ))}
+        </dl>
+      </div>
+    </div>
+
+    <!-- Forbes blockquote, full-width below -->
+    <figure class="mt-16 border-t border-[var(--color-grey)] pt-12">
+      <blockquote
+        class="display max-w-4xl text-[24px] leading-[1.25] text-[var(--color-ink)] sm:text-[32px] md:text-[36px]"
+      >
+        «{copy.forbesQuote}»
+      </blockquote>
+      <figcaption class="mt-6 text-[11px] uppercase tracking-[var(--tracking-wide-cap)] text-[var(--color-fog)]">
+        — {copy.forbesAttribution}
+      </figcaption>
+    </figure>
+
+    <!-- Bridge -->
+    <div class="mt-12 grid grid-cols-12 gap-x-8 gap-y-6 border-t border-[var(--color-grey)] pt-10">
+      <div class="col-span-12 lg:col-span-5">
+        <p class="text-[10px] uppercase tracking-[var(--tracking-wide-cap)] text-[var(--color-fog)]">
+          {copy.bridgeEyebrow}
+        </p>
+      </div>
+      <div class="col-span-12 lg:col-span-7">
+        <p class="max-w-3xl text-[16px] leading-[1.6] text-[var(--color-ink)]">{copy.bridgeBody}</p>
+      </div>
+    </div>
+  </div>
+</section>

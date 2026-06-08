@@ -1,0 +1,82 @@
+@import "tailwindcss";
+
+@theme {
+  /* Brand directs Helvetica Now Display (Monotype, paid). Inter is the open-source
+     stand-in with full Cyrillic and the same Swiss-modern character; we fall back
+     to system Helvetica Neue / Arial. Swap to self-hosted Helvetica Now when licensed. */
+  --font-sans: "Helvetica Now Display", "Inter", -apple-system, BlinkMacSystemFont,
+    "Helvetica Neue", Helvetica, Arial, sans-serif;
+  --font-display: var(--font-sans);
+
+  /* Brand palette from Kartel Brand Book (page 31–37). Mono-first for the houseboat
+     tier; neons (Blue #0047BB, Green #CEFE46) held in reserve. */
+  --color-paper: #ffffff;
+  --color-bone: #fcfcfa;
+  --color-light-grey: #ececec;
+  --color-grey: #e1e1e1;
+  --color-fog: #8a8a8a;
+  --color-deep-grey: #202020;
+  --color-ink-soft: #191919;
+  --color-ink: #000000;
+
+  --color-neon-blue: #0047bb;
+  --color-neon-green: #cefe46;
+
+  --tracking-wide-cap: 0.18em;
+  --tracking-cap: 0.14em;
+}
+
+html {
+  background: var(--color-paper);
+  color: var(--color-ink);
+  font-family: var(--font-sans);
+  scroll-behavior: smooth;
+  scroll-padding-top: 80px;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+body {
+  margin: 0;
+}
+
+::selection {
+  background: var(--color-ink);
+  color: var(--color-paper);
+}
+
+.eyebrow {
+  font-family: var(--font-sans);
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: var(--tracking-wide-cap);
+  text-transform: uppercase;
+  color: var(--color-fog);
+}
+
+.display {
+  font-family: var(--font-display);
+  font-weight: 500;
+  letter-spacing: -0.02em;
+  line-height: 1.02;
+}
+
+.display-light {
+  font-family: var(--font-display);
+  font-weight: 300;
+  letter-spacing: -0.02em;
+  line-height: 1.02;
+}
+
+.rule {
+  height: 1px;
+  background: var(--color-grey);
+  border: 0;
+}
+
+.rule-ink {
+  height: 1px;
+  width: 56px;
+  background: var(--color-ink);
+  border: 0;
+}

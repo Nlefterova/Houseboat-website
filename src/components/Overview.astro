@@ -1,0 +1,124 @@
+---
+interface Props {
+  lang?: "ru" | "en";
+}
+const { lang = "ru" } = Astro.props;
+
+const copy = lang === "ru"
+  ? {
+      eyebrow: "Обзор",
+      title: "Гражданская версия экспедиционного судна.",
+      body1:
+        "Корпус из нержавеющей стали. Надстройка из авиационного алюминия АМг5М. Зимний пакет до −30 °C. Технологии выживания, не косметика.",
+      body2:
+        "5 кают, 2 камбуза, сауна, панорамные окна, автономия 7+ суток. Дом, который идёт за впечатлением — туда, где обычная лодка не пройдёт.",
+      ctaLabel: "Посмотреть спецификацию",
+      videoChip: "Видео",
+      videoInvite: "Поднимитесь на борт.",
+      videoSub: "Прогулка по судну · 3 мин",
+      videoNote: "Видео загружается",
+    }
+  : {
+      eyebrow: "Overview",
+      title: "The civilian version of an expedition vessel.",
+      body1:
+        "Stainless-steel hull. Aviation-grade aluminum AlMg5 superstructure. Winter package down to −30 °C. Survival-grade technology, not cosmetic.",
+      body2:
+        "5 cabins, 2 galleys, sauna, panoramic glazing, 7+ days of autonomy. A home that follows experience — where ordinary boats can't go.",
+      ctaLabel: "View Full Specification",
+      videoChip: "Video",
+      videoInvite: "Step aboard.",
+      videoSub: "A walk through the vessel · 3 min",
+      videoNote: "Video loading",
+    };
+---
+
+<section id="overview" class="bg-[var(--color-paper)] py-24 sm:py-32">
+  <div class="mx-auto max-w-[1440px] px-8">
+    <div class="grid grid-cols-12 gap-x-10 gap-y-12">
+      <!-- TEXT side -->
+      <div class="col-span-12 lg:col-span-5">
+        <p class="eyebrow">{copy.eyebrow}</p>
+        <hr class="rule-ink mt-4" />
+
+        <h2
+          class="display mt-8 text-[34px] leading-[1.08] text-[var(--color-ink)] sm:text-[44px] md:text-[52px]"
+        >
+          {copy.title}
+        </h2>
+
+        <p class="mt-8 text-[16px] leading-[1.7] text-[var(--color-deep-grey)]">{copy.body1}</p>
+        <p class="mt-4 text-[16px] leading-[1.7] text-[var(--color-deep-grey)]">{copy.body2}</p>
+
+        <div class="mt-12">
+          <a
+            href="#spec"
+            class="group inline-flex items-center gap-3 rounded-full border border-[var(--color-ink)] px-7 py-3.5 text-[12px] uppercase tracking-[var(--tracking-cap)] text-[var(--color-ink)] transition-colors hover:bg-[var(--color-ink)] hover:text-[var(--color-paper)]"
+          >
+            <span>{copy.ctaLabel}</span>
+            <svg width="12" height="12" viewBox="0 0 12 12" fill="none" class="transition-transform group-hover:translate-x-0.5">
+              <path d="M2 10 L10 2 M10 2 H4 M10 2 V8" stroke="currentColor" stroke-width="1.4" />
+            </svg>
+          </a>
+        </div>
+      </div>
+
+      <!-- VIDEO side -->
+      <div class="col-span-12 lg:col-span-7">
+        <button
+          type="button"
+          aria-label={copy.videoInvite}
+          class="group relative block aspect-video w-full overflow-hidden rounded-[4px] bg-[var(--color-ink)] text-left"
+        >
+          <!-- Backdrop (placeholder until poster lands) -->
+          <div
+            class="absolute inset-0 transition-transform duration-700 group-hover:scale-[1.02]"
+            style="background: radial-gradient(120% 80% at 50% 50%, #1a2127 0%, #0a0d10 55%, #050708 100%);"
+          ></div>
+          <div
+            class="absolute inset-0"
+            style="background: linear-gradient(180deg, rgba(0,0,0,0.15) 0%, rgba(0,0,0,0) 40%, rgba(0,0,0,0.65) 100%);"
+          ></div>
+
+          <!-- Top-left chip -->
+          <span
+            class="absolute left-6 top-6 inline-flex items-center gap-2 rounded-[2px] border border-[color-mix(in_srgb,white_45%,transparent)] px-3 py-1.5 text-[11px] uppercase tracking-[var(--tracking-cap)] text-[var(--color-paper)] backdrop-blur-md"
+          >
+            <span class="h-1.5 w-1.5 rounded-full bg-[var(--color-paper)]"></span>
+            {copy.videoChip}
+          </span>
+
+          <!-- Top-right placeholder note -->
+          <span
+            class="absolute right-6 top-6 text-[10px] uppercase tracking-[var(--tracking-wide-cap)] text-[color-mix(in_srgb,white_45%,transparent)]"
+          >
+            [{copy.videoNote}]
+          </span>
+
+          <!-- Centered play affordance -->
+          <span
+            class="pointer-events-none absolute inset-0 m-auto flex h-20 w-20 items-center justify-center rounded-full border border-[color-mix(in_srgb,white_60%,transparent)] bg-[color-mix(in_srgb,black_40%,transparent)] text-[var(--color-paper)] backdrop-blur-md transition-all duration-300 group-hover:scale-110 group-hover:border-[var(--color-paper)] group-hover:bg-[var(--color-paper)] group-hover:text-[var(--color-ink)]"
+          >
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor">
+              <path d="M8 5 L20 12 L8 19 Z" />
+            </svg>
+          </span>
+
+          <!-- Bottom: invitation -->
+          <div class="absolute inset-x-6 bottom-6 sm:inset-x-10 sm:bottom-10">
+            <p
+              class="display text-[32px] leading-[1.05] text-[var(--color-paper)] sm:text-[44px] md:text-[52px]"
+            >
+              {copy.videoInvite}
+            </p>
+            <p
+              class="mt-3 text-[11px] uppercase tracking-[var(--tracking-cap)] text-[color-mix(in_srgb,white_70%,transparent)]"
+            >
+              {copy.videoSub}
+            </p>
+          </div>
+        </button>
+      </div>
+    </div>
+  </div>
+</section>

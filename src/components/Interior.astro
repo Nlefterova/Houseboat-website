@@ -1,0 +1,212 @@
+---
+interface Props {
+  lang?: "ru" | "en";
+}
+const { lang = "ru" } = Astro.props;
+
+const copy = lang === "ru"
+  ? {
+      eyebrow: "Интерьер",
+      title: "Внутри",
+      lede:
+        "5 кают, 2 камбуза, сауна, рубка управления. Реальные фотографии каждого помещения.",
+      chipLabel: "Интерьер",
+    }
+  : {
+      eyebrow: "Interior",
+      title: "Inside",
+      lede:
+        "5 cabins, 2 galleys, sauna, wheelhouse. Real photographs of each space.",
+      chipLabel: "Interior",
+    };
+
+// Each room becomes one slide. Sourced from the EXPEDITION_65_LUX spec doc.
+// Placeholder tints stand in until real Канон interior shots land.
+const rooms = lang === "ru"
+  ? [
+      { name: "Кают-компания", deck: "Главная палуба", tint: "linear-gradient(135deg, #2a3640 0%, #131a21 60%, #06090b 100%)" },
+      { name: "Мастер-каюта", deck: "Нижняя палуба", tint: "linear-gradient(135deg, #3a3320 0%, #1d1813 60%, #0a0805 100%)" },
+      { name: "Гостевая каюта", deck: "Нижняя палуба", tint: "linear-gradient(135deg, #20303a 0%, #131a21 60%, #06090b 100%)" },
+      { name: "Большой камбуз", deck: "Главная палуба", tint: "linear-gradient(135deg, #2a2a2a 0%, #161616 60%, #060606 100%)" },
+      { name: "Сауна", deck: "Нижняя палуба", tint: "linear-gradient(135deg, #3a2520 0%, #1f1410 60%, #0a0605 100%)" },
+      { name: "Рубка управления", deck: "Главная палуба", tint: "linear-gradient(135deg, #1f2a32 0%, #0e1418 55%, #06090b 100%)" },
+      { name: "Комната отдыха", deck: "Нижняя палуба", tint: "linear-gradient(135deg, #2a3036 0%, #15191d 60%, #06090b 100%)" },
+      { name: "Санузел", deck: "Нижняя палуба", tint: "linear-gradient(135deg, #25282b 0%, #131517 60%, #06090b 100%)" },
+    ]
+  : [
+      { name: "Salon", deck: "Main deck", tint: "linear-gradient(135deg, #2a3640 0%, #131a21 60%, #06090b 100%)" },
+      { name: "Master Cabin", deck: "Lower deck", tint: "linear-gradient(135deg, #3a3320 0%, #1d1813 60%, #0a0805 100%)" },
+      { name: "Guest Cabin", deck: "Lower deck", tint: "linear-gradient(135deg, #20303a 0%, #131a21 60%, #06090b 100%)" },
+      { name: "Main Galley", deck: "Main deck", tint: "linear-gradient(135deg, #2a2a2a 0%, #161616 60%, #060606 100%)" },
+      { name: "Sauna", deck: "Lower deck", tint: "linear-gradient(135deg, #3a2520 0%, #1f1410 60%, #0a0605 100%)" },
+      { name: "Wheelhouse", deck: "Main deck", tint: "linear-gradient(135deg, #1f2a32 0%, #0e1418 55%, #06090b 100%)" },
+      { name: "Lounge", deck: "Lower deck", tint: "linear-gradient(135deg, #2a3036 0%, #15191d 60%, #06090b 100%)" },
+      { name: "Head", deck: "Lower deck", tint: "linear-gradient(135deg, #25282b 0%, #131517 60%, #06090b 100%)" },
+    ];
+
+const total = rooms.length;
+---
+
+<section id="interior" class="bg-[var(--color-bone)] py-12 sm:py-16">
+  <div class="mx-auto max-w-[1440px] px-8">
+    <!-- Header (matches Exterior in style) -->
+    <div class="grid grid-cols-12 gap-x-8 gap-y-4 pb-6">
+      <div class="col-span-12 lg:col-span-5">
+        <p class="eyebrow">{copy.eyebrow}</p>
+        <hr class="rule-ink mt-4" />
+        <h2
+          class="display mt-6 text-[32px] leading-[1.05] text-[var(--color-ink)] sm:text-[44px]"
+        >
+          {copy.title}
+        </h2>
+      </div>
+      <div class="col-span-12 lg:col-span-7 lg:pt-2">
+        <p class="max-w-xl text-[14px] leading-[1.6] text-[var(--color-deep-grey)]">
+          {copy.lede}
+        </p>
+      </div>
+    </div>
+
+    <!-- Carousel -->
+    <div data-interior-carousel data-total={total}>
+      <!-- Photo card -->
+      <div
+        class="relative aspect-[16/9] w-full overflow-hidden rounded-[2px] bg-[var(--color-ink)]"
+      >
+        {rooms.map((r, i) => (
+          <div
+            data-slide-index={i}
+            data-room-name={r.name}
+            data-room-deck={r.deck}
+            class={`absolute inset-0 transition-opacity duration-500 ${i === 0 ? "opacity-100" : "opacity-0"}`}
+            style={`background: ${r.tint};`}
+            aria-hidden={i !== 0}
+          >
+            <!-- Tiny placeholder marker (top-right, low opacity) -->
+            <span class="absolute right-20 top-6 text-[10px] uppercase tracking-[var(--tracking-wide-cap)] text-[color-mix(in_srgb,white_30%,transparent)]">
+              [photo placeholder]
+            </span>
+          </div>
+        ))}
+
+        <!-- Top-left chip -->
+        <span
+          class="absolute left-6 top-6 inline-flex items-center gap-2 rounded-[2px] border border-[color-mix(in_srgb,white_50%,transparent)] px-3 py-1.5 text-[11px] uppercase tracking-[var(--tracking-cap)] text-[var(--color-paper)] backdrop-blur-md"
+        >
+          {copy.chipLabel}
+        </span>
+
+        <!-- Top-right counter -->
+        <div
+          class="absolute right-6 top-6 flex items-baseline gap-1 text-[var(--color-paper)]"
+        >
+          <span data-current-index class="text-[16px] font-light tabular-nums">01</span>
+          <span class="text-[10px] uppercase tracking-[var(--tracking-cap)] text-[color-mix(in_srgb,white_55%,transparent)]">
+            / {String(total).padStart(2, "0")}
+          </span>
+        </div>
+
+        <!-- Prev / Next chevrons -->
+        <button
+          type="button"
+          data-prev
+          aria-label="Previous"
+          class="absolute left-4 top-1/2 z-10 flex h-12 w-12 -translate-y-1/2 items-center justify-center rounded-[2px] bg-[color-mix(in_srgb,black_55%,transparent)] text-[var(--color-paper)] backdrop-blur-md transition-colors hover:bg-[var(--color-paper)] hover:text-[var(--color-ink)]"
+        >
+          <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+            <path d="M12 4 L6 10 L12 16" stroke="currentColor" stroke-width="1.6" stroke-linecap="square" />
+          </svg>
+        </button>
+        <button
+          type="button"
+          data-next
+          aria-label="Next"
+          class="absolute right-4 top-1/2 z-10 flex h-12 w-12 -translate-y-1/2 items-center justify-center rounded-[2px] bg-[color-mix(in_srgb,black_55%,transparent)] text-[var(--color-paper)] backdrop-blur-md transition-colors hover:bg-[var(--color-paper)] hover:text-[var(--color-ink)]"
+        >
+          <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+            <path d="M8 4 L14 10 L8 16" stroke="currentColor" stroke-width="1.6" stroke-linecap="square" />
+          </svg>
+        </button>
+
+        <!-- Bottom gradient so the caption stays readable against any photo -->
+        <div
+          class="pointer-events-none absolute inset-x-0 bottom-0 h-1/3"
+          style="background: linear-gradient(180deg, rgba(0,0,0,0) 0%, rgba(0,0,0,0.7) 100%);"
+        ></div>
+
+        <!-- Caption OVERLAID on the photo, bottom-left -->
+        <div class="absolute inset-x-6 bottom-6 sm:inset-x-10 sm:bottom-10">
+          <p
+            data-caption-deck
+            class="text-[11px] uppercase tracking-[var(--tracking-wide-cap)] text-[color-mix(in_srgb,white_70%,transparent)]"
+          >
+            {rooms[0].deck}
+          </p>
+          <h3
+            data-caption-name
+            class="display mt-3 text-[36px] leading-[1.05] text-[var(--color-paper)] sm:text-[52px]"
+          >
+            {rooms[0].name}
+          </h3>
+        </div>
+      </div>
+
+      <!-- Progress segments -->
+      <div class="mt-5 flex gap-1.5">
+        {rooms.map((_, i) => (
+          <button
+            type="button"
+            data-dot-index={i}
+            aria-label={`Slide ${i + 1}`}
+            class={`h-[2px] flex-1 transition-colors ${i === 0 ? "bg-[var(--color-ink)]" : "bg-[var(--color-grey)] hover:bg-[var(--color-fog)]"}`}
+          ></button>
+        ))}
+      </div>
+    </div>
+  </div>
+</section>
+
+<script>
+  document.querySelectorAll<HTMLElement>("[data-interior-carousel]").forEach((root) => {
+    const total = Number(root.dataset.total ?? 0);
+    if (!total) return;
+    const slides = root.querySelectorAll<HTMLElement>("[data-slide-index]");
+    const dots = root.querySelectorAll<HTMLElement>("[data-dot-index]");
+    const counter = root.querySelector<HTMLElement>("[data-current-index]");
+    const counterBot = root.querySelector<HTMLElement>("[data-current-index-bot]");
+    const captionName = root.querySelector<HTMLElement>("[data-caption-name]");
+    const captionDeck = root.querySelector<HTMLElement>("[data-caption-deck]");
+    const prev = root.querySelector<HTMLElement>("[data-prev]");
+    const next = root.querySelector<HTMLElement>("[data-next]");
+    let i = 0;
+
+    function go(n: number) {
+      i = ((n % total) + total) % total;
+      slides.forEach((el, idx) => {
+        el.style.opacity = idx === i ? "1" : "0";
+        el.setAttribute("aria-hidden", idx === i ? "false" : "true");
+      });
+      dots.forEach((el, idx) => {
+        if (idx === i) {
+          el.classList.remove("bg-[var(--color-grey)]", "hover:bg-[var(--color-fog)]");
+          el.classList.add("bg-[var(--color-ink)]");
+        } else {
+          el.classList.remove("bg-[var(--color-ink)]");
+          el.classList.add("bg-[var(--color-grey)]", "hover:bg-[var(--color-fog)]");
+        }
+      });
+      const padded = String(i + 1).padStart(2, "0");
+      if (counter) counter.textContent = padded;
+      if (counterBot) counterBot.textContent = padded;
+      const activeSlide = slides[i] as HTMLElement | undefined;
+      if (activeSlide) {
+        if (captionName) captionName.textContent = activeSlide.dataset.roomName ?? "";
+        if (captionDeck) captionDeck.textContent = activeSlide.dataset.roomDeck ?? "";
+      }
+    }
+
+    prev?.addEventListener("click", () => go(i - 1));
+    next?.addEventListener("click", () => go(i + 1));
+    dots.forEach((dot, idx) => dot.addEventListener("click", () => go(idx)));
+  });
+</script>

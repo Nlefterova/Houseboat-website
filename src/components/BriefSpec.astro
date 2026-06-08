@@ -1,0 +1,107 @@
+---
+interface Props {
+  lang?: "ru" | "en";
+}
+const { lang = "ru" } = Astro.props;
+
+const copy = lang === "ru"
+  ? {
+      eyebrow: "Спецификация",
+      title: "Краткие данные",
+      lede: "Ключевые характеристики судна. Полная техническая спецификация — по запросу или ниже.",
+      fullSpecCta: "Полная спецификация",
+    }
+  : {
+      eyebrow: "Specifications",
+      title: "Brief Data",
+      lede: "Key characteristics of the vessel. Full technical specification — on request or below.",
+      fullSpecCta: "Full Specification",
+    };
+
+// Placeholder rows — real values from the EXPEDITION_65_LUX spec doc, but
+// final selection of which rows go in "brief" vs "full" is still being decided.
+const rows = lang === "ru"
+  ? [
+      { label: "Длина габаритная", value: "19,60 м" },
+      { label: "Ширина габаритная", value: "5,55 м" },
+      { label: "Высота габаритная", value: "6,80 м" },
+      { label: "Осадка минимальная", value: "0,55 м" },
+      { label: "Водоизмещение", value: "30 000 кг" },
+      { label: "Материал корпуса", value: "Нерж. сталь 12х18н10т" },
+      { label: "Материал надстройки", value: "Алюминий АМг5М" },
+      { label: "Двигатели", value: "2× Mercury Verado V8, 250 л.с." },
+      { label: "Топливо (бензин / дизель)", value: "900 л / 450 л" },
+      { label: "Пресная вода", value: "900 л" },
+      { label: "Автономия", value: "7+ суток" },
+      { label: "Зимний пакет", value: "до −30 °C" },
+      { label: "Вместимость", value: "12 гостей + 2 экипаж" },
+      { label: "Каюты", value: "5 гостевых + 2 для персонала" },
+    ]
+  : [
+      { label: "Length Overall (LOA)", value: "19.60 m" },
+      { label: "Beam Overall", value: "5.55 m" },
+      { label: "Air Draft", value: "6.80 m" },
+      { label: "Minimum Draft", value: "0.55 m" },
+      { label: "Displacement", value: "30,000 kg" },
+      { label: "Hull Material", value: "Stainless steel 12х18н10т" },
+      { label: "Superstructure", value: "Aluminum AlMg5" },
+      { label: "Engines", value: "2× Mercury Verado V8, 250 hp" },
+      { label: "Fuel (petrol / diesel)", value: "900 L / 450 L" },
+      { label: "Fresh Water", value: "900 L" },
+      { label: "Autonomy", value: "7+ days" },
+      { label: "Winter Package", value: "to −30 °C" },
+      { label: "Capacity", value: "12 guests + 2 crew" },
+      { label: "Cabins", value: "5 guest + 2 crew" },
+    ];
+---
+
+<section id="spec" class="bg-[var(--color-paper)] py-12 sm:py-16">
+  <div class="mx-auto max-w-[1440px] px-8">
+    <!-- Header (matches other sections) + CTA button on the right -->
+    <div class="grid grid-cols-12 items-end gap-x-8 gap-y-6 pb-8">
+      <div class="col-span-12 lg:col-span-7">
+        <p class="eyebrow">{copy.eyebrow}</p>
+        <hr class="rule-ink mt-4" />
+        <h2
+          class="display mt-6 text-[32px] leading-[1.05] text-[var(--color-ink)] sm:text-[44px]"
+        >
+          {copy.title}
+        </h2>
+        <p class="mt-6 max-w-2xl text-[14px] leading-[1.6] text-[var(--color-deep-grey)]">
+          {copy.lede}
+        </p>
+      </div>
+      <div class="col-span-12 lg:col-span-5 lg:text-right">
+        <a
+          href="#full-spec"
+          class="group inline-flex items-center gap-3 rounded-full bg-[var(--color-ink)] px-7 py-3.5 text-[12px] uppercase tracking-[var(--tracking-cap)] text-[var(--color-paper)] transition-colors hover:bg-[var(--color-deep-grey)]"
+        >
+          <span>{copy.fullSpecCta}</span>
+          <svg width="12" height="12" viewBox="0 0 12 12" fill="none" class="transition-transform group-hover:translate-x-0.5">
+            <path d="M2 10 L10 2 M10 2 H4 M10 2 V8" stroke="currentColor" stroke-width="1.4" />
+          </svg>
+        </a>
+      </div>
+    </div>
+
+    <!-- Brief spec table — label left, value right, thin grey rules between rows -->
+    <dl class="border-t border-[var(--color-grey)]">
+      {rows.map((r) => (
+        <div
+          class="grid grid-cols-12 gap-x-8 gap-y-2 border-b border-[var(--color-grey)] py-4 sm:py-5"
+        >
+          <dt
+            class="col-span-12 text-[12px] uppercase tracking-[var(--tracking-cap)] text-[var(--color-ink)] sm:col-span-5"
+          >
+            {r.label}
+          </dt>
+          <dd
+            class="col-span-12 text-[15px] leading-[1.4] text-[var(--color-fog)] sm:col-span-7 sm:text-[17px]"
+          >
+            {r.value}
+          </dd>
+        </div>
+      ))}
+    </dl>
+  </div>
+</section>
