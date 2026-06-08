@@ -1,0 +1,61 @@
+---
+interface Props {
+  src: string;
+  label: string;
+  index: number;
+  expandLabel: string;
+  objectPosition?: string;
+  extraClasses?: string;
+}
+const {
+  src,
+  label,
+  index,
+  expandLabel,
+  objectPosition = "center",
+  extraClasses = "",
+} = Astro.props;
+---
+
+<button
+  type="button"
+  aria-label={expandLabel}
+  data-lightbox-trigger
+  data-src={src}
+  data-label={label}
+  data-index={index}
+  class={`group relative cursor-zoom-in overflow-hidden rounded-[2px] bg-[var(--color-ink)] text-left ${extraClasses}`}
+>
+  <img
+    src={src}
+    alt={label}
+    class="absolute inset-0 h-full w-full object-cover transition-transform duration-700 group-hover:scale-[1.03]"
+    style={`object-position: ${objectPosition};`}
+    loading={index === 0 ? "eager" : "lazy"}
+  />
+
+  <!-- Bottom gradient for caption legibility -->
+  <div
+    class="pointer-events-none absolute inset-x-0 bottom-0 h-24 bg-gradient-to-t from-black/65 to-transparent"
+  ></div>
+
+  <span
+    class="absolute bottom-3 left-4 text-[10px] uppercase tracking-[var(--tracking-wide-cap)] text-[color-mix(in_srgb,white_85%,transparent)]"
+  >
+    [{String(index + 1).padStart(2, "0")}] {label}
+  </span>
+
+  <span
+    class="absolute right-3 top-3 flex h-8 w-8 items-center justify-center rounded-[2px] border border-[color-mix(in_srgb,white_30%,transparent)] bg-[color-mix(in_srgb,black_35%,transparent)] text-[var(--color-paper)] opacity-0 backdrop-blur-md transition-all duration-200 group-hover:opacity-100 group-hover:border-[color-mix(in_srgb,white_70%,transparent)] group-hover:bg-[color-mix(in_srgb,black_55%,transparent)]"
+    aria-hidden="true"
+  >
+    <svg width="12" height="12" viewBox="0 0 12 12" fill="none">
+      <path
+        d="M2 7 V10 H5 M10 5 V2 H7 M2 10 L5 7 M10 2 L7 5"
+        stroke="currentColor"
+        stroke-width="1.2"
+        stroke-linecap="square"
+      />
+    </svg>
+  </span>
+</button>

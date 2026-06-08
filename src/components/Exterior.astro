@@ -1,4 +1,6 @@
 ---
+import GalleryCell from "./GalleryCell.astro";
+
 interface Props {
   lang?: "ru" | "en";
 }
@@ -6,110 +8,205 @@ const { lang = "ru" } = Astro.props;
 
 const copy = lang === "ru"
   ? {
-      eyebrow: "Внешний вид",
-      title: "Галерея",
-      lede:
-        "Expedition 65 Lux на воде, на стапелях, на закате — реальные фотографии судна.",
+      eyebrow: "Экстерьер",
+      title: "Снаружи",
+      titleTag: "Галерея",
+      lede: "3 палубы · солярий · кринолин для купания",
       expandLabel: "Открыть",
     }
   : {
       eyebrow: "Exterior",
-      title: "Gallery",
-      lede:
-        "Expedition 65 Lux on the water, at the yard, at dusk — real photographs of the vessel.",
+      title: "Outside",
+      titleTag: "Gallery",
+      lede: "3 decks · sun deck · swim platform",
       expandLabel: "Expand",
     };
 
-// Each cell:
-//   Mobile: Tailwind aspect-[X/Y] for proportional height (col-span-12 → full width)
-//   Desktop (sm:): explicit pixel heights so bottoms align perfectly across the mosaic
-//   The tall photo [03] uses row-span-2 + sm:h-auto so it stretches to match (280 + gap + 280) on the right
+// Mosaic in display order:
+//   [01] firepit (top-left, 16:9)            [02] sunset dock (top-right, 21:9)
+//   [03] mountain (tall, span 2 rows)        [04][05] reflection + upper-deck (paired SQUARES)
+//                                            [06] frozen (bottom-right, 21:9)
 const photos = [
-  {
-    tint: "linear-gradient(135deg, #2a3640 0%, #131a21 60%, #06090b 100%)",
-    labelRu: "На воде · профиль",
-    labelEn: "On water · profile",
-    classes: "aspect-[16/9] col-span-12 sm:col-span-5 sm:aspect-auto sm:h-[280px]",
-  },
-  {
-    tint: "linear-gradient(135deg, #20303a 0%, #131a21 60%, #06090b 100%)",
-    labelRu: "Аэровид · корма",
-    labelEn: "Aerial · stern",
-    classes: "aspect-[21/9] col-span-12 sm:col-span-7 sm:aspect-auto sm:h-[280px]",
-  },
-  {
-    tint: "linear-gradient(135deg, #3a3320 0%, #1d1813 60%, #0a0805 100%)",
-    labelRu: "На зимней стоянке",
-    labelEn: "Winter dock",
-    classes:
-      "aspect-[4/5] col-span-12 sm:col-span-5 sm:row-span-2 sm:aspect-auto sm:h-auto",
-  },
-  {
-    tint: "linear-gradient(135deg, #2a2a2a 0%, #161616 60%, #060606 100%)",
-    labelRu: "Палуба · кормовая",
-    labelEn: "Stern deck",
-    classes: "aspect-[21/9] col-span-12 sm:col-span-7 sm:aspect-auto sm:h-[280px]",
-  },
-  {
-    tint: "linear-gradient(135deg, #1f2a32 0%, #0e1418 55%, #06090b 100%)",
-    labelRu: "Палуба · носовая",
-    labelEn: "Bow deck",
-    classes: "aspect-[21/9] col-span-12 sm:col-span-7 sm:aspect-auto sm:h-[280px]",
-  },
+  { src: "/exterior/2-firepit.jpg", labelRu: "Зимний вечер · у причала", labelEn: "Winter evening · at the dock", objectPosition: "center" },
+  { src: "/exterior/3-golden-dock.jpg", labelRu: "Закат · марина", labelEn: "Sunset · marina", objectPosition: "center" },
+  { src: "/exterior/1-mountain.jpg", labelRu: "Северные широты", labelEn: "Northern latitudes", objectPosition: "20% center" },
+  { src: "/exterior/4-reflection.jpg", labelRu: "Утро · отражение", labelEn: "Morning · reflection", objectPosition: "center" },
+  { src: "/exterior/6-upper-deck.jpg", labelRu: "Верхняя палуба", labelEn: "Upper deck", objectPosition: "center" },
+  { src: "/exterior/5-frozen.jpg", labelRu: "Зимняя стоянка", labelEn: "Winter berth", objectPosition: "center" },
 ];
+
+const slotClasses = [
+  "col-span-12 sm:col-span-5 aspect-[16/9] sm:aspect-auto sm:h-[280px]",
+  "col-span-12 sm:col-span-7 aspect-[21/9] sm:aspect-auto sm:h-[280px]",
+  "col-span-12 sm:col-span-5 sm:row-span-2 aspect-[4/5] sm:aspect-auto sm:h-auto",
+  "aspect-square",
+  "aspect-square",
+  "col-span-12 sm:col-span-7 aspect-[21/9] sm:aspect-auto sm:h-[280px]",
+];
+
+const label = (i: number) =>
+  lang === "ru" ? photos[i].labelRu : photos[i].labelEn;
 ---
 
 <section id="exterior" class="bg-[var(--color-paper)] py-12 sm:py-16">
   <div class="mx-auto max-w-[1440px] px-8">
-    <!-- Header (compact) -->
-    <div class="grid grid-cols-12 gap-x-8 gap-y-4 pb-6">
-      <div class="col-span-12 lg:col-span-5">
+    <div class="pb-6">
+      <div class="max-w-2xl">
         <p class="eyebrow">{copy.eyebrow}</p>
         <hr class="rule-ink mt-4" />
-        <h2
-          class="display mt-6 text-[32px] leading-[1.05] text-[var(--color-ink)] sm:text-[44px]"
-        >
+      </div>
+      <div class="mt-6 flex items-center justify-between gap-6">
+        <h2 class="display text-[32px] leading-[1.05] text-[var(--color-ink)] sm:text-[44px]">
           {copy.title}
         </h2>
-      </div>
-      <div class="col-span-12 lg:col-span-7 lg:pt-2">
-        <p class="max-w-xl text-[14px] leading-[1.6] text-[var(--color-deep-grey)]">
-          {copy.lede}
-        </p>
-      </div>
-    </div>
-
-    <!-- Single grid: 8px gap drives every distance (horizontal + vertical, top-row, mid-rows, between stacked).
-         Desktop heights are explicit so the left tall photo (row-span-2) ends exactly at the right column's bottom. -->
-    <div class="grid grid-cols-12 gap-2">
-      {photos.map((p, i) => (
         <button
           type="button"
-          aria-label={copy.expandLabel}
-          class={`group relative overflow-hidden rounded-[2px] text-left ${p.classes}`}
-          style={`background: ${p.tint};`}
+          class="group inline-flex shrink-0 items-center gap-2 whitespace-nowrap rounded-full border border-[var(--color-ink)] px-5 py-2.5 text-[11px] font-semibold uppercase tracking-[var(--tracking-cap)] text-[var(--color-ink)] transition-colors hover:bg-[var(--color-ink)] hover:text-[var(--color-paper)]"
         >
-          <!-- Placeholder label, bottom-left -->
-          <span class="absolute bottom-3 left-4 text-[10px] uppercase tracking-[var(--tracking-wide-cap)] text-[color-mix(in_srgb,white_55%,transparent)]">
-            [{String(i + 1).padStart(2, "0")}] {lang === "ru" ? p.labelRu : p.labelEn}
-          </span>
-
-          <!-- Expand affordance, top-right -->
-          <span
-            class="absolute right-3 top-3 flex h-8 w-8 items-center justify-center rounded-[2px] border border-[color-mix(in_srgb,white_30%,transparent)] bg-[color-mix(in_srgb,black_35%,transparent)] text-[var(--color-paper)] opacity-70 backdrop-blur-md transition-all duration-200 group-hover:opacity-100 group-hover:border-[color-mix(in_srgb,white_70%,transparent)] group-hover:bg-[color-mix(in_srgb,black_55%,transparent)]"
-            aria-hidden="true"
-          >
-            <svg width="12" height="12" viewBox="0 0 12 12" fill="none">
-              <path
-                d="M2 7 V10 H5 M10 5 V2 H7 M2 10 L5 7 M10 2 L7 5"
-                stroke="currentColor"
-                stroke-width="1.2"
-                stroke-linecap="square"
-              />
-            </svg>
-          </span>
+          <span>{copy.titleTag}</span>
+          <svg width="12" height="12" viewBox="0 0 12 12" fill="none" class="transition-transform group-hover:translate-x-0.5">
+            <path d="M2 10 L10 2 M10 2 H4 M10 2 V8" stroke="currentColor" stroke-width="1.4" />
+          </svg>
         </button>
-      ))}
+      </div>
+      <p class="mt-5 max-w-xl text-[14px] leading-[1.6] text-[var(--color-deep-grey)]">
+        {copy.lede}
+      </p>
+    </div>
+
+    <div class="grid grid-cols-12 gap-2">
+      <GalleryCell src={photos[0].src} label={label(0)} index={0} expandLabel={copy.expandLabel} objectPosition={photos[0].objectPosition} extraClasses={slotClasses[0]} />
+      <GalleryCell src={photos[1].src} label={label(1)} index={1} expandLabel={copy.expandLabel} objectPosition={photos[1].objectPosition} extraClasses={slotClasses[1]} />
+      <GalleryCell src={photos[2].src} label={label(2)} index={2} expandLabel={copy.expandLabel} objectPosition={photos[2].objectPosition} extraClasses={slotClasses[2]} />
+      <div class="col-span-12 grid grid-cols-2 gap-2 sm:col-span-7">
+        <GalleryCell src={photos[3].src} label={label(3)} index={3} expandLabel={copy.expandLabel} objectPosition={photos[3].objectPosition} extraClasses={slotClasses[3]} />
+        <GalleryCell src={photos[4].src} label={label(4)} index={4} expandLabel={copy.expandLabel} objectPosition={photos[4].objectPosition} extraClasses={slotClasses[4]} />
+      </div>
+      <GalleryCell src={photos[5].src} label={label(5)} index={5} expandLabel={copy.expandLabel} objectPosition={photos[5].objectPosition} extraClasses={slotClasses[5]} />
     </div>
   </div>
+
+  <!-- Lightbox overlay -->
+  <div
+    id="exterior-lightbox"
+    class="pointer-events-none fixed inset-0 z-[100] flex items-center justify-center bg-black/95 opacity-0 transition-opacity duration-300 data-[open]:pointer-events-auto data-[open]:opacity-100"
+    aria-hidden="true"
+    role="dialog"
+  >
+    <!-- Backdrop (closes on click) -->
+    <div data-lightbox-close class="absolute inset-0" aria-hidden="true"></div>
+
+    <!-- Close button, top-right -->
+    <button
+      type="button"
+      data-lightbox-close
+      aria-label="Закрыть"
+      class="absolute right-6 top-6 z-10 flex h-10 w-10 items-center justify-center rounded-full border border-[color-mix(in_srgb,white_25%,transparent)] bg-[color-mix(in_srgb,black_30%,transparent)] text-[var(--color-paper)] backdrop-blur-md transition-colors hover:border-[var(--color-paper)] hover:bg-[var(--color-paper)] hover:text-[var(--color-ink)]"
+    >
+      <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
+        <path d="M2 2 L12 12 M12 2 L2 12" stroke="currentColor" stroke-width="1.4" stroke-linecap="square" />
+      </svg>
+    </button>
+
+    <!-- Prev arrow -->
+    <button
+      type="button"
+      data-lightbox-prev
+      aria-label="Предыдущее"
+      class="absolute left-6 top-1/2 z-10 flex h-12 w-12 -translate-y-1/2 items-center justify-center rounded-full border border-[color-mix(in_srgb,white_25%,transparent)] bg-[color-mix(in_srgb,black_30%,transparent)] text-[var(--color-paper)] backdrop-blur-md transition-colors hover:border-[var(--color-paper)] hover:bg-[var(--color-paper)] hover:text-[var(--color-ink)]"
+    >
+      <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
+        <path d="M9 2 L4 7 L9 12" stroke="currentColor" stroke-width="1.4" stroke-linecap="square" stroke-linejoin="round" fill="none" />
+      </svg>
+    </button>
+
+    <!-- Next arrow -->
+    <button
+      type="button"
+      data-lightbox-next
+      aria-label="Следующее"
+      class="absolute right-6 top-1/2 z-10 flex h-12 w-12 -translate-y-1/2 items-center justify-center rounded-full border border-[color-mix(in_srgb,white_25%,transparent)] bg-[color-mix(in_srgb,black_30%,transparent)] text-[var(--color-paper)] backdrop-blur-md transition-colors hover:border-[var(--color-paper)] hover:bg-[var(--color-paper)] hover:text-[var(--color-ink)]"
+    >
+      <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
+        <path d="M5 2 L10 7 L5 12" stroke="currentColor" stroke-width="1.4" stroke-linecap="square" stroke-linejoin="round" fill="none" />
+      </svg>
+    </button>
+
+    <!-- Image container (clicking image itself does nothing — only backdrop closes) -->
+    <figure class="relative z-0 flex max-h-[88vh] max-w-[92vw] flex-col items-center">
+      <img
+        id="exterior-lightbox-img"
+        src=""
+        alt=""
+        class="max-h-[80vh] max-w-[92vw] object-contain"
+      />
+      <figcaption class="mt-4 flex items-center gap-4 text-[11px] uppercase tracking-[var(--tracking-wide-cap)] text-[color-mix(in_srgb,white_70%,transparent)]">
+        <span id="exterior-lightbox-counter"></span>
+        <span class="h-px w-8 bg-[color-mix(in_srgb,white_30%,transparent)]"></span>
+        <span id="exterior-lightbox-caption"></span>
+      </figcaption>
+    </figure>
+  </div>
 </section>
+
+<script>
+  const lightbox = document.getElementById("exterior-lightbox");
+  const imgEl = document.getElementById("exterior-lightbox-img") as HTMLImageElement | null;
+  const captionEl = document.getElementById("exterior-lightbox-caption");
+  const counterEl = document.getElementById("exterior-lightbox-counter");
+  const triggers = Array.from(
+    document.querySelectorAll<HTMLButtonElement>("#exterior [data-lightbox-trigger]")
+  );
+
+  if (lightbox && imgEl && captionEl && counterEl && triggers.length) {
+    // Source-of-truth slide list, in display order.
+    const slides = triggers.map((btn) => ({
+      src: btn.dataset.src || "",
+      label: btn.dataset.label || "",
+    }));
+    let current = 0;
+
+    const total = slides.length;
+    const setSlide = (i: number) => {
+      current = ((i % total) + total) % total; // wrap both directions
+      const s = slides[current];
+      imgEl.src = s.src;
+      imgEl.alt = s.label;
+      captionEl.textContent = s.label;
+      counterEl.textContent = `${String(current + 1).padStart(2, "0")} / ${String(total).padStart(2, "0")}`;
+    };
+
+    const open = (i: number) => {
+      setSlide(i);
+      lightbox.setAttribute("data-open", "");
+      lightbox.setAttribute("aria-hidden", "false");
+      document.body.style.overflow = "hidden";
+    };
+    const close = () => {
+      lightbox.removeAttribute("data-open");
+      lightbox.setAttribute("aria-hidden", "true");
+      document.body.style.overflow = "";
+    };
+
+    triggers.forEach((btn, i) => {
+      btn.addEventListener("click", () => open(i));
+    });
+
+    lightbox
+      .querySelectorAll<HTMLElement>("[data-lightbox-close]")
+      .forEach((el) => el.addEventListener("click", close));
+    lightbox
+      .querySelector<HTMLElement>("[data-lightbox-prev]")
+      ?.addEventListener("click", () => setSlide(current - 1));
+    lightbox
+      .querySelector<HTMLElement>("[data-lightbox-next]")
+      ?.addEventListener("click", () => setSlide(current + 1));
+
+    document.addEventListener("keydown", (e) => {
+      if (lightbox.getAttribute("data-open") === null) return;
+      if (e.key === "Escape") close();
+      else if (e.key === "ArrowLeft") setSlide(current - 1);
+      else if (e.key === "ArrowRight") setSlide(current + 1);
+    });
+  }
+</script>

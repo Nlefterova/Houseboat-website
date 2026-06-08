@@ -16,9 +16,9 @@ const copy = lang === "ru"
       specs: [
         { label: "Длина", value: "19,6", unit: "м" },
         { label: "Каюты", value: "5", unit: "" },
-        { label: "Гостей", value: "12", unit: "+ 2 экипаж" },
+        { label: "Гостей", value: "12", unit: "" },
         { label: "Сезоны", value: "4", unit: "до −30 °C" },
-        { label: "Корпус", value: "Steel", unit: "нерж." },
+        { label: "Корпус", value: "Сталь", unit: "нерж." },
         { label: "Автономия", value: "7+", unit: "суток" },
       ],
       tagline: "Право на свободу маршрута.",
@@ -36,7 +36,7 @@ const copy = lang === "ru"
       specs: [
         { label: "Length", value: "19.6", unit: "m" },
         { label: "Cabins", value: "5", unit: "" },
-        { label: "Guests", value: "12", unit: "+ 2 crew" },
+        { label: "Guests", value: "12", unit: "" },
         { label: "Seasons", value: "4", unit: "to −30 °C" },
         { label: "Hull", value: "Steel", unit: "stainless" },
         { label: "Autonomy", value: "7+", unit: "days" },
@@ -48,27 +48,27 @@ const copy = lang === "ru"
 ---
 
 <section class="relative isolate min-h-[100svh] w-full overflow-hidden bg-[var(--color-ink)]">
-  <!-- Full-bleed hero photo — PLACEHOLDER gradient until we drop in a Канон/Expedition still.
-       Swap by setting background-image on this div. -->
+  <!-- Hero photo: Канон/Expedition/EXP_15_Calm Lake Reflection.jpeg
+       TODO: swap to 4K upscaled version once we run the batch through Topaz. -->
   <div class="absolute inset-0 -z-10">
+    <img
+      src="/hero/hero.jpg"
+      alt=""
+      class="absolute inset-0 h-full w-full object-cover"
+      style="transform: scale(1.5) translateX(15%); transform-origin: center;"
+      loading="eager"
+      fetchpriority="high"
+    />
+    <!-- Dark gradient overlay — keeps the glass card legible on the left. -->
     <div
       class="absolute inset-0"
       style="background:
-        radial-gradient(120% 80% at 70% 30%, #2a3640 0%, #131a21 55%, #06090b 100%);"
-    ></div>
-    <div
-      class="absolute inset-0"
-      style="background:
-        linear-gradient(120deg,
+        linear-gradient(110deg,
           rgba(0,0,0,0.55) 0%,
-          rgba(0,0,0,0.25) 40%,
-          rgba(0,0,0,0.0) 70%,
-          rgba(0,0,0,0.25) 100%);"
+          rgba(0,0,0,0.3) 35%,
+          rgba(0,0,0,0.05) 65%,
+          rgba(0,0,0,0.2) 100%);"
     ></div>
-    <div class="absolute inset-x-0 top-[62%] h-px bg-[color-mix(in_srgb,white_8%,transparent)]"></div>
-    <span class="absolute right-6 top-24 text-[10px] uppercase tracking-[var(--tracking-wide-cap)] text-[color-mix(in_srgb,white_45%,transparent)]">
-      [hero photo placeholder]
-    </span>
   </div>
 
   <div class="mx-auto flex min-h-[100svh] max-w-[1440px] items-end px-8 pb-16 pt-36 lg:items-center">
@@ -95,7 +95,7 @@ const copy = lang === "ru"
           <dl class="mt-6 grid grid-cols-2 gap-x-6 gap-y-3 border-t border-[color-mix(in_srgb,white_15%,transparent)] pt-6">
             {copy.meta.map((m) => (
               <div>
-                <dt class="text-[10px] uppercase tracking-[var(--tracking-cap)] text-[color-mix(in_srgb,white_55%,transparent)]">
+                <dt class="text-[10px] font-semibold uppercase tracking-[var(--tracking-cap)] text-[color-mix(in_srgb,white_70%,transparent)]">
                   {m.label}
                 </dt>
                 <dd class="mt-1 text-[16px] text-[var(--color-paper)]">{m.value}</dd>
@@ -107,7 +107,7 @@ const copy = lang === "ru"
           <dl class="mt-6 grid grid-cols-2 gap-x-6 gap-y-5 border-t border-[color-mix(in_srgb,white_15%,transparent)] pt-6">
             {copy.specs.map((s) => (
               <div>
-                <dt class="text-[10px] uppercase tracking-[var(--tracking-cap)] text-[color-mix(in_srgb,white_55%,transparent)]">
+                <dt class="text-[10px] font-semibold uppercase tracking-[var(--tracking-cap)] text-[color-mix(in_srgb,white_70%,transparent)]">
                   {s.label}
                 </dt>
                 <dd class="mt-1 text-[26px] font-light leading-none tracking-[-0.02em] text-[var(--color-paper)]">

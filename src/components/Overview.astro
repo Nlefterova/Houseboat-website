@@ -9,14 +9,14 @@ const copy = lang === "ru"
       eyebrow: "Обзор",
       title: "Гражданская версия экспедиционного судна.",
       body1:
-        "Корпус из нержавеющей стали. Надстройка из авиационного алюминия АМг5М. Зимний пакет до −30 °C. Технологии выживания, не косметика.",
+        "Корпус из нержавеющей стали 12х18н10т. Надстройка из авиационного алюминия АМг5М. Зимний пакет до −30 °C. Технологии выживания, не косметика.",
       body2:
-        "5 кают, 2 камбуза, сауна, панорамные окна, автономия 7+ суток. Дом, который идёт за впечатлением — туда, где обычная лодка не пройдёт.",
+        "5 кают, 2 камбуза, сауна, два подвесных мотора 250–350 л.с. Дом, который идёт за впечатлением — туда, где обычная лодка не пройдёт.",
       ctaLabel: "Посмотреть спецификацию",
+      features: ["Дуб и тик", "Банный комплекс", "Нержавеющая сталь"],
       videoChip: "Видео",
       videoInvite: "Поднимитесь на борт.",
-      videoSub: "Прогулка по судну · 3 мин",
-      videoNote: "Видео загружается",
+      videoSub: "Прогулка по судну · 1:30",
     }
   : {
       eyebrow: "Overview",
@@ -24,12 +24,12 @@ const copy = lang === "ru"
       body1:
         "Stainless-steel hull. Aviation-grade aluminum AlMg5 superstructure. Winter package down to −30 °C. Survival-grade technology, not cosmetic.",
       body2:
-        "5 cabins, 2 galleys, sauna, panoramic glazing, 7+ days of autonomy. A home that follows experience — where ordinary boats can't go.",
+        "5 cabins, 2 galleys, sauna, twin outboards 250–350 hp. A home that follows experience — where ordinary boats can't go.",
       ctaLabel: "View Full Specification",
+      features: ["Oak & Teak", "Banya Complex", "Stainless Steel"],
       videoChip: "Video",
       videoInvite: "Step aboard.",
-      videoSub: "A walk through the vessel · 3 min",
-      videoNote: "Video loading",
+      videoSub: "A walk through the vessel · 1:30",
     };
 ---
 
@@ -38,7 +38,7 @@ const copy = lang === "ru"
     <div class="grid grid-cols-12 gap-x-10 gap-y-12">
       <!-- TEXT side -->
       <div class="col-span-12 lg:col-span-5">
-        <p class="eyebrow">{copy.eyebrow}</p>
+        <p class="eyebrow lg:-mt-8">{copy.eyebrow}</p>
         <hr class="rule-ink mt-4" />
 
         <h2
@@ -47,10 +47,18 @@ const copy = lang === "ru"
           {copy.title}
         </h2>
 
-        <p class="mt-8 text-[16px] leading-[1.7] text-[var(--color-deep-grey)]">{copy.body1}</p>
+        <p class="mt-5 text-[16px] leading-[1.7] text-[var(--color-deep-grey)]">{copy.body1}</p>
         <p class="mt-4 text-[16px] leading-[1.7] text-[var(--color-deep-grey)]">{copy.body2}</p>
 
-        <div class="mt-12">
+        <ul class="mt-8 flex flex-wrap gap-2">
+          {copy.features.map((f) => (
+            <li class="inline-flex items-center rounded-full border border-[var(--color-grey)] bg-[var(--color-bone)] px-4 py-2 text-[11px] font-semibold uppercase tracking-[var(--tracking-cap)] text-[var(--color-ink)]">
+              {f}
+            </li>
+          ))}
+        </ul>
+
+        <div class="mt-10">
           <a
             href="#spec"
             class="group inline-flex items-center gap-3 rounded-full border border-[var(--color-ink)] px-7 py-3.5 text-[12px] uppercase tracking-[var(--tracking-cap)] text-[var(--color-ink)] transition-colors hover:bg-[var(--color-ink)] hover:text-[var(--color-paper)]"
@@ -65,59 +73,82 @@ const copy = lang === "ru"
 
       <!-- VIDEO side -->
       <div class="col-span-12 lg:col-span-7">
-        <button
-          type="button"
-          aria-label={copy.videoInvite}
-          class="group relative block aspect-video w-full overflow-hidden rounded-[4px] bg-[var(--color-ink)] text-left"
+        <div
+          id="overview-video-card"
+          class="group relative block aspect-[7/4] w-full overflow-hidden rounded-[4px] bg-[var(--color-ink)] text-left"
         >
-          <!-- Backdrop (placeholder until poster lands) -->
-          <div
-            class="absolute inset-0 transition-transform duration-700 group-hover:scale-[1.02]"
-            style="background: radial-gradient(120% 80% at 50% 50%, #1a2127 0%, #0a0d10 55%, #050708 100%);"
-          ></div>
-          <div
-            class="absolute inset-0"
-            style="background: linear-gradient(180deg, rgba(0,0,0,0.15) 0%, rgba(0,0,0,0) 40%, rgba(0,0,0,0.65) 100%);"
-          ></div>
-
-          <!-- Top-left chip -->
-          <span
-            class="absolute left-6 top-6 inline-flex items-center gap-2 rounded-[2px] border border-[color-mix(in_srgb,white_45%,transparent)] px-3 py-1.5 text-[11px] uppercase tracking-[var(--tracking-cap)] text-[var(--color-paper)] backdrop-blur-md"
+          <!-- The actual video — shows poster until play -->
+          <video
+            id="overview-video"
+            class="absolute inset-0 h-full w-full object-cover"
+            poster="/video/poster.jpg"
+            preload="metadata"
+            playsinline
           >
-            <span class="h-1.5 w-1.5 rounded-full bg-[var(--color-paper)]"></span>
-            {copy.videoChip}
-          </span>
+            <source src="/video/walkthrough.mp4" type="video/mp4" />
+          </video>
 
-          <!-- Top-right placeholder note -->
-          <span
-            class="absolute right-6 top-6 text-[10px] uppercase tracking-[var(--tracking-wide-cap)] text-[color-mix(in_srgb,white_45%,transparent)]"
+          <!-- Overlay layer: chip + invitation + play button. Hidden when video plays. -->
+          <button
+            id="overview-video-trigger"
+            type="button"
+            aria-label={copy.videoInvite}
+            class="absolute inset-0 z-10 cursor-pointer text-left transition-opacity duration-500 data-[playing]:pointer-events-none data-[playing]:opacity-0"
           >
-            [{copy.videoNote}]
-          </span>
+            <div
+              class="absolute inset-0"
+              style="background: linear-gradient(180deg, rgba(0,0,0,0.25) 0%, rgba(0,0,0,0.05) 40%, rgba(0,0,0,0.7) 100%);"
+            ></div>
 
-          <!-- Centered play affordance -->
-          <span
-            class="pointer-events-none absolute inset-0 m-auto flex h-20 w-20 items-center justify-center rounded-full border border-[color-mix(in_srgb,white_60%,transparent)] bg-[color-mix(in_srgb,black_40%,transparent)] text-[var(--color-paper)] backdrop-blur-md transition-all duration-300 group-hover:scale-110 group-hover:border-[var(--color-paper)] group-hover:bg-[var(--color-paper)] group-hover:text-[var(--color-ink)]"
-          >
-            <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor">
-              <path d="M8 5 L20 12 L8 19 Z" />
-            </svg>
-          </span>
-
-          <!-- Bottom: invitation -->
-          <div class="absolute inset-x-6 bottom-6 sm:inset-x-10 sm:bottom-10">
-            <p
-              class="display text-[32px] leading-[1.05] text-[var(--color-paper)] sm:text-[44px] md:text-[52px]"
+            <span
+              class="absolute left-6 top-6 inline-flex items-center gap-2 rounded-[2px] border border-[color-mix(in_srgb,white_45%,transparent)] bg-[color-mix(in_srgb,black_30%,transparent)] px-3 py-1.5 text-[11px] uppercase tracking-[var(--tracking-cap)] text-[var(--color-paper)] backdrop-blur-md"
             >
-              {copy.videoInvite}
-            </p>
-            <p
-              class="mt-3 text-[11px] uppercase tracking-[var(--tracking-cap)] text-[color-mix(in_srgb,white_70%,transparent)]"
+              <span class="h-1.5 w-1.5 rounded-full bg-[var(--color-paper)]"></span>
+              {copy.videoChip}
+            </span>
+
+            <span
+              class="pointer-events-none absolute inset-0 m-auto flex h-20 w-20 items-center justify-center rounded-full border border-[color-mix(in_srgb,white_60%,transparent)] bg-[color-mix(in_srgb,black_40%,transparent)] text-[var(--color-paper)] backdrop-blur-md transition-all duration-300 group-hover:scale-110 group-hover:border-[var(--color-paper)] group-hover:bg-[var(--color-paper)] group-hover:text-[var(--color-ink)]"
             >
-              {copy.videoSub}
-            </p>
-          </div>
-        </button>
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor">
+                <path d="M8 5 L20 12 L8 19 Z" />
+              </svg>
+            </span>
+
+            <div class="absolute inset-x-6 bottom-6 sm:inset-x-10 sm:bottom-10">
+              <p
+                class="display text-[32px] leading-[1.05] text-[var(--color-paper)] sm:text-[44px] md:text-[52px]"
+              >
+                {copy.videoInvite}
+              </p>
+              <p
+                class="mt-3 text-[11px] uppercase tracking-[var(--tracking-cap)] text-[color-mix(in_srgb,white_70%,transparent)]"
+              >
+                {copy.videoSub}
+              </p>
+            </div>
+          </button>
+        </div>
+
+        <script>
+          const trigger = document.getElementById("overview-video-trigger");
+          const video = document.getElementById("overview-video") as HTMLVideoElement | null;
+          if (trigger && video) {
+            const showOverlay = () => {
+              video.controls = false;
+              trigger.removeAttribute("data-playing");
+            };
+            trigger.addEventListener("click", () => {
+              video.controls = true;
+              video.play();
+              trigger.setAttribute("data-playing", "");
+            });
+            // On pause / end → restore the initial overlay look (no native controls,
+            // video stays at current playback time so resume continues from there).
+            video.addEventListener("pause", showOverlay);
+            video.addEventListener("ended", showOverlay);
+          }
+        </script>
       </div>
     </div>
   </div>
