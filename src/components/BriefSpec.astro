@@ -8,18 +8,23 @@ const copy = lang === "ru"
   ? {
       eyebrow: "Спецификация",
       title: "Краткие данные",
-      lede: "Ключевые характеристики судна. Полная техническая спецификация — по запросу или ниже.",
+      lede: "Ключевые характеристики судна.",
       fullSpecCta: "Полная спецификация",
+      fullSpecTitle: "Полная спецификация",
+      fullSpecSubtitle: "Expedition 65 Lux · хаусбот",
+      closeLabel: "Закрыть",
     }
   : {
       eyebrow: "Specifications",
       title: "Brief Data",
-      lede: "Key characteristics of the vessel. Full technical specification — on request or below.",
+      lede: "Key characteristics of the vessel.",
       fullSpecCta: "Full Specification",
+      fullSpecTitle: "Full Specification",
+      fullSpecSubtitle: "Expedition 65 Lux · houseboat",
+      closeLabel: "Close",
     };
 
-// Placeholder rows — real values from the EXPEDITION_65_LUX spec doc, but
-// final selection of which rows go in "brief" vs "full" is still being decided.
+// Rows shown in the brief table (always visible).
 const rows = lang === "ru"
   ? [
       { label: "Длина габаритная", value: "19,60 м" },
@@ -29,7 +34,7 @@ const rows = lang === "ru"
       { label: "Водоизмещение", value: "30 000 кг" },
       { label: "Материал корпуса", value: "Нерж. сталь 12х18н10т" },
       { label: "Материал надстройки", value: "Алюминий АМг5М" },
-      { label: "Двигатели", value: "2× Mercury Verado V8, 250 л.с." },
+      { label: "Двигатели", value: "2× Mercury Verado V8 250 XXL AM" },
       { label: "Топливо (бензин / дизель)", value: "900 л / 450 л" },
       { label: "Пресная вода", value: "900 л" },
       { label: "Автономия", value: "7+ суток" },
@@ -45,13 +50,378 @@ const rows = lang === "ru"
       { label: "Displacement", value: "30,000 kg" },
       { label: "Hull Material", value: "Stainless steel 12х18н10т" },
       { label: "Superstructure", value: "Aluminum AlMg5" },
-      { label: "Engines", value: "2× Mercury Verado V8, 250 hp" },
+      { label: "Engines", value: "2× Mercury Verado V8 250 XXL AM" },
       { label: "Fuel (petrol / diesel)", value: "900 L / 450 L" },
       { label: "Fresh Water", value: "900 L" },
       { label: "Autonomy", value: "7+ days" },
       { label: "Winter Package", value: "to −30 °C" },
       { label: "Capacity", value: "12 guests + 2 crew" },
       { label: "Cabins", value: "5 guest + 2 crew" },
+    ];
+
+// Full specification — sourced verbatim from Boris's EXPEDITION_65_LUX doc.
+// Russian is the source of truth; EN labels are best-effort translations
+// for the EN locale build (review when EN copy is finalized).
+const fullSpec = lang === "ru"
+  ? [
+      {
+        category: "Общие данные",
+        rows: [
+          { label: "Марка", value: "Хаусбот" },
+          { label: "Модель", value: "Expedition 65 Lux" },
+          { label: "Год выпуска", value: "2026" },
+          { label: "Материал корпуса", value: "Нерж. сталь 12х18н10т" },
+          { label: "Материал надстройки", value: "Алюминий АМг5М" },
+          { label: "Длина", value: "19,60 м" },
+          { label: "Ширина", value: "5,55 м" },
+          { label: "Вес судна", value: "30 000 кг" },
+          { label: "Минимальная осадка", value: "0,55 м" },
+          { label: "Вместимость", value: "12 человек" },
+          { label: "Спальные каюты (+ для персонала)", value: "5 + 2" },
+          { label: "Высота в каютах", value: "2,00 м" },
+          { label: "Камбуз", value: "2" },
+          { label: "Сауна электрическая, 9 кВт", value: "1" },
+          { label: "Гальюн с душевой", value: "3" },
+          { label: "Гальюн с умывальником", value: "2" },
+          { label: "Душ на открытой палубе (нос, корма)", value: "2" },
+        ],
+      },
+      {
+        category: "Двигатели и силовое оборудование",
+        rows: [
+          { label: "Подвесной лодочный мотор Mercury Verado V8 250 XXL AM", value: "2" },
+          { label: "Консольный пульт управления для двух двигателей", value: "1" },
+          { label: "Рулевая электро-гидравлическая система OPTIMUS для VERADO, комплект", value: "1" },
+          { label: "Подруливающее гидравлическое устройство Side-Power SH240 (2 мотора), 19 л.с., комплект", value: "1" },
+          { label: "Пульт управления подруливающим устройством Side-Power — джойстик и радиопульт", value: "2" },
+        ],
+      },
+      {
+        category: "Навигационное оборудование",
+        rows: [
+          { label: "Монитор Simrad NSSevo3, 16″", value: "1" },
+          { label: "Комплект автопилота Simrad AP44 VRF (опция)", value: "1" },
+          { label: "Монитор Mercury 7″", value: "1" },
+          { label: "Внешняя GPS-антенна GS25", value: "1" },
+          { label: "Рация речного диапазона стационарная", value: "1" },
+          { label: "Светоимпульсные огни-отмашки, комплект", value: "1" },
+        ],
+      },
+      {
+        category: "Климат · Webasto тепло/холод",
+        rows: [
+          { label: "Кондиционер Webasto BlueCool V77 T230B (чиллер)", value: "1" },
+          { label: "Фанкойлы тепло/холод Webasto", value: "10" },
+          { label: "Отопитель Webasto Thermo 350.190 RAIL, 24 В (дизель)", value: "1" },
+          { label: "Монитор управления MultiControl touch", value: "10" },
+          { label: "Электрокотёл, 12 кВт", value: "1" },
+          { label: "Система кондиционирования открытого пространства «туман»", value: "1" },
+        ],
+      },
+      {
+        category: "Электрическое оборудование",
+        rows: [
+          { label: "Дизельный генератор Kohler 28EFKOZD-3×220+N", value: "1" },
+          { label: "Глушитель и сепаратор для генератора", value: "1" },
+          { label: "Инвертор/зарядное Victron Energy 24/220 — 5 кВА", value: "1" },
+          { label: "Система контроля Victron Energy со смартфона", value: "1" },
+          { label: "Зарядное Victron Energy на 2 стартовых аккумулятора, 12 В", value: "1" },
+          { label: "Зарядное Victron Energy 24 В (генератор)", value: "1" },
+          { label: "Зарядное Victron Energy 24 В (носовая лебёдка)", value: "1" },
+          { label: "Выключатели массы дистанционные", value: "5" },
+          { label: "Выключатели массы ручные", value: "2" },
+          { label: "Короба под аккумуляторы", value: "4" },
+          { label: "Стартовые АКБ AGM 12 В — 100 Ач Delta", value: "4" },
+          { label: "Сервисные АКБ AGM 12 В — 250 Ач Delta (итого 1000 Ач)", value: "8" },
+          { label: "Носовая АКБ AGM 12 В — 200 Ач Delta", value: "2" },
+          { label: "Розетка под береговое питание ABB 3×32 A", value: "1" },
+          { label: "Кабель берегового питания с вилкой, 30 м", value: "1" },
+        ],
+      },
+      {
+        category: "Система пожаротушения · Bontel",
+        rows: [
+          { label: "Автоматические жидкостные огнетушители в моторный отсек", value: "2" },
+          { label: "Ручные жидкостные огнетушители", value: "6" },
+        ],
+      },
+      {
+        category: "Водоснабжение, канализация, осушение",
+        rows: [
+          { label: "Нагнетательная помпа Jilex 30 л/мин, 220 В (гидрофор)", value: "1" },
+          { label: "Трюмная помпа Sahara 1100, 24 В", value: "4" },
+          { label: "Унитаз электрический Vetus, 24 В", value: "4" },
+          { label: "Душ — горячая / холодная вода", value: "3" },
+          { label: "Цистерна пресной воды 450 л (×2 = 900 л)", value: "2" },
+          { label: "Цистерна сточных вод 450 л", value: "1" },
+          { label: "Указатель уровня воды 0–190 Ом", value: "2" },
+          { label: "Фильтр грубой очистки воды", value: "1" },
+          { label: "3-ступенчатая тонкая очистка пресной воды", value: "1" },
+          { label: "Трюмная помпа серых вод Vetus, 24 В", value: "3" },
+        ],
+      },
+      {
+        category: "Якорно-швартовое оборудование",
+        rows: [
+          { label: "Якорная лебёдка 3500 VWC, 24 В, 1200 Вт, цепь 12 мм (нос)", value: "1" },
+          { label: "Якорная лебёдка 1500 VWC, 24 В, 1200 Вт, цепь 8 мм (корма)", value: "1" },
+          { label: "Цепь якорная оцинкованная DIN 766, 12 мм", value: "50 м" },
+          { label: "Цепь якорная оцинкованная DIN 766, 8 мм", value: "30 м" },
+          { label: "Якорь Брюса 80 кг (нос)", value: "1" },
+          { label: "Якорь Денфорта 30 кг (корма)", value: "1" },
+          { label: "Вертлюг якорный, под цепь 12 мм", value: "1" },
+          { label: "Палубные кнопки управления лебёдкой «вверх/вниз»", value: "4" },
+        ],
+      },
+      {
+        category: "Корпус и палуба",
+        rows: [
+          { label: "Топливный бак нерж., бензин 450 л", value: "2" },
+          { label: "Топливный бак нерж., дизель 450 л", value: "1" },
+          { label: "Леерное ограждение верхней палубы по периметру, комплект", value: "1" },
+          { label: "Утка швартовая П-образная 310 мм, Vetus", value: "4" },
+          { label: "Привальный брус широкий алюминиевый Vetus, комплект", value: "1" },
+          { label: "Трап складной, 4 ступени, нерж. (нос и корма)", value: "2" },
+          { label: "Душ палубный (нос и корма), шланг 2 м", value: "2" },
+          { label: "Палубное покрытие верхней палубы Flexiteek (UK), комплект", value: "1" },
+          { label: "Арка алюминиевая широкая, верхняя палуба", value: "2" },
+        ],
+      },
+      {
+        category: "Панель приборов и рубка",
+        rows: [
+          { label: "Штурвал Vetus с ободом из красного дерева", value: "1" },
+          { label: "Вольтметр цифровой 8–32 В, чёрный циферблат", value: "3" },
+          { label: "TV-антенна Glomex 9125 plus (опция)", value: "1" },
+          { label: "Пантографный поводок стеклоочистителя 285–380 мм", value: "3" },
+          { label: "Электропривод стеклоочистителя со щёткой 15″, 24 В", value: "3" },
+          { label: "Панель на 6 выключателей", value: "3" },
+          { label: "Ходовой огонь красный, 24 В", value: "1" },
+          { label: "Ходовой огонь зелёный, 24 В", value: "1" },
+          { label: "Кормовой светодиодный огонь, 24 В", value: "1" },
+          { label: "Стояночный огонь белый, 24 В", value: "1" },
+          { label: "Топовый огонь белый, 24 В", value: "1" },
+          { label: "Прожектор поисковый с джойстиком, 24 В", value: "1" },
+        ],
+      },
+      {
+        category: "Освещение и розетки",
+        rows: [
+          { label: "Встраиваемый светильник Artlight, сатинированный алюминий, 24 В", value: "4" },
+          { label: "Бра прикроватные, 24 В", value: "13" },
+          { label: "Бра интерьерные, 24 В", value: "4" },
+          { label: "LED-светильник встраиваемый, 24 В", value: "16" },
+          { label: "Розетка 220 В (инверторное питание) — в каждой каюте", value: "1" },
+          { label: "Розетка 220 В (генератор / береговое питание) — в каждой каюте", value: "1" },
+          { label: "TV в каютах и на палубах (опция)", value: "8" },
+        ],
+      },
+      {
+        category: "Камбуз · нижняя и главная палуба",
+        rows: [
+          { label: "Мойка со смесителем горячая/холодная", value: "2" },
+          { label: "Морозильная камера 300 л, 220 В", value: "1" },
+          { label: "Холодильник 350 л, 220 В", value: "1" },
+          { label: "Холодильник 120 л, 220 В", value: "1" },
+          { label: "Вытяжка, 220 В", value: "2" },
+          { label: "Посудомоечная машина, 220 В", value: "1" },
+          { label: "Духовой шкаф, 220 В", value: "1" },
+          { label: "Встроенная СВЧ, 220 В", value: "1" },
+          { label: "Встроенная индукционная варочная поверхность, 220 В", value: "2" },
+          { label: "Стиральная и сушильная машина, 220 В (опция)", value: "1 + 1" },
+        ],
+      },
+      {
+        category: "Мультимедиа",
+        rows: [
+          { label: "GSM-модем на 2 SIM-карты, IRZ-pro, 24 В", value: "1" },
+          { label: "Точки доступа Wi-Fi Zyxel, 12 В", value: "3" },
+          { label: "Мультисвич 20 выходов, MikroTik, 24 В", value: "1" },
+          { label: "Видеонаблюдение, 14 камер, с удалённым доступом, комплект", value: "1" },
+          { label: "Аудиоподготовка 5.1, комплект", value: "1" },
+          { label: "Bluetooth-колонки для открытых палуб", value: "опция" },
+        ],
+      },
+    ]
+  : [
+      {
+        category: "General",
+        rows: [
+          { label: "Type", value: "Houseboat" },
+          { label: "Model", value: "Expedition 65 Lux" },
+          { label: "Year", value: "2026" },
+          { label: "Hull material", value: "Stainless steel 12х18н10т" },
+          { label: "Superstructure", value: "Aluminum AlMg5" },
+          { label: "Length", value: "19.60 m" },
+          { label: "Beam", value: "5.55 m" },
+          { label: "Displacement", value: "30,000 kg" },
+          { label: "Minimum draft", value: "0.55 m" },
+          { label: "Capacity", value: "12 persons" },
+          { label: "Cabins (+ crew)", value: "5 + 2" },
+          { label: "Cabin ceiling height", value: "2.00 m" },
+          { label: "Galleys", value: "2" },
+          { label: "Electric sauna, 9 kW", value: "1" },
+          { label: "Heads with shower", value: "3" },
+          { label: "Heads with washbasin", value: "2" },
+          { label: "Open-deck showers (bow, stern)", value: "2" },
+        ],
+      },
+      {
+        category: "Propulsion",
+        rows: [
+          { label: "Outboard Mercury Verado V8 250 XXL AM", value: "2" },
+          { label: "Console control unit for twin engines", value: "1" },
+          { label: "OPTIMUS electro-hydraulic steering for VERADO, set", value: "1" },
+          { label: "Side-Power SH240 hydraulic thrusters (2-motor), 19 hp, set", value: "1" },
+          { label: "Side-Power thruster joystick + remote", value: "2" },
+        ],
+      },
+      {
+        category: "Navigation",
+        rows: [
+          { label: "Simrad NSSevo3, 16″ display", value: "1" },
+          { label: "Simrad AP44 VRF autopilot kit (option)", value: "1" },
+          { label: "Mercury 7″ display", value: "1" },
+          { label: "External GPS antenna GS25", value: "1" },
+          { label: "Fixed river-band radio", value: "1" },
+          { label: "Signal flashers, set", value: "1" },
+        ],
+      },
+      {
+        category: "Climate · Webasto",
+        rows: [
+          { label: "Webasto BlueCool V77 T230B air conditioner (chiller)", value: "1" },
+          { label: "Webasto heat/cool fan coils", value: "10" },
+          { label: "Webasto Thermo 350.190 RAIL heater, 24 V (diesel)", value: "1" },
+          { label: "MultiControl touch panel", value: "10" },
+          { label: "Electric boiler, 12 kW", value: "1" },
+          { label: "Open-deck mist cooling system", value: "1" },
+        ],
+      },
+      {
+        category: "Electrical",
+        rows: [
+          { label: "Kohler 28EFKOZD diesel generator, 3×220+N", value: "1" },
+          { label: "Generator muffler and separator", value: "1" },
+          { label: "Victron Energy 24/220 inverter/charger — 5 kVA", value: "1" },
+          { label: "Victron Energy monitoring (smartphone)", value: "1" },
+          { label: "Victron 12 V charger for 2 starter batteries", value: "1" },
+          { label: "Victron 24 V charger (generator)", value: "1" },
+          { label: "Victron 24 V charger (bow windlass)", value: "1" },
+          { label: "Remote battery disconnects", value: "5" },
+          { label: "Manual battery disconnects", value: "2" },
+          { label: "Battery enclosures", value: "4" },
+          { label: "AGM starter batteries 12 V — 100 Ah Delta", value: "4" },
+          { label: "AGM service batteries 12 V — 250 Ah Delta (1000 Ah total)", value: "8" },
+          { label: "Bow AGM battery 12 V — 200 Ah Delta", value: "2" },
+          { label: "Shore power inlet ABB 3×32 A", value: "1" },
+          { label: "Shore power cable with plug, 30 m", value: "1" },
+        ],
+      },
+      {
+        category: "Fire suppression · Bontel",
+        rows: [
+          { label: "Automatic liquid extinguishers, engine room", value: "2" },
+          { label: "Handheld liquid extinguishers", value: "6" },
+        ],
+      },
+      {
+        category: "Water, sanitation, bilge",
+        rows: [
+          { label: "Jilex pressure pump 30 L/min, 220 V (hydrophore)", value: "1" },
+          { label: "Sahara 1100 bilge pump, 24 V", value: "4" },
+          { label: "Vetus electric toilet, 24 V", value: "4" },
+          { label: "Shower — hot/cold", value: "3" },
+          { label: "Fresh-water tank 450 L (×2 = 900 L)", value: "2" },
+          { label: "Greywater tank 450 L", value: "1" },
+          { label: "Water level gauges 0–190 Ω", value: "2" },
+          { label: "Coarse water filter", value: "1" },
+          { label: "3-stage fine fresh-water filter", value: "1" },
+          { label: "Vetus grey-water bilge pump, 24 V", value: "3" },
+        ],
+      },
+      {
+        category: "Anchor and mooring",
+        rows: [
+          { label: "Windlass 3500 VWC, 24 V, 1200 W, 12 mm chain (bow)", value: "1" },
+          { label: "Windlass 1500 VWC, 24 V, 1200 W, 8 mm chain (stern)", value: "1" },
+          { label: "Galvanized anchor chain DIN 766, 12 mm", value: "50 m" },
+          { label: "Galvanized anchor chain DIN 766, 8 mm", value: "30 m" },
+          { label: "Bruce anchor 80 kg (bow)", value: "1" },
+          { label: "Danforth anchor 30 kg (stern)", value: "1" },
+          { label: "Anchor swivel, for 12 mm chain", value: "1" },
+          { label: "Up/down windlass deck buttons", value: "4" },
+        ],
+      },
+      {
+        category: "Hull and deck",
+        rows: [
+          { label: "Petrol fuel tank, stainless, 450 L", value: "2" },
+          { label: "Diesel fuel tank, stainless, 450 L", value: "1" },
+          { label: "Upper deck perimeter handrail set", value: "1" },
+          { label: "Vetus П-shaped mooring cleat, 310 mm", value: "4" },
+          { label: "Wide aluminum Vetus rub rail, set", value: "1" },
+          { label: "Folding 4-step stainless ladder (bow/stern)", value: "2" },
+          { label: "Deck shower (bow/stern), 2 m hose", value: "2" },
+          { label: "Flexiteek upper-deck flooring (UK), set", value: "1" },
+          { label: "Wide aluminum arch, upper deck", value: "2" },
+        ],
+      },
+      {
+        category: "Wheelhouse and controls",
+        rows: [
+          { label: "Vetus helm wheel, mahogany rim", value: "1" },
+          { label: "Digital voltmeter 8–32 V, black face", value: "3" },
+          { label: "Glomex 9125 plus TV antenna (option)", value: "1" },
+          { label: "Pantograph wiper arm 285–380 mm", value: "3" },
+          { label: "Wiper motor + 15″ blade, 24 V", value: "3" },
+          { label: "6-switch panel", value: "3" },
+          { label: "Port running light (red), 24 V", value: "1" },
+          { label: "Starboard running light (green), 24 V", value: "1" },
+          { label: "Stern LED light, 24 V", value: "1" },
+          { label: "Anchor light white, 24 V", value: "1" },
+          { label: "Masthead light white, 24 V", value: "1" },
+          { label: "Searchlight with joystick, 24 V", value: "1" },
+        ],
+      },
+      {
+        category: "Lighting and outlets",
+        rows: [
+          { label: "Artlight recessed fixture, satin aluminum, 24 V", value: "4" },
+          { label: "Bedside sconces, 24 V", value: "13" },
+          { label: "Interior sconces, 24 V", value: "4" },
+          { label: "Recessed LED fixture, 24 V", value: "16" },
+          { label: "220 V outlet (inverter) — per cabin", value: "1" },
+          { label: "220 V outlet (generator / shore) — per cabin", value: "1" },
+          { label: "TV in cabins and decks (option)", value: "8" },
+        ],
+      },
+      {
+        category: "Galley · lower and main deck",
+        rows: [
+          { label: "Sink with hot/cold mixer", value: "2" },
+          { label: "Freezer 300 L, 220 V", value: "1" },
+          { label: "Fridge 350 L, 220 V", value: "1" },
+          { label: "Fridge 120 L, 220 V", value: "1" },
+          { label: "Range hood, 220 V", value: "2" },
+          { label: "Dishwasher, 220 V", value: "1" },
+          { label: "Oven, 220 V", value: "1" },
+          { label: "Built-in microwave, 220 V", value: "1" },
+          { label: "Built-in induction cooktop, 220 V", value: "2" },
+          { label: "Washer + dryer, 220 V (option)", value: "1 + 1" },
+        ],
+      },
+      {
+        category: "Multimedia",
+        rows: [
+          { label: "Dual-SIM GSM modem, IRZ-pro, 24 V", value: "1" },
+          { label: "Zyxel Wi-Fi access points, 12 V", value: "3" },
+          { label: "MikroTik 20-port switch, 24 V", value: "1" },
+          { label: "14-camera CCTV with remote access, set", value: "1" },
+          { label: "5.1 audio pre-wire, set", value: "1" },
+          { label: "Bluetooth speakers for open decks", value: "option" },
+        ],
+      },
     ];
 ---
 
@@ -72,15 +442,16 @@ const rows = lang === "ru"
         </p>
       </div>
       <div class="col-span-12 lg:col-span-5 lg:text-right">
-        <a
-          href="#full-spec"
+        <button
+          type="button"
+          data-fullspec-open
           class="group inline-flex items-center gap-3 rounded-full bg-[var(--color-ink)] px-7 py-3.5 text-[12px] uppercase tracking-[var(--tracking-cap)] text-[var(--color-paper)] transition-colors hover:bg-[var(--color-deep-grey)]"
         >
           <span>{copy.fullSpecCta}</span>
           <svg width="12" height="12" viewBox="0 0 12 12" fill="none" class="transition-transform group-hover:translate-x-0.5">
             <path d="M2 10 L10 2 M10 2 H4 M10 2 V8" stroke="currentColor" stroke-width="1.4" />
           </svg>
-        </a>
+        </button>
       </div>
     </div>
 
@@ -88,7 +459,7 @@ const rows = lang === "ru"
     <dl class="border-t border-[var(--color-grey)]">
       {rows.map((r) => (
         <div
-          class="grid grid-cols-12 gap-x-8 gap-y-2 border-b border-[var(--color-grey)] py-4 sm:py-5"
+          class="grid grid-cols-12 gap-x-8 gap-y-1 border-b border-[var(--color-grey)] py-2.5 sm:py-3"
         >
           <dt
             class="col-span-12 text-[12px] uppercase tracking-[var(--tracking-cap)] text-[var(--color-ink)] sm:col-span-5"
@@ -96,7 +467,7 @@ const rows = lang === "ru"
             {r.label}
           </dt>
           <dd
-            class="col-span-12 text-[15px] leading-[1.4] text-[var(--color-fog)] sm:col-span-7 sm:text-[17px]"
+            class="col-span-12 text-[14px] leading-[1.35] text-[var(--color-fog)] sm:col-span-7 sm:text-[15px]"
           >
             {r.value}
           </dd>
@@ -105,3 +476,199 @@ const rows = lang === "ru"
     </dl>
   </div>
 </section>
+
+<!-- Full specification modal — opens on CTA click. Same Bering-style overlay
+     pattern as the Layouts fullscreen: fixed inset, body scroll lock, ESC to close. -->
+<div
+  data-fullspec-modal
+  class="fullspec-modal fixed inset-0 z-50 hidden flex-col bg-[var(--color-paper)]"
+  aria-hidden="true"
+  role="dialog"
+  aria-modal="true"
+  aria-labelledby="fullspec-title"
+>
+  <!-- Header: title + close button -->
+  <div
+    class="flex items-start justify-between gap-6 border-b border-[var(--color-grey)] px-6 py-6 sm:px-10 sm:py-8"
+  >
+    <div>
+      <p class="eyebrow">{copy.eyebrow}</p>
+      <h2
+        id="fullspec-title"
+        class="display mt-3 text-[26px] leading-[1.05] text-[var(--color-ink)] sm:text-[36px]"
+      >
+        {copy.fullSpecTitle}
+      </h2>
+      <p class="mt-2 text-[12px] uppercase tracking-[var(--tracking-cap)] text-[var(--color-fog)]">
+        {copy.fullSpecSubtitle}
+      </p>
+    </div>
+    <button
+      type="button"
+      data-fullspec-close
+      class="inline-flex shrink-0 items-center gap-2 rounded-full bg-[var(--color-ink)] px-5 py-2.5 text-[11px] uppercase tracking-[var(--tracking-cap)] text-[var(--color-paper)] transition-colors hover:bg-[var(--color-deep-grey)]"
+    >
+      <span>{copy.closeLabel}</span>
+      <svg width="12" height="12" viewBox="0 0 12 12" fill="none">
+        <path d="M2 2 L10 10 M10 2 L2 10" stroke="currentColor" stroke-width="1.2" stroke-linecap="square" />
+      </svg>
+    </button>
+  </div>
+
+  <!-- Category nav as pill chips. -->
+  <nav
+    aria-label="Sections"
+    class="border-b border-[var(--color-grey)] bg-[var(--color-paper)] px-6 py-4 sm:px-10 sm:py-5"
+  >
+    <ul class="flex flex-wrap gap-2">
+      {fullSpec.map((group, i) => (
+        <li>
+          <button
+            type="button"
+            data-fullspec-jump={`spec-cat-${i}`}
+            class="rounded-full bg-[var(--color-light-grey)] px-4 py-2 text-[11px] uppercase tracking-[var(--tracking-cap)] text-[var(--color-deep-grey)] transition-colors hover:bg-[var(--color-ink)] hover:text-[var(--color-paper)]"
+          >
+            {group.category}
+          </button>
+        </li>
+      ))}
+    </ul>
+  </nav>
+
+  <!-- Scrollable body: categorized spec rows -->
+  <div data-fullspec-body class="flex-1 overflow-y-auto px-6 py-8 sm:px-10 sm:py-10">
+    <div class="mx-auto max-w-[1100px] space-y-10">
+      {fullSpec.map((group, i) => (
+        <section id={`spec-cat-${i}`} class="scroll-mt-6">
+          <h3
+            data-fullspec-section-title
+            class="text-[11px] uppercase tracking-[var(--tracking-cap)] text-[var(--color-deep-grey)] transition-colors"
+          >
+            {group.category}
+          </h3>
+          <hr class="rule-ink mt-2" />
+          <dl class="mt-1 border-t border-[var(--color-grey)]">
+            {group.rows.map((r) => (
+              <div
+                class="grid grid-cols-12 gap-x-6 gap-y-1 border-b border-[var(--color-grey)] py-2 sm:py-2.5"
+              >
+                <dt
+                  class="col-span-12 text-[13px] leading-[1.4] text-[var(--color-ink)] sm:col-span-9"
+                >
+                  {r.label}
+                </dt>
+                <dd
+                  class="col-span-12 text-[13px] leading-[1.35] text-[var(--color-fog)] sm:col-span-3 sm:text-right sm:text-[14px]"
+                >
+                  {r.value}
+                </dd>
+              </div>
+            ))}
+          </dl>
+        </section>
+      ))}
+    </div>
+  </div>
+</div>
+
+<style>
+  .fullspec-modal.is-open {
+    display: flex;
+  }
+  .fullspec-modal [data-fullspec-jump].is-active-pill {
+    background-color: var(--color-ink);
+    color: var(--color-paper);
+  }
+  .fullspec-modal [data-fullspec-section-title].is-active-title {
+    font-weight: 600;
+    color: var(--color-ink);
+  }
+</style>
+
+<script>
+  const modal = document.querySelector<HTMLElement>("[data-fullspec-modal]");
+  const body = modal?.querySelector<HTMLElement>("[data-fullspec-body]");
+  const openBtns = document.querySelectorAll<HTMLButtonElement>("[data-fullspec-open]");
+  const closeBtns = document.querySelectorAll<HTMLButtonElement>("[data-fullspec-close]");
+  const jumpBtns = Array.from(
+    document.querySelectorAll<HTMLButtonElement>("[data-fullspec-jump]")
+  );
+  const sections = body
+    ? Array.from(body.querySelectorAll<HTMLElement>('section[id^="spec-cat-"]'))
+    : [];
+  const titles = sections.map((s) =>
+    s.querySelector<HTMLElement>("[data-fullspec-section-title]")
+  );
+
+  function setActive(idx: number) {
+    jumpBtns.forEach((b, i) =>
+      b.classList.toggle("is-active-pill", i === idx)
+    );
+    titles.forEach((t, i) =>
+      t?.classList.toggle("is-active-title", i === idx)
+    );
+  }
+
+  function open() {
+    if (!modal) return;
+    modal.classList.add("is-open");
+    modal.setAttribute("aria-hidden", "false");
+    document.body.style.overflow = "hidden";
+    if (body) body.scrollTop = 0;
+    setActive(0);
+    closeBtns[0]?.focus();
+  }
+
+  function close() {
+    if (!modal) return;
+    modal.classList.remove("is-open");
+    modal.setAttribute("aria-hidden", "true");
+    document.body.style.overflow = "";
+  }
+
+  openBtns.forEach((b) => b.addEventListener("click", open));
+  closeBtns.forEach((b) => b.addEventListener("click", close));
+
+  jumpBtns.forEach((b, idx) => {
+    b.addEventListener("click", () => {
+      const id = b.dataset.fullspecJump;
+      if (!id || !body) return;
+      const target = body.querySelector<HTMLElement>(`#${id}`);
+      if (!target) return;
+      // getBoundingClientRect is reliable even when offsetParent isn't the scroll container.
+      const top =
+        target.getBoundingClientRect().top -
+        body.getBoundingClientRect().top +
+        body.scrollTop -
+        24;
+      body.scrollTo({ top, behavior: "smooth" });
+      setActive(idx);
+    });
+  });
+
+  // Sync active pill + bolded title with whichever section is currently at the top.
+  if (body && sections.length > 0) {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        const visible = entries
+          .filter((e) => e.isIntersecting)
+          .map((e) => ({
+            el: e.target as HTMLElement,
+            top: e.target.getBoundingClientRect().top,
+          }))
+          .sort((a, b) => a.top - b.top);
+        if (visible.length === 0) return;
+        const idx = sections.indexOf(visible[0].el);
+        if (idx >= 0) setActive(idx);
+      },
+      { root: body, rootMargin: "0px 0px -70% 0px", threshold: 0 }
+    );
+    sections.forEach((s) => observer.observe(s));
+  }
+
+  document.addEventListener("keydown", (e) => {
+    if (e.key === "Escape" && modal?.classList.contains("is-open")) {
+      close();
+    }
+  });
+</script>
