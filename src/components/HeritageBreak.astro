@@ -1,0 +1,40 @@
+---
+interface Props {
+  lang?: "ru" | "en";
+}
+const { lang = "ru" } = Astro.props;
+
+const copy = lang === "ru"
+  ? {
+      established: "EST. 1992",
+      tagline:
+        "Люди не покупают катер ради техники — они покупают новый сценарий жизни: свободу, уверенность и удовольствие от контроля над собственным маршрутом.",
+    }
+  : {
+      established: "EST. 1992",
+      tagline:
+        "People don't buy a vessel for the engineering — they buy a new life script: freedom, confidence, and the pleasure of control over their own route.",
+    };
+---
+
+<section class="bg-[var(--color-paper)] text-[var(--color-ink)] py-20 sm:py-28">
+  <div class="mx-auto max-w-[1100px] px-8 text-center">
+    <p
+      class="inline-block border border-[var(--color-grey)] px-2.5 py-0.5 text-[9px] uppercase tracking-[var(--tracking-wide-cap)] text-[var(--color-deep-grey)]"
+    >
+      {copy.established}
+    </p>
+
+    <img
+      src="/logo/kartel-tight.svg"
+      alt="Kartel"
+      class="mx-auto mt-3 h-16 w-auto invert sm:h-20"
+    />
+
+    <p
+      class="mx-auto mt-6 max-w-[640px] text-[14px] italic leading-[1.6] text-[var(--color-deep-grey)] sm:text-[15px]"
+    >
+      «{copy.tagline}»
+    </p>
+  </div>
+</section>

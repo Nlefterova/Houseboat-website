@@ -9,18 +9,18 @@ const copy = lang === "ru"
       eyebrow: "Дополнительные опции",
       title: "Под вас. От тика до встроенной техники.",
       body1:
-        "Каждое судно собирается под заказ. Палубное покрытие Flexiteek, мебель из массива дуба, декоративные вставки из композитного алюминия, морской винил, бронзовые акценты. Материалы, которые становятся только красивее со временем.",
+        "Каждое судно собирается под заказ. Мебель из массива дуба, декоративные вставки из композитного алюминия, морской винил, бронзовые акценты.",
       body2:
-        "Опционально: автопилот Simrad AP44, съёмный тандыр в кормовой зоне, садок для живой рыбы с аэратором, стиральная и сушильная машина, телевизоры в каждой каюте, акустика на открытых палубах, премиальный свет от Artlight. Полный список — по запросу.",
+        "Опционально: тик в кокпите, на лестнице и в носовой части — натуральный, Flexiteek (Великобритания) или Flexdeck (Россия). Мебель на флайбридже и в кокпите, тент с москитными сетками. Съёмный тандыр в кормовой зоне, садок для живой рыбы с аэратором. Акустика на открытых палубах. Второй пост управления на флайбридже, джойстик Mercury JPO для управления двигателями, автопилот Simrad AP44. Стиральная и сушильная машина, телевизоры в каждой каюте, аудиоподготовка под встроенную акустику 5.1. Материалы, которые становятся только красивее со временем. Полный список — по запросу.",
       ctaLabel: "Обсудить комплектацию",
     }
   : {
       eyebrow: "Optional Equipment",
       title: "Built around you. From teak to integrated tech.",
       body1:
-        "Each vessel is built to order. Flexiteek deck surfacing, solid-oak furniture, composite aluminum inserts, marine vinyl, bronze accents. Materials that only become more beautiful with time.",
+        "Each vessel is built to order. Solid-oak furniture, composite aluminum inserts, marine vinyl, bronze accents.",
       body2:
-        "Optional: Simrad AP44 autopilot, removable tandoor at the stern, live-fish well with aerator, washer + dryer, TVs in every cabin, outdoor audio, premium Artlight lighting. Full list on request.",
+        "Optional: teak in the cockpit, on the staircase, and at the bow — natural, Flexiteek (UK) or Flexdeck (Russia). Furniture on the flybridge and in the cockpit. Tent with mosquito screens. Secondary helm on the flybridge. Mercury JPO joystick for engine control. Simrad AP44 autopilot, removable tandoor at the stern, live-fish well with aerator, washer + dryer, TVs in every cabin, outdoor audio. Audio pre-wiring for built-in 5.1. Materials that only become more beautiful with time. Full list on request.",
       ctaLabel: "Discuss the build",
     };
 
@@ -28,18 +28,16 @@ const copy = lang === "ru"
 // matching the photo placeholder pattern used elsewhere.
 const slides = lang === "ru"
   ? [
-      { name: "Камбуз", note: "Тандыр · Садок · Стирка", tint: "linear-gradient(135deg, #2a3640 0%, #131a21 60%, #06090b 100%)" },
-      { name: "Декор и материалы", note: "Дуб · Бронза · Композит", tint: "linear-gradient(135deg, #3a3320 0%, #1d1813 60%, #0a0805 100%)" },
-      { name: "Палуба", note: "Flexiteek · Модульная мебель", tint: "linear-gradient(135deg, #20303a 0%, #131a21 60%, #06090b 100%)" },
-      { name: "Развлечения", note: "8× TV · Аудио · Wi-Fi", tint: "linear-gradient(135deg, #2a2a2a 0%, #161616 60%, #060606 100%)" },
-      { name: "Навигация", note: "Simrad AP44 · GPS · Радар", tint: "linear-gradient(135deg, #1f2a32 0%, #0e1418 55%, #06090b 100%)" },
+      { name: "Кормовая палуба", note: "Тик · Модульная мебель · Москитные сетки", photo: "/options/mosquito-nets.jpg", tint: "linear-gradient(135deg, #2a3640 0%, #131a21 60%, #06090b 100%)" },
+      { name: "Декор и мебель", note: "Дуб · Бронза · Композит", photo: "/options/decor-lounge.jpg", tint: "linear-gradient(135deg, #3a3320 0%, #1d1813 60%, #0a0805 100%)" },
+      { name: "Лестница", note: "Тик · Нержавеющая сталь", photo: "/options/staircase-teak.jpg", tint: "linear-gradient(135deg, #20303a 0%, #131a21 60%, #06090b 100%)" },
+      { name: "Развлечения", note: "8× TV · Аудио · Wi-Fi", photo: "/options/bedroom-tv.jpg", tint: "linear-gradient(135deg, #2a2a2a 0%, #161616 60%, #060606 100%)" },
     ]
   : [
-      { name: "Galley", note: "Tandoor · Fish well · Laundry", tint: "linear-gradient(135deg, #2a3640 0%, #131a21 60%, #06090b 100%)" },
-      { name: "Materials & Decor", note: "Oak · Bronze · Composite", tint: "linear-gradient(135deg, #3a3320 0%, #1d1813 60%, #0a0805 100%)" },
-      { name: "Deck", note: "Flexiteek · Modular furniture", tint: "linear-gradient(135deg, #20303a 0%, #131a21 60%, #06090b 100%)" },
-      { name: "Entertainment", note: "8× TV · Audio · Wi-Fi", tint: "linear-gradient(135deg, #2a2a2a 0%, #161616 60%, #060606 100%)" },
-      { name: "Navigation", note: "Simrad AP44 · GPS · Radar", tint: "linear-gradient(135deg, #1f2a32 0%, #0e1418 55%, #06090b 100%)" },
+      { name: "Aft Deck", note: "Teak · Modular furniture · Mosquito screens", photo: "/options/mosquito-nets.jpg", tint: "linear-gradient(135deg, #2a3640 0%, #131a21 60%, #06090b 100%)" },
+      { name: "Decor & Furniture", note: "Oak · Bronze · Composite", photo: "/options/decor-lounge.jpg", tint: "linear-gradient(135deg, #3a3320 0%, #1d1813 60%, #0a0805 100%)" },
+      { name: "Staircase", note: "Teak · Stainless steel", photo: "/options/staircase-teak.jpg", tint: "linear-gradient(135deg, #20303a 0%, #131a21 60%, #06090b 100%)" },
+      { name: "Entertainment", note: "8× TV · Audio · Wi-Fi", photo: "/options/bedroom-tv.jpg", tint: "linear-gradient(135deg, #2a2a2a 0%, #161616 60%, #060606 100%)" },
     ];
 
 const total = slides.length;
@@ -87,8 +85,12 @@ const total = slides.length;
                 data-slide-index={i}
                 data-slide-name={s.name}
                 data-slide-note={s.note}
-                class={`absolute inset-0 transition-opacity duration-500 ${i === 0 ? "opacity-100" : "opacity-0"}`}
-                style={`background: ${s.tint};`}
+                class={`absolute inset-0 bg-cover bg-center transition-opacity duration-500 ${i === 0 ? "opacity-100" : "opacity-0"}`}
+                style={
+                  s.photo
+                    ? `background-image: url('${s.photo}');`
+                    : `background: ${s.tint};`
+                }
                 aria-hidden={i !== 0}
               ></div>
             ))}
