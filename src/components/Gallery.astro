@@ -1,0 +1,442 @@
+---
+interface Props {
+  lang?: "ru" | "en";
+}
+const { lang = "ru" } = Astro.props;
+
+const copy = lang === "ru"
+  ? {
+      title: "Галерея",
+      subtitle: "Expedition 65 Lux · фото",
+      closeLabel: "Закрыть",
+      filterAll: "Все",
+      filterExterior: "Снаружи",
+      filterInterior: "Внутри",
+    }
+  : {
+      title: "Gallery",
+      subtitle: "Expedition 65 Lux · photos",
+      closeLabel: "Close",
+      filterAll: "All",
+      filterExterior: "Exterior",
+      filterInterior: "Interior",
+    };
+
+type Photo = {
+  src: string;
+  w: number;
+  h: number;
+  cat: "exterior" | "interior";
+  ru: string;
+  en: string;
+};
+
+const photos: Photo[] = [
+  { src: "/exterior/4-reflection.jpg",          w: 5504, h: 3072, cat: "exterior", ru: "Утро · отражение",         en: "Morning · reflection" },
+  { src: "/exterior/3-golden-dock.jpg",         w: 5504, h: 3072, cat: "exterior", ru: "Закат · марина",           en: "Sunset · marina" },
+  { src: "/exterior/5-frozen.jpg",              w: 5504, h: 3072, cat: "exterior", ru: "Зимняя стоянка",           en: "Winter berth" },
+  { src: "/exterior/1-mountain.jpg",            w: 5504, h: 3072, cat: "exterior", ru: "Северные широты",          en: "Northern latitudes" },
+  { src: "/exterior/7-gabion-dock.jpg",         w: 5504, h: 3072, cat: "exterior", ru: "Габион · закат",            en: "Gabion dock · sunset" },
+  { src: "/exterior/8-modern-marina.jpg",       w: 5504, h: 3072, cat: "exterior", ru: "Современная марина",        en: "Modern marina" },
+
+  { src: "/interior/salon.jpg",                 w: 2400, h: 1792, cat: "interior", ru: "Кают-компания",            en: "Salon" },
+  { src: "/interior/galley-sunset.jpg",         w: 2400, h: 1792, cat: "interior", ru: "Камбуз · закат",           en: "Galley · sunset" },
+  { src: "/interior/open-terrace.jpg",          w: 5504, h: 3072, cat: "interior", ru: "Открытая терраса",         en: "Open terrace" },
+  { src: "/interior/wheelhouse.jpg",            w: 2752, h: 1536, cat: "interior", ru: "Рубка управления",         en: "Wheelhouse" },
+
+  { src: "/exterior/6-upper-deck.jpg",          w: 5504, h: 3072, cat: "exterior", ru: "Верхняя палуба",           en: "Upper deck" },
+  { src: "/interior/master.jpg",                w: 2400, h: 1792, cat: "interior", ru: "Мастер-каюта",             en: "Master cabin" },
+  { src: "/exterior/2-firepit.jpg",             w: 5504, h: 3072, cat: "exterior", ru: "Зимний вечер · у причала", en: "Winter evening · pier" },
+  { src: "/interior/lower-galley-sink.jpg",     w: 8192, h: 8192, cat: "interior", ru: "Нижний камбуз · мойка",    en: "Lower galley · sink" },
+
+  { src: "/interior/sauna.jpg",                 w: 4800, h: 3584, cat: "interior", ru: "Сауна",                    en: "Sauna" },
+  { src: "/interior/galley-pantry.jpg",         w: 2400, h: 1792, cat: "interior", ru: "Камбуз · кладовая",        en: "Galley · pantry" },
+  { src: "/interior/lounge.jpg",                w: 4800, h: 3584, cat: "interior", ru: "Комната отдыха",           en: "Lounge" },
+  { src: "/interior/bathroom-stone-shower.jpg", w: 1536, h: 2752, cat: "interior", ru: "Душ · камень",             en: "Stone shower" },
+
+  { src: "/interior/galley.jpg",                w: 5120, h: 2856, cat: "interior", ru: "Большой камбуз",           en: "Main galley" },
+  { src: "/interior/bathroom-marble-bench.jpg", w: 1536, h: 2752, cat: "interior", ru: "Душевая · мрамор",         en: "Marble shower" },
+  { src: "/interior/galley-dishwasher.jpg",     w: 1792, h: 2400, cat: "interior", ru: "Камбуз · техника",         en: "Galley · appliances" },
+  { src: "/interior/salon-sideboard.jpg",       w: 1200, h:  896, cat: "interior", ru: "Кают-компания · буфет",    en: "Salon · sideboard" },
+
+  { src: "/interior/lower-galley-dinette.jpg",  w: 4800, h: 3584, cat: "interior", ru: "Нижний камбуз · диван",    en: "Lower galley · dinette" },
+  { src: "/interior/sauna-bucket-birch.jpg",    w: 5504, h: 3072, cat: "interior", ru: "Сауна · веник",            en: "Sauna · birch" },
+  { src: "/interior/bathroom-shower-wide.jpg",  w: 2752, h: 1536, cat: "interior", ru: "Душевая",                  en: "Shower" },
+  { src: "/interior/galley-spice-rack.jpg",     w: 2400, h: 1792, cat: "interior", ru: "Камбуз · детали",          en: "Galley · details" },
+
+  { src: "/interior/bunks-1.jpg",               w: 2400, h: 1792, cat: "interior", ru: "Каюта · двухъярусная",     en: "Bunk cabin" },
+  { src: "/interior/bathroom-master.jpg",       w: 1536, h: 2752, cat: "interior", ru: "Санузел мастера",          en: "Master head" },
+  { src: "/interior/corridor-ship-art.jpg",     w: 2752, h: 1536, cat: "interior", ru: "Коридор",                  en: "Corridor" },
+  { src: "/interior/guest.jpg",                 w: 2400, h: 1792, cat: "interior", ru: "Гостевая каюта",           en: "Guest cabin" },
+
+  { src: "/interior/bathroom-towel-rail.png",   w: 1888, h: 2528, cat: "interior", ru: "Санузел · детали",         en: "Head · details" },
+  { src: "/interior/pred-banya.jpg",            w: 5504, h: 3072, cat: "interior", ru: "Предбанник",               en: "Sauna anteroom" },
+  { src: "/interior/bunks-2.jpg",               w: 2400, h: 1792, cat: "interior", ru: "Каюта · двухъярусная",     en: "Bunk cabin" },
+  { src: "/interior/sauna-towel-storage.jpg",   w: 2400, h: 1792, cat: "interior", ru: "Сауна · полотенца",        en: "Sauna · linens" },
+
+  { src: "/interior/bathroom-sink-wide.jpg",    w: 2752, h: 1536, cat: "interior", ru: "Санузел",                  en: "Head" },
+];
+
+// Hero photo: cinematic 21:9 banner full-width at the top of the gallery.
+// "A bit larger than the rest" but doesn't dominate the screen vertically.
+// 4-reflection is used as the homepage hero, so the gallery picks something else.
+const HERO_SRC = "/exterior/8-modern-marina.jpg";
+const hero = photos.find((p) => p.src === HERO_SRC)!;
+const rest = photos.filter((p) => p.src !== HERO_SRC);
+
+// LPT bin-packing (Longest Processing Time): sort items by height descending,
+// then place each into the currently-shortest column. Tighter balance than naive
+// greedy — column heights cluster much closer to the average.
+// After packing, each column is re-sorted to interleave tall/short photos so
+// the visual rhythm inside a column isn't all-tall-then-all-short.
+function distribute(items: Photo[], n: number): Photo[][] {
+  const sorted = [...items].sort((a, b) => b.h / b.w - a.h / a.w);
+  const cols: Photo[][] = Array.from({ length: n }, () => []);
+  const heights = new Array(n).fill(0);
+  for (const p of sorted) {
+    let minIdx = 0;
+    for (let i = 1; i < n; i++) if (heights[i] < heights[minIdx]) minIdx = i;
+    cols[minIdx].push(p);
+    heights[minIdx] += p.h / p.w;
+  }
+  // Interleave tall/short within each column so the order alternates rather
+  // than going strictly tallest→shortest top-to-bottom.
+  return cols.map((col) => {
+    const tall = col.filter((_, i) => i % 2 === 0);
+    const short = col.filter((_, i) => i % 2 === 1).reverse();
+    const out: Photo[] = [];
+    for (let i = 0; i < Math.max(tall.length, short.length); i++) {
+      if (tall[i]) out.push(tall[i]);
+      if (short[i]) out.push(short[i]);
+    }
+    return out;
+  });
+}
+
+const cols4 = distribute(rest, 4);
+
+const caption = (p: Photo) => (lang === "ru" ? p.ru : p.en);
+const total = photos.length;
+---
+
+<!-- Fullscreen gallery overlay. Triggered by any `[data-gallery-open]` click. -->
+<div
+  data-gallery
+  class="gallery-overlay fixed inset-0 z-50 hidden flex-col bg-[var(--color-ink)] text-[var(--color-paper)]"
+  aria-hidden="true"
+  role="dialog"
+  aria-modal="true"
+  aria-labelledby="gallery-title"
+>
+  <!-- Header: title + filter chips + close -->
+  <div
+    class="flex flex-col gap-6 border-b border-[color-mix(in_srgb,var(--color-paper)_15%,transparent)] px-6 py-5 sm:flex-row sm:items-center sm:justify-between sm:px-10 sm:py-6"
+  >
+    <div class="flex flex-wrap items-baseline gap-x-4 gap-y-1">
+      <h2
+        id="gallery-title"
+        class="text-[20px] uppercase tracking-[var(--tracking-cap)] text-[var(--color-paper)] sm:text-[22px]"
+      >
+        {copy.title}
+      </h2>
+      <p class="text-[11px] uppercase tracking-[var(--tracking-wide-cap)] text-[color-mix(in_srgb,var(--color-paper)_55%,transparent)]">
+        {copy.subtitle} · <span data-gallery-count>{total}</span>
+      </p>
+    </div>
+
+    <div class="flex flex-wrap items-center gap-2">
+      <button type="button" data-gallery-filter="all"
+        class="gallery-chip is-active rounded-full border border-[color-mix(in_srgb,var(--color-paper)_25%,transparent)] px-4 py-2 text-[11px] uppercase tracking-[var(--tracking-cap)] transition-colors"
+      >{copy.filterAll}</button>
+      <button type="button" data-gallery-filter="exterior"
+        class="gallery-chip rounded-full border border-[color-mix(in_srgb,var(--color-paper)_25%,transparent)] px-4 py-2 text-[11px] uppercase tracking-[var(--tracking-cap)] transition-colors"
+      >{copy.filterExterior}</button>
+      <button type="button" data-gallery-filter="interior"
+        class="gallery-chip rounded-full border border-[color-mix(in_srgb,var(--color-paper)_25%,transparent)] px-4 py-2 text-[11px] uppercase tracking-[var(--tracking-cap)] transition-colors"
+      >{copy.filterInterior}</button>
+
+      <button
+        type="button"
+        data-gallery-close
+        class="ml-2 inline-flex items-center gap-2 rounded-full bg-[var(--color-paper)] px-5 py-2 text-[11px] uppercase tracking-[var(--tracking-cap)] text-[var(--color-ink)] transition-colors hover:bg-[color-mix(in_srgb,var(--color-paper)_85%,transparent)]"
+      >
+        <span>{copy.closeLabel}</span>
+        <svg width="12" height="12" viewBox="0 0 12 12" fill="none">
+          <path d="M2 2 L10 10 M10 2 L2 10" stroke="currentColor" stroke-width="1.4" stroke-linecap="square" />
+        </svg>
+      </button>
+    </div>
+  </div>
+
+  <!-- Cinematic hero banner (21:9, full width) above 4 server-balanced columns. -->
+  <div class="flex-1 overflow-y-auto px-4 py-6 sm:px-8 sm:py-10">
+    <div class="mx-auto max-w-[1600px]">
+      <button
+        type="button"
+        data-gallery-tile
+        data-tile-cat={hero.cat}
+        aria-label={caption(hero)}
+        class="gallery-tile gallery-hero group relative block w-full overflow-hidden rounded-[2px] bg-[color-mix(in_srgb,var(--color-paper)_5%,transparent)]"
+        style="aspect-ratio: 21 / 9;"
+      >
+        <img
+          src={hero.src}
+          alt={caption(hero)}
+          width={hero.w}
+          height={hero.h}
+          loading="eager"
+          class="absolute inset-0 h-full w-full object-cover transition-transform duration-500 group-hover:scale-[1.03]"
+        />
+        <div
+          class="pointer-events-none absolute inset-x-0 bottom-0 h-1/2 opacity-0 transition-opacity duration-300 group-hover:opacity-100"
+          style="background: linear-gradient(180deg, rgba(0,0,0,0) 0%, rgba(0,0,0,0.7) 100%);"
+        ></div>
+        <span
+          class="pointer-events-none absolute bottom-4 left-4 text-[12px] uppercase tracking-[var(--tracking-wide-cap)] text-[var(--color-paper)] opacity-0 transition-opacity duration-300 group-hover:opacity-100 sm:bottom-6 sm:left-6 sm:text-[13px]"
+        >
+          {caption(hero)}
+        </span>
+      </button>
+
+      <div data-gallery-grid class="gallery-columns mt-2 sm:mt-3">
+        {cols4.map((col, ci) => (
+          <div class={`gallery-col gallery-col-${ci + 1}`}>
+            {col.map((p) => (
+              <button
+                type="button"
+                data-gallery-tile
+                data-tile-cat={p.cat}
+                aria-label={caption(p)}
+                class="gallery-tile group relative block w-full overflow-hidden rounded-[2px] bg-[color-mix(in_srgb,var(--color-paper)_5%,transparent)]"
+              >
+                <img
+                  src={p.src}
+                  alt={caption(p)}
+                  width={p.w}
+                  height={p.h}
+                  loading="lazy"
+                  class="block w-full h-auto transition-transform duration-500 group-hover:scale-[1.03]"
+                />
+                <div
+                  class="pointer-events-none absolute inset-x-0 bottom-0 h-1/2 opacity-0 transition-opacity duration-300 group-hover:opacity-100"
+                  style="background: linear-gradient(180deg, rgba(0,0,0,0) 0%, rgba(0,0,0,0.7) 100%);"
+                ></div>
+                <span
+                  class="pointer-events-none absolute bottom-3 left-3 text-[11px] uppercase tracking-[var(--tracking-wide-cap)] text-[var(--color-paper)] opacity-0 transition-opacity duration-300 group-hover:opacity-100 sm:bottom-4 sm:left-4"
+                >
+                  {caption(p)}
+                </span>
+              </button>
+            ))}
+          </div>
+        ))}
+      </div>
+
+      <!-- Closing element: bookends the gallery so the ragged column bottoms read
+           as intentional rhythm rather than a broken layout. -->
+      <div class="gallery-outro mt-10 flex flex-col items-center gap-4 pb-6 pt-8 text-center sm:mt-16 sm:pb-10 sm:pt-12">
+        <span class="block h-px w-12 bg-[color-mix(in_srgb,var(--color-paper)_35%,transparent)]"></span>
+        <p class="text-[10px] uppercase tracking-[var(--tracking-wide-cap)] text-[color-mix(in_srgb,var(--color-paper)_55%,transparent)]">
+          {lang === "ru" ? "Конец галереи" : "End of gallery"}
+        </p>
+        <p class="text-[14px] tracking-[var(--tracking-cap)] text-[var(--color-paper)] sm:text-[15px]">
+          Expedition 65 Lux
+        </p>
+        <p class="text-[10px] uppercase tracking-[var(--tracking-wide-cap)] text-[color-mix(in_srgb,var(--color-paper)_45%,transparent)]">
+          {total} {lang === "ru" ? "фото" : "photos"}
+        </p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Lightbox overlay — opens on tile click, sits above gallery -->
+<div
+  data-lightbox
+  class="lightbox-overlay fixed inset-0 z-[60] hidden items-center justify-center bg-[var(--color-ink)]/95 backdrop-blur-sm"
+  aria-hidden="true"
+  role="dialog"
+  aria-modal="true"
+>
+  <button
+    type="button"
+    data-lightbox-prev
+    aria-label="Previous"
+    class="absolute left-4 top-1/2 z-10 flex h-12 w-12 -translate-y-1/2 items-center justify-center rounded-full bg-[color-mix(in_srgb,white_15%,transparent)] text-[var(--color-paper)] backdrop-blur-md transition-colors hover:bg-[var(--color-paper)] hover:text-[var(--color-ink)] sm:left-8 sm:h-14 sm:w-14"
+  >
+    <svg width="18" height="18" viewBox="0 0 20 20" fill="none">
+      <path d="M12 4 L6 10 L12 16" stroke="currentColor" stroke-width="1.6" stroke-linecap="square" />
+    </svg>
+  </button>
+  <button
+    type="button"
+    data-lightbox-next
+    aria-label="Next"
+    class="absolute right-4 top-1/2 z-10 flex h-12 w-12 -translate-y-1/2 items-center justify-center rounded-full bg-[color-mix(in_srgb,white_15%,transparent)] text-[var(--color-paper)] backdrop-blur-md transition-colors hover:bg-[var(--color-paper)] hover:text-[var(--color-ink)] sm:right-8 sm:h-14 sm:w-14"
+  >
+    <svg width="18" height="18" viewBox="0 0 20 20" fill="none">
+      <path d="M8 4 L14 10 L8 16" stroke="currentColor" stroke-width="1.6" stroke-linecap="square" />
+    </svg>
+  </button>
+  <button
+    type="button"
+    data-lightbox-close
+    aria-label="Close"
+    class="absolute right-4 top-4 z-10 flex h-10 w-10 items-center justify-center rounded-full bg-[color-mix(in_srgb,white_15%,transparent)] text-[var(--color-paper)] backdrop-blur-md transition-colors hover:bg-[var(--color-paper)] hover:text-[var(--color-ink)] sm:right-8 sm:top-8"
+  >
+    <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
+      <path d="M2 2 L12 12 M12 2 L2 12" stroke="currentColor" stroke-width="1.4" stroke-linecap="square" />
+    </svg>
+  </button>
+
+  <img
+    data-lightbox-img
+    src=""
+    alt=""
+    class="max-h-[88vh] max-w-[92vw] object-contain"
+  />
+
+  <div class="pointer-events-none absolute inset-x-0 bottom-6 flex flex-col items-center gap-1 text-center sm:bottom-10">
+    <p data-lightbox-caption class="text-[14px] uppercase tracking-[var(--tracking-wide-cap)] text-[var(--color-paper)] sm:text-[15px]"></p>
+    <p data-lightbox-counter class="text-[11px] uppercase tracking-[var(--tracking-wide-cap)] text-[color-mix(in_srgb,var(--color-paper)_55%,transparent)]"></p>
+  </div>
+</div>
+
+<style>
+  .gallery-overlay.is-open { display: flex; }
+  .lightbox-overlay.is-open { display: flex; }
+
+  /* Mobile/tablet: hero full-width on top, then 2-col grid of flex-columns.
+     Desktop (>=1024px): hero spans cols 1-2 top-left; cols 1-2 sit below it
+     (row 2); cols 3-4 span both rows on the right. */
+  /* Hero is a full-width 21:9 banner; the 4 balanced columns sit below it. */
+  .gallery-columns {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 0.5rem;
+  }
+  .gallery-col {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    min-width: 0;
+  }
+  @media (min-width: 1024px) {
+    .gallery-columns {
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 0.75rem;
+    }
+    .gallery-col { gap: 0.75rem; }
+  }
+
+  .gallery-chip.is-active {
+    background-color: var(--color-paper);
+    color: var(--color-ink);
+    border-color: var(--color-paper);
+  }
+  .gallery-chip:not(.is-active):hover {
+    background-color: color-mix(in srgb, var(--color-paper) 10%, transparent);
+  }
+
+  /* Hide tiles whose category doesn't match the active filter. */
+  .gallery-overlay[data-filter="exterior"] [data-tile-cat="interior"],
+  .gallery-overlay[data-filter="interior"] [data-tile-cat="exterior"] {
+    display: none;
+  }
+</style>
+
+<script>
+  const gallery = document.querySelector<HTMLElement>("[data-gallery]");
+  const lightbox = document.querySelector<HTMLElement>("[data-lightbox]");
+  if (gallery && lightbox) {
+    const openBtns = document.querySelectorAll<HTMLButtonElement>("[data-gallery-open]");
+    const closeBtns = gallery.querySelectorAll<HTMLButtonElement>("[data-gallery-close]");
+    const filterBtns = gallery.querySelectorAll<HTMLButtonElement>("[data-gallery-filter]");
+    const tiles = Array.from(gallery.querySelectorAll<HTMLButtonElement>("[data-gallery-tile]"));
+    const countEl = gallery.querySelector<HTMLElement>("[data-gallery-count]");
+
+    const lbImg = lightbox.querySelector<HTMLImageElement>("[data-lightbox-img]");
+    const lbCap = lightbox.querySelector<HTMLElement>("[data-lightbox-caption]");
+    const lbCount = lightbox.querySelector<HTMLElement>("[data-lightbox-counter]");
+    const lbPrev = lightbox.querySelector<HTMLButtonElement>("[data-lightbox-prev]");
+    const lbNext = lightbox.querySelector<HTMLButtonElement>("[data-lightbox-next]");
+    const lbClose = lightbox.querySelector<HTMLButtonElement>("[data-lightbox-close]");
+
+    let currentFilter = "all";
+    let visibleTiles: HTMLButtonElement[] = [...tiles];
+    let lbIndex = 0;
+
+    function updateVisibleTiles() {
+      visibleTiles = currentFilter === "all"
+        ? [...tiles]
+        : tiles.filter((t) => t.dataset.tileCat === currentFilter);
+      if (countEl) countEl.textContent = String(visibleTiles.length);
+    }
+
+    function openGallery() {
+      gallery!.classList.add("is-open");
+      gallery!.setAttribute("aria-hidden", "false");
+      document.body.style.overflow = "hidden";
+    }
+    function closeGallery() {
+      gallery!.classList.remove("is-open");
+      gallery!.setAttribute("aria-hidden", "true");
+      document.body.style.overflow = "";
+    }
+
+    function setFilter(f: string) {
+      currentFilter = f;
+      gallery!.dataset.filter = f === "all" ? "" : f;
+      filterBtns.forEach((b) => b.classList.toggle("is-active", b.dataset.galleryFilter === f));
+      updateVisibleTiles();
+    }
+
+    function openLightboxFor(tile: HTMLButtonElement) {
+      lbIndex = visibleTiles.indexOf(tile);
+      if (lbIndex < 0) lbIndex = 0;
+      renderLightbox();
+      lightbox!.classList.add("is-open");
+      lightbox!.setAttribute("aria-hidden", "false");
+    }
+    function closeLightbox() {
+      lightbox!.classList.remove("is-open");
+      lightbox!.setAttribute("aria-hidden", "true");
+    }
+    function renderLightbox() {
+      const tile = visibleTiles[lbIndex];
+      if (!tile) return;
+      const img = tile.querySelector<HTMLImageElement>("img");
+      if (img && lbImg) {
+        lbImg.src = img.src;
+        lbImg.alt = img.alt;
+      }
+      if (lbCap) lbCap.textContent = tile.getAttribute("aria-label") ?? "";
+      if (lbCount) lbCount.textContent = `${lbIndex + 1} / ${visibleTiles.length}`;
+    }
+    function lbStep(delta: number) {
+      if (!visibleTiles.length) return;
+      lbIndex = (lbIndex + delta + visibleTiles.length) % visibleTiles.length;
+      renderLightbox();
+    }
+
+    openBtns.forEach((b) => b.addEventListener("click", openGallery));
+    closeBtns.forEach((b) => b.addEventListener("click", closeGallery));
+    filterBtns.forEach((b) =>
+      b.addEventListener("click", () => setFilter(b.dataset.galleryFilter ?? "all"))
+    );
+    tiles.forEach((t) => t.addEventListener("click", () => openLightboxFor(t)));
+    lbPrev?.addEventListener("click", () => lbStep(-1));
+    lbNext?.addEventListener("click", () => lbStep(1));
+    lbClose?.addEventListener("click", closeLightbox);
+
+    document.addEventListener("keydown", (e) => {
+      if (lightbox.classList.contains("is-open")) {
+        if (e.key === "Escape") closeLightbox();
+        else if (e.key === "ArrowLeft") lbStep(-1);
+        else if (e.key === "ArrowRight") lbStep(1);
+      } else if (gallery.classList.contains("is-open") && e.key === "Escape") {
+        closeGallery();
+      }
+    });
+  }
+</script>

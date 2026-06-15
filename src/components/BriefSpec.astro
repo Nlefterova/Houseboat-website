@@ -423,6 +423,25 @@ const fullSpec = lang === "ru"
         ],
       },
     ];
+
+// Tight strip of square detail thumbnails under the spec table.
+type DetailPhoto = { src: string; w: number; h: number; ru: string; en: string };
+const detailPhotos: DetailPhoto[] = [
+  { src: "/details/stove-sea-view.jpg",      w: 1792, h: 2400, ru: "Плита · вид на воду",        en: "Stove · water view"   },
+  { src: "/details/chrome-sconce.jpg",       w: 2752, h: 1536, ru: "Бра · хром",                 en: "Wall sconce · chrome" },
+  { src: "/details/disc-lamp.jpg",           w: 2400, h: 1792, ru: "Светильник · диск",          en: "Disc lamp"            },
+  { src: "/details/range-hood.jpg",          w: 1792, h: 2400, ru: "Вытяжка",                    en: "Range hood"           },
+  { src: "/details/sauna-stone-wall.jpg",    w: 1792, h: 2400, ru: "Сауна · камень",             en: "Sauna · stone"        },
+  { src: "/details/sauna-bronze-cradle.jpg", w: 2400, h: 1792, ru: "Бронзовая чаша для камней",  en: "Bronze stone cradle"  },
+  { src: "/details/hammered-art.jpg",        w: 5504, h: 3072, ru: "Кованый декор",              en: "Hammered metalwork"   },
+  { src: "/details/black-faucet.jpg",            w: 2752, h: 1536, ru: "Чёрный смеситель",        en: "Black faucet"         },
+  { src: "/details/fire-extinguisher-mirror.jpg", w: 1792, h: 2400, ru: "Огнетушитель · зеркало", en: "Extinguisher · mirror"},
+  { src: "/details/black-bidet-sprayer.jpg",     w: 1536, h: 2470, ru: "Гигиенический душ",       en: "Bidet sprayer"        },
+  { src: "/details/microwave.jpg",               w: 1792, h: 2400, ru: "Микроволновая печь",      en: "Microwave"            },
+  { src: "/details/pullout-dish-rack.jpg",       w: 1792, h: 2400, ru: "Выдвижная сушка",         en: "Pull-out dish rack"   },
+  { src: "/details/stairs-from-above.jpg",       w: 3024, h: 4032, ru: "Лестница · сверху",       en: "Stairs · from above"  },
+];
+const detailCaption = (p: DetailPhoto) => (lang === "ru" ? p.ru : p.en);
 ---
 
 <section id="spec" class="bg-[var(--color-paper)] py-12 sm:py-16">
@@ -474,6 +493,68 @@ const fullSpec = lang === "ru"
         </div>
       ))}
     </dl>
+
+    <!-- Detail strip — small square thumbs sitting under the spec table.
+         Horizontal scroll on mobile if they overflow; click any to enlarge. -->
+    <div class="mt-8 sm:mt-10">
+      <p class="text-[10px] uppercase tracking-[var(--tracking-wide-cap)] text-[var(--color-deep-grey)]">
+        {lang === "ru" ? "Детали" : "Details"}
+      </p>
+      <div class="mt-3 flex gap-2 overflow-x-auto pb-1 sm:gap-3">
+        {detailPhotos.map((p) => (
+          <button
+            type="button"
+            data-detail-tile
+            data-src={p.src}
+            data-caption={detailCaption(p)}
+            aria-label={detailCaption(p)}
+            class="group relative aspect-square w-20 shrink-0 overflow-hidden rounded-[2px] bg-[var(--color-light-grey)] sm:w-24"
+          >
+            <img
+              src={p.src}
+              alt={detailCaption(p)}
+              width={p.w}
+              height={p.h}
+              loading="lazy"
+              class="absolute inset-0 h-full w-full object-cover transition-transform duration-500 group-hover:scale-[1.06]"
+            />
+          </button>
+        ))}
+      </div>
+      <p class="mt-2 text-[10px] uppercase tracking-[var(--tracking-wide-cap)] text-[var(--color-fog)]">
+        {lang === "ru" ? "Нажмите, чтобы увеличить" : "Click to enlarge"}
+      </p>
+    </div>
+  </div>
+
+  <!-- Detail-strip lightbox -->
+  <div
+    data-detail-lightbox
+    class="detail-lightbox fixed inset-0 z-[80] hidden items-center justify-center bg-[var(--color-ink)]/95 backdrop-blur-sm"
+    aria-hidden="true"
+    role="dialog"
+    aria-modal="true"
+  >
+    <button
+      type="button"
+      data-detail-lightbox-close
+      aria-label={copy.closeLabel}
+      class="absolute right-4 top-4 z-10 flex h-10 w-10 items-center justify-center rounded-full bg-[color-mix(in_srgb,white_15%,transparent)] text-[var(--color-paper)] backdrop-blur-md transition-colors hover:bg-[var(--color-paper)] hover:text-[var(--color-ink)] sm:right-8 sm:top-8"
+    >
+      <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
+        <path d="M2 2 L12 12 M12 2 L2 12" stroke="currentColor" stroke-width="1.4" stroke-linecap="square" />
+      </svg>
+    </button>
+    <img
+      data-detail-lightbox-img
+      src=""
+      alt=""
+      class="max-h-[88vh] max-w-[92vw] object-contain"
+    />
+    <p
+      data-detail-lightbox-caption
+      class="pointer-events-none absolute bottom-6 left-1/2 -translate-x-1/2 text-[11px] uppercase tracking-[var(--tracking-wide-cap)] text-[color-mix(in_srgb,white_70%,transparent)] sm:bottom-10"
+    ></p>
   </div>
 </section>
 
@@ -583,6 +664,7 @@ const fullSpec = lang === "ru"
     font-weight: 600;
     color: var(--color-ink);
   }
+  .detail-lightbox.is-open { display: flex; }
 </style>
 
 <script>
@@ -666,8 +748,43 @@ const fullSpec = lang === "ru"
     sections.forEach((s) => observer.observe(s));
   }
 
+  // Detail-strip lightbox — opens on thumb click, ESC/close-button/click-outside to dismiss.
+  const detailLightbox = document.querySelector<HTMLElement>("[data-detail-lightbox]");
+  const detailImg = detailLightbox?.querySelector<HTMLImageElement>("[data-detail-lightbox-img]");
+  const detailCap = detailLightbox?.querySelector<HTMLElement>("[data-detail-lightbox-caption]");
+  const detailTiles = Array.from(
+    document.querySelectorAll<HTMLButtonElement>("[data-detail-tile]")
+  );
+  const detailCloseBtns = detailLightbox
+    ? Array.from(detailLightbox.querySelectorAll<HTMLButtonElement>("[data-detail-lightbox-close]"))
+    : [];
+
+  function openDetail(tile: HTMLButtonElement) {
+    if (!detailLightbox || !detailImg || !detailCap) return;
+    detailImg.src = tile.dataset.src ?? "";
+    detailImg.alt = tile.dataset.caption ?? "";
+    detailCap.textContent = tile.dataset.caption ?? "";
+    detailLightbox.classList.add("is-open");
+    detailLightbox.setAttribute("aria-hidden", "false");
+    document.body.style.overflow = "hidden";
+  }
+  function closeDetail() {
+    if (!detailLightbox) return;
+    detailLightbox.classList.remove("is-open");
+    detailLightbox.setAttribute("aria-hidden", "true");
+    document.body.style.overflow = "";
+  }
+  detailTiles.forEach((t) => t.addEventListener("click", () => openDetail(t)));
+  detailCloseBtns.forEach((b) => b.addEventListener("click", closeDetail));
+  detailLightbox?.addEventListener("click", (e) => {
+    if (e.target === detailLightbox) closeDetail();
+  });
+
   document.addEventListener("keydown", (e) => {
-    if (e.key === "Escape" && modal?.classList.contains("is-open")) {
+    if (e.key !== "Escape") return;
+    if (detailLightbox?.classList.contains("is-open")) {
+      closeDetail();
+    } else if (modal?.classList.contains("is-open")) {
       close();
     }
   });
