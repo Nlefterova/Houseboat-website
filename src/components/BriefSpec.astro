@@ -495,12 +495,10 @@ const detailCaption = (p: DetailPhoto) => (lang === "ru" ? p.ru : p.en);
     </dl>
 
     <!-- Detail strip — small square thumbs sitting under the spec table.
+         No label: the photos read as visual proof of the rows above.
          Horizontal scroll on mobile if they overflow; click any to enlarge. -->
     <div class="mt-8 sm:mt-10">
-      <p class="text-[10px] uppercase tracking-[var(--tracking-wide-cap)] text-[var(--color-deep-grey)]">
-        {lang === "ru" ? "Детали" : "Details"}
-      </p>
-      <div class="mt-3 flex gap-2 overflow-x-auto pb-1 sm:gap-3">
+      <div class="flex gap-2 overflow-x-auto pb-1 sm:gap-3">
         {detailPhotos.map((p) => (
           <button
             type="button"
