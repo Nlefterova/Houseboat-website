@@ -4,23 +4,25 @@ interface Props {
 }
 const { lang = "ru" } = Astro.props;
 
+// Body copy is authored as HTML so we can highlight brand/product names
+// inline in neon-blue (the "magazine" treatment — same prose, visually rhythmic).
 const copy = lang === "ru"
   ? {
       eyebrow: "Дополнительные опции",
       title: "Под вас. От тика до встроенной техники.",
-      body1:
-        "Каждое судно собирается под заказ. Мебель из массива дуба, декоративные вставки из композитного алюминия, морской винил, бронзовые акценты.",
-      body2:
-        "Опционально: тик в кокпите, на лестнице и в носовой части — натуральный, Flexiteek (Великобритания) или Flexdeck (Россия). Мебель на флайбридже и в кокпите, тент с москитными сетками. Съёмный тандыр в кормовой зоне, садок для живой рыбы с аэратором. Акустика на открытых палубах. Второй пост управления на флайбридже, джойстик Mercury JPO для управления двигателями, автопилот Simrad AP44. Стиральная и сушильная машина, телевизоры в каждой каюте, аудиоподготовка под встроенную акустику 5.1. Материалы, которые становятся только красивее со временем. Полный список — по запросу.",
+      body1Html:
+        'Каждое судно собирается под заказ. Мебель из <em>массива дуба</em>, декоративные вставки из <em>композитного алюминия</em>, <em>морской винил</em>, <em>бронзовые</em> акценты.',
+      body2Html:
+        'Опционально: <em>тик</em> в кокпите, на лестнице и в носовой части — натуральный, <em>Flexiteek</em> (Великобритания) или <em>Flexdeck</em> (Россия). Мебель на флайбридже и в кокпите, тент с москитными сетками. Съёмный <em>тандыр</em> в кормовой зоне, садок для живой рыбы с аэратором, <em>аудиосистема 5.1</em>. Второй пост управления на флайбридже, джойстик <em>Mercury JPO</em> для управления двигателями, автопилот <em>Simrad AP44</em>. Стиральная и сушильная машина, телевизоры в каждой каюте. Материалы, которые становятся только красивее со временем. Полный список — по запросу.',
       ctaLabel: "Обсудить комплектацию",
     }
   : {
       eyebrow: "Optional Equipment",
       title: "Built around you. From teak to integrated tech.",
-      body1:
-        "Each vessel is built to order. Solid-oak furniture, composite aluminum inserts, marine vinyl, bronze accents.",
-      body2:
-        "Optional: teak in the cockpit, on the staircase, and at the bow — natural, Flexiteek (UK) or Flexdeck (Russia). Furniture on the flybridge and in the cockpit. Tent with mosquito screens. Secondary helm on the flybridge. Mercury JPO joystick for engine control. Simrad AP44 autopilot, removable tandoor at the stern, live-fish well with aerator, washer + dryer, TVs in every cabin, outdoor audio. Audio pre-wiring for built-in 5.1. Materials that only become more beautiful with time. Full list on request.",
+      body1Html:
+        'Each vessel is built to order. <em>Solid-oak</em> furniture, <em>composite aluminum</em> inserts, <em>marine vinyl</em>, <em>bronze</em> accents.',
+      body2Html:
+        'Optional: <em>teak</em> in the cockpit, on the staircase, and at the bow — natural, <em>Flexiteek</em> (UK) or <em>Flexdeck</em> (Russia). Furniture on the flybridge and in the cockpit. Tent with mosquito screens. Removable <em>tandoor</em> at the stern, live-fish well with aerator, <em>5.1 audio system</em>. Secondary helm on the flybridge, <em>Mercury JPO</em> joystick for engine control, <em>Simrad AP44</em> autopilot. Washer + dryer, TVs in every cabin. Materials that only become more beautiful with time. Full list on request.',
       ctaLabel: "Discuss the build",
     };
 
@@ -57,8 +59,8 @@ const total = slides.length;
           {copy.title}
         </h2>
 
-        <p class="mt-8 text-[16px] leading-[1.7] text-[var(--color-deep-grey)]">{copy.body1}</p>
-        <p class="mt-4 text-[16px] leading-[1.7] text-[var(--color-deep-grey)]">{copy.body2}</p>
+        <p class="options-body mt-8 text-[16px] leading-[1.7] text-[var(--color-deep-grey)]" set:html={copy.body1Html}></p>
+        <p class="options-body mt-4 text-[16px] leading-[1.7] text-[var(--color-deep-grey)]" set:html={copy.body2Html}></p>
 
         <div class="mt-12">
           <a
@@ -206,3 +208,17 @@ const total = slides.length;
     dots.forEach((dot, idx) => dot.addEventListener("click", () => go(idx)));
   });
 </script>
+
+<style>
+  /* Brand/product names inside body copy — magazine-style highlight,
+     not italic. Keeps prose intact, lets the eye latch onto signatures. */
+  .options-body :global(em) {
+    font-style: normal;
+    color: var(--color-neon-blue);
+    font-weight: 500;
+  }
+  /* Two-column body2: avoid orphan/widow breaks in the middle of a highlighted span. */
+  .options-body :global(em) {
+    break-inside: avoid;
+  }
+</style>
