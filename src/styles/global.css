@@ -47,7 +47,7 @@ body {
 
 .eyebrow {
   font-family: var(--font-sans);
-  font-size: 11px;
+  font-size: 13px;
   font-weight: 500;
   letter-spacing: var(--tracking-wide-cap);
   text-transform: uppercase;
@@ -63,6 +63,12 @@ body {
    Tertiary  — text links (map link, inline references).
                Grey text → blue on hover.
    ======================================================================== */
+/* Suppress all default focus rings on buttons and links. */
+button:focus,
+a:focus {
+  outline: none;
+}
+
 .btn-primary {
   background-color: var(--color-ink);
   color: var(--color-paper);

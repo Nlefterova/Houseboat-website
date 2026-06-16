@@ -65,10 +65,13 @@ const total = rooms.length;
         <p class="eyebrow">{copy.eyebrow}</p>
         <hr class="rule-ink mt-4" />
       </div>
-      <div class="mt-6 flex items-center justify-between gap-6">
-        <h2 class="display text-[36px] leading-[1.05] text-[var(--color-ink)] sm:text-[48px]">
-          {copy.title}
-        </h2>
+      <h2 class="display mt-6 text-[36px] leading-[1.05] text-[var(--color-ink)] sm:text-[48px]">
+        {copy.title}
+      </h2>
+      <div class="mt-5 flex items-end justify-between gap-6">
+        <p class="max-w-xl text-[14px] leading-[1.6] text-[var(--color-deep-grey)]">
+          {copy.lede}
+        </p>
         <button
           type="button"
           data-gallery-open
@@ -80,9 +83,6 @@ const total = rooms.length;
           </svg>
         </button>
       </div>
-      <p class="mt-5 max-w-xl text-[14px] leading-[1.6] text-[var(--color-deep-grey)]">
-        {copy.lede}
-      </p>
     </div>
 
     <!-- Carousel -->
@@ -184,7 +184,7 @@ const total = rooms.length;
             type="button"
             data-dot-index={i}
             aria-label={`Slide ${i + 1}`}
-            class={`h-[2px] flex-1 transition-colors ${i === 0 ? "bg-[var(--color-ink)]" : "bg-[var(--color-grey)] hover:bg-[var(--color-fog)]"}`}
+            class={`h-[2px] flex-1 transition-colors ${i === 0 ? "bg-[var(--color-neon-blue)]" : "bg-[var(--color-grey)] hover:bg-[var(--color-fog)]"}`}
           ></button>
         ))}
       </div>
@@ -215,9 +215,9 @@ const total = rooms.length;
       dots.forEach((el, idx) => {
         if (idx === i) {
           el.classList.remove("bg-[var(--color-grey)]", "hover:bg-[var(--color-fog)]");
-          el.classList.add("bg-[var(--color-ink)]");
+          el.classList.add("bg-[var(--color-neon-blue)]");
         } else {
-          el.classList.remove("bg-[var(--color-ink)]");
+          el.classList.remove("bg-[var(--color-neon-blue)]");
           el.classList.add("bg-[var(--color-grey)]", "hover:bg-[var(--color-fog)]");
         }
       });

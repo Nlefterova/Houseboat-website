@@ -55,10 +55,13 @@ const label = (i: number) =>
         <p class="eyebrow">{copy.eyebrow}</p>
         <hr class="rule-ink mt-4" />
       </div>
-      <div class="mt-6 flex items-center justify-between gap-6">
-        <h2 class="display text-[36px] leading-[1.05] text-[var(--color-ink)] sm:text-[48px]">
-          {copy.title}
-        </h2>
+      <h2 class="display mt-6 text-[36px] leading-[1.05] text-[var(--color-ink)] sm:text-[48px]">
+        {copy.title}
+      </h2>
+      <div class="mt-5 flex items-end justify-between gap-6">
+        <p class="max-w-xl text-[14px] leading-[1.6] text-[var(--color-deep-grey)]">
+          {copy.lede}
+        </p>
         <button
           type="button"
           data-gallery-open
@@ -70,9 +73,6 @@ const label = (i: number) =>
           </svg>
         </button>
       </div>
-      <p class="mt-5 max-w-xl text-[14px] leading-[1.6] text-[var(--color-deep-grey)]">
-        {copy.lede}
-      </p>
     </div>
 
     <div class="grid grid-cols-12 gap-2">

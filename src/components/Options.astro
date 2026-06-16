@@ -155,7 +155,7 @@ const total = slides.length;
                 type="button"
                 data-dot-index={i}
                 aria-label={`Slide ${i + 1}`}
-                class={`h-[2px] flex-1 transition-colors ${i === 0 ? "bg-[var(--color-ink)]" : "bg-[var(--color-grey)] hover:bg-[var(--color-fog)]"}`}
+                class={`h-[2px] flex-1 transition-colors ${i === 0 ? "bg-[var(--color-neon-blue)]" : "bg-[var(--color-grey)] hover:bg-[var(--color-fog)]"}`}
               ></button>
             ))}
           </div>
@@ -187,9 +187,9 @@ const total = slides.length;
       dots.forEach((el, idx) => {
         if (idx === i) {
           el.classList.remove("bg-[var(--color-grey)]", "hover:bg-[var(--color-fog)]");
-          el.classList.add("bg-[var(--color-ink)]");
+          el.classList.add("bg-[var(--color-neon-blue)]");
         } else {
-          el.classList.remove("bg-[var(--color-ink)]");
+          el.classList.remove("bg-[var(--color-neon-blue)]");
           el.classList.add("bg-[var(--color-grey)]", "hover:bg-[var(--color-fog)]");
         }
       });
