@@ -37,10 +37,10 @@ const rows = lang === "ru"
       { label: "Двигатели", value: "2× Mercury Verado V8 250 XXL AM" },
       { label: "Топливо (бензин / дизель)", value: "900 л / 450 л" },
       { label: "Пресная вода", value: "900 л" },
-      { label: "Автономия", value: "7+ суток" },
+      { label: "Автономность", value: "7+ суток" },
       { label: "Зимний пакет", value: "до −30 °C" },
-      { label: "Вместимость", value: "12 гостей + 2 экипаж" },
-      { label: "Каюты", value: "5 гостевых + 2 для персонала" },
+      { label: "Вместимость", value: "12 человек" },
+      { label: "Каюты", value: "5" },
     ]
   : [
       { label: "Length Overall (LOA)", value: "19.60 m" },
@@ -464,7 +464,7 @@ const detailCaption = (p: DetailPhoto) => (lang === "ru" ? p.ru : p.en);
         <button
           type="button"
           data-fullspec-open
-          class="group inline-flex items-center gap-3 rounded-full bg-[var(--color-ink)] px-7 py-3.5 text-[12px] uppercase tracking-[var(--tracking-cap)] text-[var(--color-paper)] transition-colors hover:bg-[var(--color-deep-grey)]"
+          class="btn-secondary group inline-flex items-center gap-3 rounded-full px-7 py-3.5 text-[12px] uppercase tracking-[var(--tracking-cap)]"
         >
           <span>{copy.fullSpecCta}</span>
           <svg width="12" height="12" viewBox="0 0 12 12" fill="none" class="transition-transform group-hover:translate-x-0.5">
@@ -585,7 +585,7 @@ const detailCaption = (p: DetailPhoto) => (lang === "ru" ? p.ru : p.en);
     <button
       type="button"
       data-fullspec-close
-      class="inline-flex shrink-0 items-center gap-2 rounded-full bg-[var(--color-ink)] px-5 py-2.5 text-[11px] uppercase tracking-[var(--tracking-cap)] text-[var(--color-paper)] transition-colors hover:bg-[var(--color-deep-grey)]"
+      class="btn-secondary inline-flex shrink-0 items-center gap-2 rounded-full px-5 py-2.5 text-[11px] uppercase tracking-[var(--tracking-cap)]"
     >
       <span>{copy.closeLabel}</span>
       <svg width="12" height="12" viewBox="0 0 12 12" fill="none">

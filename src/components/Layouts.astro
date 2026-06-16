@@ -62,7 +62,7 @@ const activeIndex = 1;
         type="button"
         data-fullscreen-close
         aria-label="Close"
-        class="fs-only absolute bottom-8 right-8 z-10 inline-flex items-center gap-2 rounded-full bg-[var(--color-paper)] px-5 py-2.5 text-[11px] uppercase tracking-[var(--tracking-cap)] text-[var(--color-ink)] shadow-sm transition-colors hover:bg-[var(--color-ink)] hover:text-[var(--color-paper)]"
+        class="btn-secondary fs-only absolute bottom-8 right-8 z-10 inline-flex items-center gap-2 rounded-full px-5 py-2.5 text-[11px] uppercase tracking-[var(--tracking-cap)] shadow-sm"
       >
         <span data-fullscreen-close-label>{copy.closeLabel}</span>
         <svg width="12" height="12" viewBox="0 0 12 12" fill="none">
@@ -110,7 +110,7 @@ const activeIndex = 1;
             data-tab-index={i}
             class={`flex-1 min-w-0 rounded-[3px] px-4 py-3 text-[11px] uppercase tracking-[var(--tracking-cap)] transition-colors ${
               i === activeIndex
-                ? "bg-[var(--color-ink)] text-[var(--color-paper)]"
+                ? "bg-[var(--color-neon-blue)] text-[var(--color-paper)]"
                 : "text-[var(--color-deep-grey)] hover:bg-[color-mix(in_srgb,white_60%,transparent)]"
             }`}
           >
@@ -173,7 +173,7 @@ const activeIndex = 1;
           data-fullscreen-toggle
           data-open-label={copy.fullscreenLabel}
           data-close-label={copy.closeLabel}
-          class="inline-flex items-center gap-2 rounded-full bg-[var(--color-paper)] px-5 py-2.5 text-[11px] uppercase tracking-[var(--tracking-cap)] text-[var(--color-ink)] transition-colors hover:bg-[var(--color-ink)] hover:text-[var(--color-paper)]"
+          class="btn-secondary inline-flex items-center gap-2 rounded-full px-5 py-2.5 text-[11px] uppercase tracking-[var(--tracking-cap)]"
         >
           <span data-fullscreen-label>{copy.fullscreenLabel}</span>
           <svg data-fullscreen-icon-open width="12" height="12" viewBox="0 0 12 12" fill="none">
@@ -275,13 +275,13 @@ const activeIndex = 1;
       currentTab = i;
       tabs.forEach((t, idx) => {
         if (idx === i) {
-          t.classList.add("bg-[var(--color-ink)]", "text-[var(--color-paper)]");
+          t.classList.add("bg-[var(--color-neon-blue)]", "text-[var(--color-paper)]");
           t.classList.remove(
             "text-[var(--color-deep-grey)]",
             "hover:bg-[color-mix(in_srgb,white_60%,transparent)]"
           );
         } else {
-          t.classList.remove("bg-[var(--color-ink)]", "text-[var(--color-paper)]");
+          t.classList.remove("bg-[var(--color-neon-blue)]", "text-[var(--color-paper)]");
           t.classList.add(
             "text-[var(--color-deep-grey)]",
             "hover:bg-[color-mix(in_srgb,white_60%,transparent)]"
