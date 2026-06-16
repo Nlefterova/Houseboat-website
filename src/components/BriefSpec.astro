@@ -427,19 +427,19 @@ const fullSpec = lang === "ru"
 // Tight strip of square detail thumbnails under the spec table.
 type DetailPhoto = { src: string; w: number; h: number; ru: string; en: string };
 const detailPhotos: DetailPhoto[] = [
-  { src: "/details/stove-sea-view.jpg",      w: 1792, h: 2400, ru: "Плита · вид на воду",        en: "Stove · water view"   },
-  { src: "/details/chrome-sconce.jpg",       w: 2752, h: 1536, ru: "Бра · хром",                 en: "Wall sconce · chrome" },
-  { src: "/details/disc-lamp.jpg",           w: 2400, h: 1792, ru: "Светильник · диск",          en: "Disc lamp"            },
-  { src: "/details/range-hood.jpg",          w: 1792, h: 2400, ru: "Вытяжка",                    en: "Range hood"           },
-  { src: "/details/sauna-stone-wall.jpg",    w: 1792, h: 2400, ru: "Сауна · камень",             en: "Sauna · stone"        },
-  { src: "/details/sauna-bronze-cradle.jpg", w: 2400, h: 1792, ru: "Бронзовая чаша для камней",  en: "Bronze stone cradle"  },
-  { src: "/details/hammered-art.jpg",        w: 5504, h: 3072, ru: "Кованый декор",              en: "Hammered metalwork"   },
-  { src: "/details/black-faucet.jpg",            w: 2752, h: 1536, ru: "Чёрный смеситель",        en: "Black faucet"         },
-  { src: "/details/fire-extinguisher-mirror.jpg", w: 1792, h: 2400, ru: "Огнетушитель · зеркало", en: "Extinguisher · mirror"},
-  { src: "/details/black-bidet-sprayer.jpg",     w: 1536, h: 2470, ru: "Гигиенический душ",       en: "Bidet sprayer"        },
-  { src: "/details/microwave.jpg",               w: 1792, h: 2400, ru: "Микроволновая печь",      en: "Microwave"            },
-  { src: "/details/pullout-dish-rack.jpg",       w: 1792, h: 2400, ru: "Выдвижная сушка",         en: "Pull-out dish rack"   },
-  { src: "/details/stairs-from-above.jpg",       w: 3024, h: 4032, ru: "Лестница · сверху",       en: "Stairs · from above"  },
+  { src: "details/stove-sea-view.jpg",      w: 1792, h: 2400, ru: "Плита · вид на воду",        en: "Stove · water view"   },
+  { src: "details/chrome-sconce.jpg",       w: 2752, h: 1536, ru: "Бра · хром",                 en: "Wall sconce · chrome" },
+  { src: "details/disc-lamp.jpg",           w: 2400, h: 1792, ru: "Светильник · диск",          en: "Disc lamp"            },
+  { src: "details/range-hood.jpg",          w: 1792, h: 2400, ru: "Вытяжка",                    en: "Range hood"           },
+  { src: "details/sauna-stone-wall.jpg",    w: 1792, h: 2400, ru: "Сауна · камень",             en: "Sauna · stone"        },
+  { src: "details/sauna-bronze-cradle.jpg", w: 2400, h: 1792, ru: "Бронзовая чаша для камней",  en: "Bronze stone cradle"  },
+  { src: "details/hammered-art.jpg",        w: 5504, h: 3072, ru: "Кованый декор",              en: "Hammered metalwork"   },
+  { src: "details/black-faucet.jpg",            w: 2752, h: 1536, ru: "Чёрный смеситель",        en: "Black faucet"         },
+  { src: "details/fire-extinguisher-mirror.jpg", w: 1792, h: 2400, ru: "Огнетушитель · зеркало", en: "Extinguisher · mirror"},
+  { src: "details/black-bidet-sprayer.jpg",     w: 1536, h: 2470, ru: "Гигиенический душ",       en: "Bidet sprayer"        },
+  { src: "details/microwave.jpg",               w: 1792, h: 2400, ru: "Микроволновая печь",      en: "Microwave"            },
+  { src: "details/pullout-dish-rack.jpg",       w: 1792, h: 2400, ru: "Выдвижная сушка",         en: "Pull-out dish rack"   },
+  { src: "details/stairs-from-above.jpg",       w: 3024, h: 4032, ru: "Лестница · сверху",       en: "Stairs · from above"  },
 ];
 const detailCaption = (p: DetailPhoto) => (lang === "ru" ? p.ru : p.en);
 ---
