@@ -50,7 +50,7 @@ const label = (i: number) =>
 
 <section id="exterior" class="bg-[var(--color-paper)] py-16 sm:py-24">
   <div class="mx-auto max-w-[1440px] px-8">
-    <div class="pb-6">
+    <div class="pb-3">
       <div class="max-w-2xl">
         <p class="eyebrow">{copy.eyebrow}</p>
         <hr class="rule-ink mt-4" />
@@ -58,19 +58,16 @@ const label = (i: number) =>
       <h2 class="display mt-6 text-[36px] leading-[1.05] text-[var(--color-ink)] sm:text-[48px]">
         {copy.title}
       </h2>
-      <div class="mt-5 flex items-end justify-between gap-6">
+      <div class="mt-3 flex items-end justify-between gap-6">
         <p class="max-w-xl text-[14px] leading-[1.6] text-[var(--color-deep-grey)]">
           {copy.lede}
         </p>
         <button
           type="button"
           data-gallery-open
-          class="btn-secondary group inline-flex shrink-0 items-center gap-2 whitespace-nowrap rounded-full px-5 py-2.5 text-[11px] font-semibold uppercase tracking-[var(--tracking-cap)]"
+          class="btn-secondary inline-flex shrink-0 items-center whitespace-nowrap rounded-full px-5 py-2.5 text-[11px] font-semibold uppercase tracking-[var(--tracking-cap)]"
         >
-          <span>{copy.titleTag}</span>
-          <svg width="12" height="12" viewBox="0 0 12 12" fill="none" class="transition-transform group-hover:translate-x-0.5">
-            <path d="M2 10 L10 2 M10 2 H4 M10 2 V8" stroke="currentColor" stroke-width="1.4" />
-          </svg>
+          {copy.titleTag}
         </button>
       </div>
     </div>

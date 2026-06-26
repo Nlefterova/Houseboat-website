@@ -80,9 +80,14 @@ const photos: Photo[] = [
 // Hero photo: cinematic 21:9 banner full-width at the top of the gallery.
 // "A bit larger than the rest" but doesn't dominate the screen vertically.
 // 4-reflection is used as the homepage hero, so the gallery picks something else.
-const HERO_SRC = "exterior/8-modern-marina.jpg";
-const hero = photos.find((p) => p.src === HERO_SRC)!;
-const rest = photos.filter((p) => p.src !== HERO_SRC);
+// Separate hero per category — exterior + interior swap based on active filter.
+const HERO_SRC_EXTERIOR = "exterior/8-modern-marina.jpg";
+const HERO_SRC_INTERIOR = "interior/salon-sideboard.jpg";
+const heroExterior = photos.find((p) => p.src === HERO_SRC_EXTERIOR)!;
+const heroInterior = photos.find((p) => p.src === HERO_SRC_INTERIOR)!;
+const rest = photos.filter(
+  (p) => p.src !== HERO_SRC_EXTERIOR && p.src !== HERO_SRC_INTERIOR
+);
 
 // LPT bin-packing (Longest Processing Time): sort items by height descending,
 // then place each into the currently-shortest column. Tighter balance than naive
@@ -158,7 +163,7 @@ const total = photos.length;
       <button
         type="button"
         data-gallery-close
-        class="ml-2 inline-flex items-center gap-2 rounded-full bg-[var(--color-paper)] px-5 py-2 text-[11px] uppercase tracking-[var(--tracking-cap)] text-[var(--color-ink)] transition-colors hover:text-[var(--color-neon-blue)]"
+        class="ml-2 inline-flex items-center gap-2 rounded-full bg-[var(--color-paper)] px-5 py-2 text-[11px] uppercase tracking-[var(--tracking-cap)] text-[var(--color-ink)] transition-[color,box-shadow,text-shadow] duration-200 ease-out hover:text-[var(--color-neon-blue)] hover:[box-shadow:0_0_0_2px_var(--color-neon-blue)] hover:[text-shadow:0_0_0.4px_currentColor]"
       >
         <span>{copy.closeLabel}</span>
         <svg width="12" height="12" viewBox="0 0 12 12" fill="none">
@@ -171,32 +176,35 @@ const total = photos.length;
   <!-- Cinematic hero banner (21:9, full width) above 4 server-balanced columns. -->
   <div class="flex-1 overflow-y-auto px-4 py-6 sm:px-8 sm:py-10">
     <div class="mx-auto max-w-[1600px]">
-      <button
-        type="button"
-        data-gallery-tile
-        data-tile-cat={hero.cat}
-        aria-label={caption(hero)}
-        class="gallery-tile gallery-hero group relative block w-full overflow-hidden rounded-[2px] bg-[color-mix(in_srgb,var(--color-paper)_5%,transparent)]"
-        style="aspect-ratio: 21 / 9;"
-      >
-        <img
-          src={hero.src}
-          alt={caption(hero)}
-          width={hero.w}
-          height={hero.h}
-          loading="eager"
-          class="absolute inset-0 h-full w-full object-cover transition-transform duration-500 group-hover:scale-[1.03]"
-        />
-        <div
-          class="pointer-events-none absolute inset-x-0 bottom-0 h-1/2 opacity-0 transition-opacity duration-300 group-hover:opacity-100"
-          style="background: linear-gradient(180deg, rgba(0,0,0,0) 0%, rgba(0,0,0,0.7) 100%);"
-        ></div>
-        <span
-          class="pointer-events-none absolute bottom-4 left-4 text-[12px] uppercase tracking-[var(--tracking-wide-cap)] text-[var(--color-paper)] opacity-0 transition-opacity duration-300 group-hover:opacity-100 sm:bottom-6 sm:left-6 sm:text-[13px]"
+      {[heroExterior, heroInterior].map((h) => (
+        <button
+          type="button"
+          data-gallery-tile
+          data-tile-cat={h.cat}
+          data-hero-cat={h.cat}
+          aria-label={caption(h)}
+          class="gallery-tile gallery-hero group relative block w-full overflow-hidden rounded-[2px] bg-[color-mix(in_srgb,var(--color-paper)_5%,transparent)]"
+          style="aspect-ratio: 21 / 9;"
         >
-          {caption(hero)}
-        </span>
-      </button>
+          <img
+            src={h.src}
+            alt={caption(h)}
+            width={h.w}
+            height={h.h}
+            loading="eager"
+            class="absolute inset-0 h-full w-full object-cover transition-transform duration-500 group-hover:scale-[1.03]"
+          />
+          <div
+            class="pointer-events-none absolute inset-x-0 bottom-0 h-1/2 opacity-0 transition-opacity duration-300 group-hover:opacity-100"
+            style="background: linear-gradient(180deg, rgba(0,0,0,0) 0%, rgba(0,0,0,0.7) 100%);"
+          ></div>
+          <span
+            class="pointer-events-none absolute bottom-4 left-4 text-[12px] uppercase tracking-[var(--tracking-wide-cap)] text-[var(--color-paper)] opacity-0 transition-opacity duration-300 group-hover:opacity-100 sm:bottom-6 sm:left-6 sm:text-[13px]"
+          >
+            {caption(h)}
+          </span>
+        </button>
+      ))}
 
       <div data-gallery-grid class="gallery-columns mt-2 sm:mt-3">
         {cols4.map((col, ci) => (
@@ -330,9 +338,9 @@ const total = photos.length;
   }
 
   .gallery-chip.is-active {
-    background-color: var(--color-paper);
-    color: var(--color-ink);
-    border-color: var(--color-paper);
+    background-color: var(--color-neon-blue);
+    color: var(--color-paper);
+    border-color: var(--color-neon-blue);
   }
   .gallery-chip:not(.is-active):hover {
     background-color: color-mix(in srgb, var(--color-paper) 10%, transparent);
@@ -342,6 +350,16 @@ const total = photos.length;
   .gallery-overlay[data-filter="exterior"] [data-tile-cat="interior"],
   .gallery-overlay[data-filter="interior"] [data-tile-cat="exterior"] {
     display: none;
+  }
+
+  /* Hero swap: default (all) + exterior → show exterior hero only. Interior →
+     hide exterior hero, show interior hero. Without this, "all" would stack
+     both hero banners. */
+  .gallery-overlay .gallery-hero[data-hero-cat="interior"] {
+    display: none;
+  }
+  .gallery-overlay[data-filter="interior"] .gallery-hero[data-hero-cat="interior"] {
+    display: block;
   }
 </style>
 
