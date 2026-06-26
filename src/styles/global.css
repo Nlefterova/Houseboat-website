@@ -87,8 +87,8 @@ a:focus {
 .btn-secondary:hover {
   border-color: var(--color-neon-blue);
   color: var(--color-neon-blue);
-  /* Inset shadow fakes a 2px frame without causing layout shift */
-  box-shadow: inset 0 0 0 1px var(--color-neon-blue);
+  /* Inset shadow thickens the frame to a perceived ~4px without layout shift. */
+  box-shadow: inset 0 0 0 3px var(--color-neon-blue);
 }
 
 .btn-tertiary {

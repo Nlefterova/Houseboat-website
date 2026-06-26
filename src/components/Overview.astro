@@ -9,9 +9,9 @@ const copy = lang === "ru"
       eyebrow: "Обзор",
       title: "Гражданская версия экспедиционного судна.",
       body1:
-        "Корпус из нержавеющей стали 12х18н10т. Надстройка из авиационного алюминия АМг5М. Зимний пакет до −30 °C. Технологии выживания, не косметика.",
+        "Корпус из нержавеющей стали 12х18н10т. Надстройка из авиационного алюминия АМг5М. Зимний пакет до −30 °C. 5 кают, 2 камбуза, сауна, два подвесных мотора 250–350 л.с.",
       body2:
-        "5 кают, 2 камбуза, сауна, два подвесных мотора 250–350 л.с. Дом, который идёт за впечатлением — туда, где обычная лодка не пройдёт.",
+        "Дом, который идёт за впечатлением — туда, где обычная лодка не пройдёт.",
       ctaLabel: "Посмотреть спецификацию",
       features: [
         { label: "Дуб и тик", icon: "wood" },
@@ -26,9 +26,9 @@ const copy = lang === "ru"
       eyebrow: "Overview",
       title: "The civilian version of an expedition vessel.",
       body1:
-        "Stainless-steel hull. Aviation-grade aluminum AlMg5 superstructure. Winter package down to −30 °C. Survival-grade technology, not cosmetic.",
+        "Stainless-steel hull. Aviation-grade aluminum AlMg5 superstructure. Winter package down to −30 °C. 5 cabins, 2 galleys, sauna, twin outboards 250–350 hp.",
       body2:
-        "5 cabins, 2 galleys, sauna, twin outboards 250–350 hp. A home that follows experience — where ordinary boats can't go.",
+        "A home that follows experience — where ordinary boats can't go.",
       ctaLabel: "View Full Specification",
       features: [
         { label: "Oak & Teak", icon: "wood" },
@@ -56,28 +56,80 @@ const copy = lang === "ru"
         </h2>
 
         <p class="mt-5 text-[16px] leading-[1.7] text-[var(--color-deep-grey)]">{copy.body1}</p>
-        <p class="mt-4 text-[16px] leading-[1.7] text-[var(--color-deep-grey)]">{copy.body2}</p>
+        <p class="mt-4 text-[16px] font-semibold leading-[1.7] text-[var(--color-ink)]">{copy.body2}</p>
 
         <ul class="mt-8 grid grid-cols-3 gap-4 sm:gap-8">
           {copy.features.map((f) => (
             <li class="border-l-2 border-[var(--color-neon-blue)] pl-4">
               <span class="block text-[var(--color-neon-blue)]">
                 {f.icon === "wood" && (
-                  <svg width="22" height="22" viewBox="0 0 22 22" fill="none" aria-hidden="true">
-                    <path d="M11 2 L11 20 M11 6 L7 9 M11 6 L15 9 M11 11 L7 14 M11 11 L15 14 M11 16 L8 18 M11 16 L14 18" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" />
+                  /* Tree cross-section — outer trunk + growth rings + pith + radial crack ticks,
+                     plus a small twig with leaf at top-right so it reads "wood" not "target". */
+                  <svg width="32" height="32" viewBox="0 0 32 32" fill="none" aria-hidden="true">
+                    {/* Outer trunk */}
+                    <circle cx="13.5" cy="18" r="11" stroke="currentColor" stroke-width="1.5" fill="none" />
+                    {/* Growth rings */}
+                    <circle cx="13.5" cy="18" r="8" stroke="currentColor" stroke-width="0.9" fill="none" opacity="0.7" />
+                    <circle cx="13.5" cy="18" r="5.5" stroke="currentColor" stroke-width="0.9" fill="none" opacity="0.65" />
+                    <circle cx="13.5" cy="18" r="3" stroke="currentColor" stroke-width="0.9" fill="none" opacity="0.6" />
+                    {/* Pith */}
+                    <circle cx="13.5" cy="18" r="0.9" fill="currentColor" />
+                    {/* Radial cracks */}
+                    <line x1="13.5" y1="13" x2="13.5" y2="8.5" stroke="currentColor" stroke-width="0.9" stroke-linecap="round" opacity="0.75" />
+                    <line x1="8.5" y1="21" x2="5.5" y2="24" stroke="currentColor" stroke-width="0.9" stroke-linecap="round" opacity="0.75" />
+                    {/* Twig coming out top-right */}
+                    <path d="M21.5 10.5 L27.5 4.5" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" fill="none" />
+                    {/* Tiny leaf at twig tip */}
+                    <path d="M27.5 4.5 C 29 2.5, 30.8 2.8, 30.5 4.8 C 29.8 5.8, 28.3 5.5, 27.5 4.5 Z" stroke="currentColor" stroke-width="1.1" stroke-linejoin="round" fill="none" />
                   </svg>
                 )}
                 {f.icon === "steam" && (
-                  <svg width="22" height="22" viewBox="0 0 22 22" fill="none" aria-hidden="true">
-                    <path d="M4 14 Q7 11, 10 14 T 16 14 T 22 14" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" fill="none" />
-                    <path d="M2 10 Q5 7, 8 10 T 14 10 T 20 10" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" fill="none" />
-                    <path d="M4 6 Q7 3, 10 6 T 16 6" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" fill="none" />
+                  /* Banya bucket — rim with side ears, tapered body, horizontal hoop bands,
+                     brick-stagger stave pattern inside, 3 wavy steam wisps rising. */
+                  <svg width="32" height="32" viewBox="0 0 32 32" fill="none" aria-hidden="true">
+                    {/* Steam wisps */}
+                    <path d="M13 9 C 13.6 7.5, 12.4 6, 13 4" stroke="currentColor" stroke-width="1.1" stroke-linecap="round" fill="none" />
+                    <path d="M16 9 C 16.6 7, 15.4 5.5, 16 3" stroke="currentColor" stroke-width="1.1" stroke-linecap="round" fill="none" />
+                    <path d="M19 9 C 19.6 7.5, 18.4 6, 19 4" stroke="currentColor" stroke-width="1.1" stroke-linecap="round" fill="none" />
+                    {/* Side ears + top rim */}
+                    <path d="M5 10.5 L5 13 L27 13 L27 10.5" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round" fill="none" />
+                    {/* Bucket body — tapered with slight bottom curve */}
+                    <path d="M5 13 L8 27 Q 16 28.5, 24 27 L27 13" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round" fill="none" />
+                    {/* Horizontal hoop bands */}
+                    <line x1="6.5" y1="17" x2="25.5" y2="17" stroke="currentColor" stroke-width="1" stroke-linecap="round" />
+                    <line x1="7" y1="21" x2="25" y2="21" stroke="currentColor" stroke-width="1" stroke-linecap="round" />
+                    {/* Brick-stagger stave verticals — row 1 */}
+                    <line x1="11" y1="13" x2="11" y2="17" stroke="currentColor" stroke-width="0.8" opacity="0.8" />
+                    <line x1="16" y1="13" x2="16" y2="17" stroke="currentColor" stroke-width="0.8" opacity="0.8" />
+                    <line x1="21" y1="13" x2="21" y2="17" stroke="currentColor" stroke-width="0.8" opacity="0.8" />
+                    {/* Row 2 — offset */}
+                    <line x1="13.5" y1="17" x2="13.5" y2="21" stroke="currentColor" stroke-width="0.8" opacity="0.8" />
+                    <line x1="18.5" y1="17" x2="18.5" y2="21" stroke="currentColor" stroke-width="0.8" opacity="0.8" />
+                    {/* Row 3 — back to row 1 positions */}
+                    <line x1="11.5" y1="21" x2="11.7" y2="27" stroke="currentColor" stroke-width="0.8" opacity="0.8" />
+                    <line x1="16" y1="21" x2="16" y2="27" stroke="currentColor" stroke-width="0.8" opacity="0.8" />
+                    <line x1="20.5" y1="21" x2="20.3" y2="27" stroke="currentColor" stroke-width="0.8" opacity="0.8" />
                   </svg>
                 )}
                 {f.icon === "shield" && (
-                  <svg width="22" height="22" viewBox="0 0 22 22" fill="none" aria-hidden="true">
-                    <path d="M11 2 L18 5 L18 11 Q18 16, 11 20 Q4 16, 4 11 L4 5 Z" stroke="currentColor" stroke-width="1.3" stroke-linejoin="round" fill="none" />
-                    <path d="M8 10 L10.5 12.5 L14.5 8.5" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round" fill="none" />
+                  /* Classic security shield with check — outlined to match the line style of
+                     the other two icons. Reads "trust mark / hull integrity". */
+                  <svg width="32" height="32" viewBox="0 0 32 32" fill="none" aria-hidden="true">
+                    <path
+                      d="M16 3 L 26 6 L 26 15 Q 26 22, 16 28 Q 6 22, 6 15 L 6 6 Z"
+                      stroke="currentColor"
+                      stroke-width="1.5"
+                      stroke-linejoin="round"
+                      fill="none"
+                    />
+                    <path
+                      d="M11 16 L 14.5 19.5 L 21 12.5"
+                      stroke="currentColor"
+                      stroke-width="1.6"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      fill="none"
+                    />
                   </svg>
                 )}
               </span>
@@ -91,12 +143,9 @@ const copy = lang === "ru"
         <div class="mt-10">
           <a
             href="#spec"
-            class="btn-secondary group inline-flex items-center gap-3 rounded-full px-7 py-3.5 text-[12px] uppercase tracking-[var(--tracking-cap)]"
+            class="btn-secondary inline-flex items-center rounded-full px-7 py-3.5 text-[12px] uppercase tracking-[var(--tracking-cap)]"
           >
-            <span>{copy.ctaLabel}</span>
-            <svg width="12" height="12" viewBox="0 0 12 12" fill="none" class="transition-transform group-hover:translate-x-0.5">
-              <path d="M2 10 L10 2 M10 2 H4 M10 2 V8" stroke="currentColor" stroke-width="1.4" />
-            </svg>
+            {copy.ctaLabel}
           </a>
         </div>
       </div>
