@@ -4,30 +4,106 @@ interface Props {
 }
 const { lang = "ru" } = Astro.props;
 
-// Body copy is authored as HTML so we can highlight brand/product names
-// inline in neon-blue (the "magazine" treatment — same prose, visually rhythmic).
+// Categorised spec strip. Brand/product names wrapped in <em> render in
+// neon-blue via the .options-body style block at the bottom.
 const copy = lang === "ru"
   ? {
       eyebrow: "Дополнительные опции",
       title: "Под вас. От тика до встроенной техники.",
-      body1Html:
-        'Каждое судно собирается под заказ. Мебель из <em>массива дуба</em>, декоративные вставки из <em>композитного алюминия</em>, <em>морской винил</em>, <em>бронзовые</em> акценты.',
-      body2Html:
-        'Опционально: <em>тик</em> в кокпите, на лестнице и в носовой части — натуральный, <em>Flexiteek</em> (Великобритания) или <em>Flexdeck</em> (Россия). Мебель на флайбридже и в кокпите, тент с москитными сетками. Съёмный <em>тандыр</em> в кормовой зоне, садок для живой рыбы с аэратором, <em>аудиосистема 5.1</em>. Второй пост управления на флайбридже, джойстик <em>Mercury JPO</em> для управления двигателями, автопилот <em>Simrad AP44</em>. Стиральная и сушильная машина, телевизоры в каждой каюте. Материалы, которые становятся только красивее со временем. Полный список — по запросу.',
+      lede:
+        "Каждое судно собирается под заказ — из материалов, которые становятся только красивее со временем.",
       ctaLabel: "Обсудить комплектацию",
+      footnote: "Полный список — по запросу",
+      groups: [
+        {
+          heading: "Материалы",
+          items: [
+            "Массив дуба",
+            "Композитный алюминий",
+            "Морской винил",
+            "Бронзовые акценты",
+          ],
+        },
+        {
+          heading: "Палуба",
+          items: [
+            "Тик: кокпит, лестница, нос",
+            "Натуральный или <em>Flexiteek</em> (UK)",
+            "<em>Flexdeck</em> (Россия)",
+          ],
+        },
+        {
+          heading: "Комфорт",
+          items: [
+            "Мебель на флайбридже и в кокпите",
+            "Тент с москитными сетками",
+            "Съёмный тандыр в кормовой зоне",
+            "Садок для рыбы с аэратором",
+            "<em>Аудиосистема 5.1</em>",
+          ],
+        },
+        {
+          heading: "Управление и быт",
+          items: [
+            "Второй пост на флайбридже",
+            "Джойстик <em>Mercury JPO</em>",
+            "Автопилот <em>Simrad AP44</em>",
+            "Стиральная и сушильная машина",
+            "Телевизоры в каждой каюте",
+          ],
+        },
+      ],
     }
   : {
       eyebrow: "Optional Equipment",
       title: "Built around you. From teak to integrated tech.",
-      body1Html:
-        'Each vessel is built to order. <em>Solid-oak</em> furniture, <em>composite aluminum</em> inserts, <em>marine vinyl</em>, <em>bronze</em> accents.',
-      body2Html:
-        'Optional: <em>teak</em> in the cockpit, on the staircase, and at the bow — natural, <em>Flexiteek</em> (UK) or <em>Flexdeck</em> (Russia). Furniture on the flybridge and in the cockpit. Tent with mosquito screens. Removable <em>tandoor</em> at the stern, live-fish well with aerator, <em>5.1 audio system</em>. Secondary helm on the flybridge, <em>Mercury JPO</em> joystick for engine control, <em>Simrad AP44</em> autopilot. Washer + dryer, TVs in every cabin. Materials that only become more beautiful with time. Full list on request.',
+      lede:
+        "Each vessel is built to order — from materials that only become more beautiful with time.",
       ctaLabel: "Discuss the build",
+      footnote: "Full list on request",
+      groups: [
+        {
+          heading: "Materials",
+          items: [
+            "Solid oak",
+            "Composite aluminum",
+            "Marine vinyl",
+            "Bronze accents",
+          ],
+        },
+        {
+          heading: "Decking",
+          items: [
+            "Teak: cockpit, staircase, bow",
+            "Natural or <em>Flexiteek</em> (UK)",
+            "<em>Flexdeck</em> (Russia)",
+          ],
+        },
+        {
+          heading: "Comfort",
+          items: [
+            "Furniture on the flybridge & cockpit",
+            "Tent with mosquito screens",
+            "Removable tandoor at the stern",
+            "Live-fish well with aerator",
+            "<em>5.1 audio system</em>",
+          ],
+        },
+        {
+          heading: "Helm & Living",
+          items: [
+            "Secondary helm on flybridge",
+            "<em>Mercury JPO</em> joystick",
+            "<em>Simrad AP44</em> autopilot",
+            "Washer + dryer",
+            "TVs in every cabin",
+          ],
+        },
+      ],
     };
 
-// Small carousel slides — option categories with placeholder gradient tints
-// matching the photo placeholder pattern used elsewhere.
+// Tall portrait-format carousel slides — same content as before, slightly
+// different framing because the photo column here is taller than wide.
 const slides = lang === "ru"
   ? [
       { name: "Кормовая палуба", note: "Тик · Модульная мебель · Москитные сетки", photo: "options/mosquito-nets.jpg", tint: "linear-gradient(135deg, #2a3640 0%, #131a21 60%, #06090b 100%)" },
@@ -47,40 +123,13 @@ const total = slides.length;
 
 <section id="options" class="bg-[var(--color-paper)] py-16 sm:py-24">
   <div class="mx-auto max-w-[1440px] px-8">
-    <div class="grid grid-cols-12 gap-x-10 gap-y-12">
-      <!-- LEFT: text -->
-      <div class="col-span-12 lg:col-span-5">
-        <p class="eyebrow">{copy.eyebrow}</p>
-        <hr class="rule-ink mt-4" />
-
-        <h2
-          class="display mt-8 text-[36px] leading-[1.05] text-[var(--color-ink)] sm:text-[48px]"
-        >
-          {copy.title}
-        </h2>
-
-        <p class="options-body mt-8 text-[16px] leading-[1.7] text-[var(--color-deep-grey)]" set:html={copy.body1Html}></p>
-        <p class="options-body mt-4 text-[16px] leading-[1.7] text-[var(--color-deep-grey)]" set:html={copy.body2Html}></p>
-
-        <div class="mt-12">
-          <a
-            href="#inquire"
-            class="btn-secondary group inline-flex items-center gap-3 rounded-full px-7 py-3.5 text-[12px] uppercase tracking-[var(--tracking-cap)]"
-          >
-            <span>{copy.ctaLabel}</span>
-            <svg width="12" height="12" viewBox="0 0 12 12" fill="none" class="transition-transform group-hover:translate-x-0.5">
-              <path d="M2 10 L10 2 M10 2 H4 M10 2 V8" stroke="currentColor" stroke-width="1.4" />
-            </svg>
-          </a>
-        </div>
-      </div>
-
-      <!-- RIGHT: small carousel — same aspect-video size as the Overview video card -->
-      <div class="col-span-12 lg:col-span-7">
+    <div class="grid grid-cols-12 gap-x-12 gap-y-12">
+      <!-- LEFT: tall photo carousel -->
+      <div class="col-span-12 lg:col-span-6">
         <div data-options-carousel data-total={total}>
-          <!-- Photo card -->
+          <!-- Photo card — taller-than-wide so the photo carries more visual weight. -->
           <div
-            class="relative aspect-video w-full overflow-hidden rounded-[4px] bg-[var(--color-ink)]"
+            class="relative aspect-[4/5] w-full overflow-hidden rounded-[4px] bg-[var(--color-ink)]"
           >
             {slides.map((s, i) => (
               <div
@@ -134,7 +183,7 @@ const total = slides.length;
             </button>
 
             <!-- Slide caption overlaid bottom-left -->
-            <div class="absolute inset-x-5 bottom-5 sm:inset-x-7 sm:bottom-7">
+            <div class="absolute inset-x-6 bottom-6 sm:inset-x-8 sm:bottom-8">
               <p
                 data-caption-note
                 class="text-[10px] uppercase tracking-[var(--tracking-wide-cap)] text-[color-mix(in_srgb,white_70%,transparent)]"
@@ -143,7 +192,7 @@ const total = slides.length;
               </p>
               <h3
                 data-caption-name
-                class="display mt-2 text-[22px] leading-[1.05] text-[var(--color-paper)] sm:text-[28px]"
+                class="display mt-2 text-[24px] leading-[1.05] text-[var(--color-paper)] sm:text-[32px]"
               >
                 {slides[0].name}
               </h3>
@@ -161,6 +210,51 @@ const total = slides.length;
               ></button>
             ))}
           </div>
+        </div>
+      </div>
+
+      <!-- RIGHT: title + lede + 2×2 category grid + CTA + footnote -->
+      <div class="col-span-12 lg:col-span-6">
+        <p class="eyebrow">{copy.eyebrow}</p>
+        <hr class="rule-ink mt-4" />
+
+        <h2
+          class="display mt-8 text-[36px] leading-[1.05] text-[var(--color-ink)] sm:text-[48px]"
+        >
+          {copy.title}
+        </h2>
+
+        <p class="mt-8 max-w-lg text-[16px] leading-[1.7] text-[var(--color-deep-grey)]">
+          {copy.lede}
+        </p>
+
+        <!-- 2×2 category grid -->
+        <div class="mt-10 grid grid-cols-1 gap-x-8 gap-y-8 sm:grid-cols-2 sm:gap-y-10">
+          {copy.groups.map((g) => (
+            <div>
+              <h4 class="eyebrow">{g.heading}</h4>
+              <hr class="mt-3 border-[var(--color-grey)]" />
+              <ul class="options-body mt-4 space-y-2.5">
+                {g.items.map((item) => (
+                  <li
+                    class="text-[14px] leading-[1.5] text-[var(--color-ink)]"
+                    set:html={item}
+                  ></li>
+                ))}
+              </ul>
+            </div>
+          ))}
+        </div>
+
+        <!-- CTA + footnote stacked underneath -->
+        <div class="mt-20">
+          <a
+            href="#inquire"
+            class="btn-primary inline-flex items-center rounded-full px-7 py-3.5 text-[12px] uppercase tracking-[var(--tracking-cap)]"
+          >
+            {copy.ctaLabel}
+          </a>
+          <p class="mt-4 text-[12px] text-[var(--color-fog)]">{copy.footnote}</p>
         </div>
       </div>
     </div>
@@ -210,15 +304,10 @@ const total = slides.length;
 </script>
 
 <style>
-  /* Brand/product names inside body copy — magazine-style highlight,
-     not italic. Keeps prose intact, lets the eye latch onto signatures. */
+  /* Brand/product names — magazine-style highlight in neon-blue. */
   .options-body :global(em) {
     font-style: normal;
     color: var(--color-neon-blue);
     font-weight: 500;
-  }
-  /* Two-column body2: avoid orphan/widow breaks in the middle of a highlighted span. */
-  .options-body :global(em) {
-    break-inside: avoid;
   }
 </style>
