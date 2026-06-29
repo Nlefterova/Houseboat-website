@@ -11,11 +11,12 @@ const copy = lang === "ru"
       title: "30 лет на Волге.",
       body:
         "Верфь основана в Саратове в 1992 году. За три десятилетия — десятки уникальных судов, спроектированных, построенных и спущенных на воду собственными силами.",
+      vesselsKicker: "Примеры спроектированных и построенных судов",
       vessels: [
-        { name: "Borei 62", type: "Luxury · река-море", photo: "heritage/borei-62.jpg" },
-        { name: "Poseidon 90", type: "Экспедиционный корабль", photo: "heritage/poseidon-90.jpg" },
-        { name: "Calypso 65", type: "Премиум круизер", photo: "heritage/calypso-65.jpg" },
-        { name: "Piligrim 65", type: "Траулер · экспедиция", photo: "heritage/piligrim-65.jpg" },
+        { name: "Borei 62", type: "Корабли класса люкс", photo: "heritage/borei-62.jpg" },
+        { name: "Poseidon 90", type: "Экспедиционные корабли", photo: "heritage/poseidon-90.jpg" },
+        { name: "Calypso 65", type: "Круизеры", photo: "heritage/calypso-65.jpg" },
+        { name: "Piligrim 65", type: "Траулеры", photo: "heritage/piligrim-65.jpg" },
       ],
       // Block 2 — Heritage & Legacy
       legacyEyebrow: "Наследие и история",
@@ -51,11 +52,12 @@ const copy = lang === "ru"
       title: "30 years on the Volga.",
       body:
         "Shipyard founded in Saratov in 1992. Three decades — dozens of unique vessels, designed, built and launched in-house.",
+      vesselsKicker: "Examples of vessels we've designed and built",
       vessels: [
-        { name: "Borei 62", type: "Luxury · river-sea", photo: "heritage/borei-62.jpg" },
-        { name: "Poseidon 90", type: "Expedition vessel", photo: "heritage/poseidon-90.jpg" },
-        { name: "Calypso 65", type: "Premium cruiser", photo: "heritage/calypso-65.jpg" },
-        { name: "Piligrim 65", type: "Trawler · expedition", photo: "heritage/piligrim-65.jpg" },
+        { name: "Borei 62", type: "Luxury-class vessels", photo: "heritage/borei-62.jpg" },
+        { name: "Poseidon 90", type: "Expedition vessels", photo: "heritage/poseidon-90.jpg" },
+        { name: "Calypso 65", type: "Cruisers", photo: "heritage/calypso-65.jpg" },
+        { name: "Piligrim 65", type: "Trawlers", photo: "heritage/piligrim-65.jpg" },
       ],
       legacyEyebrow: "Heritage & Legacy",
       legacyTitle: "From the Siberian Explorer to your project.",
@@ -98,10 +100,13 @@ const copy = lang === "ru"
       <p class="mt-6 max-w-[640px] text-[14px] leading-[1.65] text-[var(--color-deep-grey)] sm:text-[15px]">
         {copy.body}
       </p>
+      <p class="mt-8 text-[11px] uppercase tracking-[var(--tracking-wide-cap)] text-[var(--color-neon-blue)]">
+        {copy.vesselsKicker}
+      </p>
     </div>
 
     <!-- Vessel grid — photo card with caption strip below. -->
-    <div class="mt-10 grid grid-cols-2 gap-3 sm:grid-cols-4 sm:gap-4">
+    <div class="mt-4 grid grid-cols-2 gap-3 sm:grid-cols-4 sm:gap-4">
       {copy.vessels.map((v) => (
         <article class="relative flex flex-col border border-[var(--color-grey)] bg-[var(--color-paper)] p-5 sm:p-6">
           <!-- Blue top accent strip — matches the Locations cards -->
