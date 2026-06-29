@@ -21,10 +21,12 @@ const copy = lang === "ru"
       // Block 2 — Heritage & Legacy
       legacyEyebrow: "Наследие и история",
       legacyTitle: "От «Сибирского Исследователя» к вашему проекту.",
-      legacyBody1:
-        "История проекта началась в суровых водах Енисея. Наш предыдущий проект, «Сибирский исследователь», был создан для РГО.",
+      legacyBody1Html:
+        'История проекта началась в суровых водах Енисея. Наш предыдущий проект, <em>«Сибирский исследователь», был создан для РГО</em>.',
       legacyBody2:
-        "Мы применили тот же бескомпромиссный инженерный подход: корпус из нержавеющей стали для прохождения льдов, автономность на недели вперёд и технологии выживания. Expedition 65 Lux — гражданская версия экспедиционного судна. Роскошь, защищённая бронёй.",
+        "Мы применили тот же бескомпромиссный инженерный подход: корпус из нержавеющей стали для прохождения льдов, автономность на недели вперёд и технологии выживания.",
+      legacyBody3:
+        "Expedition 65 Lux — гражданская версия экспедиционного судна. Роскошь, защищённая бронёй.",
       legacyChips: [
         { label: "Надёжность", value: "Технологии РГО" },
         { label: "Статус", value: "Экспедиционный класс" },
@@ -61,10 +63,12 @@ const copy = lang === "ru"
       ],
       legacyEyebrow: "Heritage & Legacy",
       legacyTitle: "From the Siberian Explorer to your project.",
-      legacyBody1:
-        "The project began in the harsh waters of the Yenisei. Our previous build, Siberian Explorer, was made for the Russian Geographical Society.",
+      legacyBody1Html:
+        'The project began in the harsh waters of the Yenisei. Our previous build, <em>Siberian Explorer, was made for the Russian Geographical Society</em>.',
       legacyBody2:
-        "We applied the same uncompromising engineering: stainless-steel hull for breaking through ice, autonomy for weeks ahead, survival-grade technology. Expedition 65 Lux — the civilian version of an expedition vessel. Luxury protected by armor.",
+        "We applied the same uncompromising engineering: stainless-steel hull for breaking through ice, autonomy for weeks ahead, survival-grade technology.",
+      legacyBody3:
+        "Expedition 65 Lux — the civilian version of an expedition vessel. Luxury protected by armor.",
       legacyChips: [
         { label: "Reliability", value: "RGS-grade build" },
         { label: "Status", value: "Expedition class" },
@@ -198,16 +202,16 @@ const copy = lang === "ru"
           <h3 class="display mt-4 text-[28px] leading-[1.1] text-[var(--color-ink)] sm:text-[34px]">
             {copy.legacyTitle}
           </h3>
-          <p class="mt-5 text-[15px] leading-[1.7] text-[var(--color-deep-grey)]">{copy.legacyBody1}</p>
+          <p class="heritage-body mt-5 text-[15px] leading-[1.7] text-[var(--color-deep-grey)]" set:html={copy.legacyBody1Html}></p>
           <p class="mt-3 text-[15px] leading-[1.7] text-[var(--color-deep-grey)]">{copy.legacyBody2}</p>
+          <p class="mt-6 text-[15px] font-semibold leading-[1.7] text-[var(--color-ink)]">{copy.legacyBody3}</p>
 
-          <div class="mt-6 grid grid-cols-2 gap-px bg-[var(--color-grey)]">
+          <div class="mt-8 grid grid-cols-2 gap-3">
             {copy.legacyChips.map((c) => (
-              <div class="bg-[var(--color-bone)] p-4">
-                <p class="text-[10px] uppercase tracking-[var(--tracking-wide-cap)] text-[var(--color-fog)]">
-                  {c.label}
-                </p>
-                <p class="mt-1 text-[14px] text-[var(--color-ink)]">{c.value}</p>
+              <div class="relative border border-[var(--color-grey)] bg-[var(--color-paper)] px-4 py-3">
+                <span class="absolute inset-x-0 top-0 h-[2px] bg-[var(--color-neon-blue)]"></span>
+                <p class="eyebrow">{c.label}</p>
+                <p class="mt-1.5 text-[13px] font-medium text-[var(--color-ink)] sm:text-[14px]">{c.value}</p>
               </div>
             ))}
           </div>
@@ -313,3 +317,12 @@ const copy = lang === "ru"
     video.addEventListener("ended", showOverlay);
   });
 </script>
+
+<style>
+  /* Highlight phrase in legacy body — neon-blue, medium weight, not italic. */
+  .heritage-body :global(em) {
+    font-style: normal;
+    color: var(--color-neon-blue);
+    font-weight: 500;
+  }
+</style>
