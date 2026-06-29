@@ -233,7 +233,7 @@ const copy = lang === "ru"
                   class="peer sr-only"
                   checked={i === 0}
                 />
-                <span class="inline-flex items-center rounded-full border border-[color-mix(in_srgb,var(--color-paper)_30%,transparent)] px-5 py-2.5 text-[11px] uppercase tracking-[var(--tracking-cap)] text-[var(--color-light-grey)] transition-colors hover:border-[var(--color-paper)] hover:text-[var(--color-paper)] peer-checked:border-[var(--color-paper)] peer-checked:bg-[var(--color-paper)] peer-checked:text-[var(--color-ink)]">
+                <span class="inline-flex items-center rounded-full border border-[color-mix(in_srgb,var(--color-paper)_30%,transparent)] px-5 py-2.5 text-[11px] uppercase tracking-[var(--tracking-cap)] text-[var(--color-light-grey)] transition-colors hover:border-[var(--color-paper)] hover:text-[var(--color-paper)] peer-checked:border-[var(--color-paper)] peer-checked:bg-[var(--color-paper)] peer-checked:text-[var(--color-ink)] peer-checked:hover:bg-[var(--color-neon-blue)] peer-checked:hover:text-[var(--color-paper)]">
                   {m}
                 </span>
               </label>
@@ -241,15 +241,12 @@ const copy = lang === "ru"
           </div>
         </fieldset>
 
-        <div class="mt-10 flex flex-col items-start gap-5 sm:flex-row sm:items-center sm:justify-between">
+        <div class="mt-10 flex flex-col items-start gap-4">
           <button
             type="submit"
-            class="group inline-flex items-center gap-2 rounded-full bg-[var(--color-paper)] px-7 py-3.5 text-[12px] uppercase tracking-[var(--tracking-cap)] text-[var(--color-ink)] transition-colors hover:bg-[var(--color-neon-blue)] hover:text-[var(--color-paper)]"
+            class="inline-flex items-center rounded-full bg-[var(--color-paper)] px-7 py-3.5 text-[12px] uppercase tracking-[var(--tracking-cap)] text-[var(--color-ink)] transition-colors hover:bg-[var(--color-neon-blue)] hover:text-[var(--color-paper)]"
           >
-            <span>{copy.submit}</span>
-            <svg width="12" height="12" viewBox="0 0 12 12" fill="none" class="transition-transform group-hover:translate-x-0.5">
-              <path d="M2 10 L10 2 M10 2 H4 M10 2 V8" stroke="currentColor" stroke-width="1.4" />
-            </svg>
+            {copy.submit}
           </button>
           <p class="max-w-md text-[11px] leading-[1.55] text-[var(--color-fog)]">{copy.legal}</p>
         </div>
