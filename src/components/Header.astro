@@ -91,12 +91,9 @@ const closeLabel = lang === "ru" ? "Закрыть" : "Close";
     <!-- Desktop CTA (≥xl) -->
     <a
       href="#inquire"
-      class="group hidden shrink-0 items-center gap-2 whitespace-nowrap rounded-full border border-[color-mix(in_srgb,white_50%,transparent)] bg-[color-mix(in_srgb,black_40%,transparent)] px-5 py-2.5 text-[10px] font-bold uppercase tracking-[var(--tracking-cap)] text-[var(--color-paper)] backdrop-blur-md transition-colors duration-300 hover:border-[var(--color-neon-blue)] hover:bg-[var(--color-neon-blue)] group-data-[scrolled]/sticky:border-[var(--color-neon-blue)] group-data-[scrolled]/sticky:bg-[var(--color-neon-blue)] group-data-[scrolled]/sticky:text-[var(--color-paper)] group-data-[scrolled]/sticky:backdrop-blur-none xl:inline-flex"
+      class="hidden shrink-0 items-center whitespace-nowrap rounded-full border border-[color-mix(in_srgb,white_50%,transparent)] bg-[color-mix(in_srgb,black_40%,transparent)] px-5 py-2.5 text-[10px] font-bold uppercase tracking-[var(--tracking-cap)] text-[var(--color-paper)] backdrop-blur-md transition-colors duration-300 hover:border-[var(--color-neon-blue)] hover:bg-[var(--color-neon-blue)] group-data-[scrolled]/sticky:border-[var(--color-neon-blue)] group-data-[scrolled]/sticky:bg-[var(--color-neon-blue)] group-data-[scrolled]/sticky:text-[var(--color-paper)] group-data-[scrolled]/sticky:backdrop-blur-none xl:inline-flex"
     >
-      <span>{ctaLabel}</span>
-      <svg width="12" height="12" viewBox="0 0 12 12" fill="none" class="transition-transform group-hover:translate-x-0.5">
-        <path d="M2 10 L10 2 M10 2 H4 M10 2 V8" stroke="currentColor" stroke-width="1.4" />
-      </svg>
+      {ctaLabel}
     </a>
 
     <!-- Mobile hamburger (<xl) -->
