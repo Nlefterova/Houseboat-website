@@ -1,5 +1,4 @@
 ---
-import ResponsiveImage from "./ResponsiveImage.astro";
 interface Props {
   lang?: "ru" | "en";
 }
@@ -52,16 +51,21 @@ const copy = lang === "ru"
 
 <section class="relative isolate min-h-[100svh] w-full overflow-hidden bg-[var(--color-ink)]">
   <!-- Hero photo: Канон/Expedition/EXP_15_Calm Lake Reflection.jpeg
-       TODO: swap to 4K upscaled version once we run the batch through Topaz. -->
+       Intentionally NOT wrapped in <ResponsiveImage>. The hero is the single
+       highest-impact visual on the site — quality > bandwidth. Every device
+       gets the full-resolution original (~1.1 MB) rather than a recompressed
+       AVIF/WebP variant; the perceptible softening at AVIF q80 was not
+       acceptable here. Costs ~800 KB extra on initial load; for one image
+       on a luxury product page that's the right tradeoff. -->
   <div class="absolute inset-0 -z-10">
-    <ResponsiveImage
+    <img
       src="hero/hero.jpg"
       alt={copy.heroAlt}
       width={3200}
       height={1786}
-      sizes="100vw"
       loading="eager"
       fetchpriority="high"
+      decoding="sync"
       class="absolute inset-0 h-full w-full object-cover"
       style="transform: scale(1.5) translateX(15%); transform-origin: center;"
     />

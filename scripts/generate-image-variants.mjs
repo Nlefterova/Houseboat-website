@@ -38,6 +38,18 @@ const FORMATS = [
   { ext: "jpg",  opts: { quality: 82, mozjpeg: true } }, // legacy fallback
 ];
 
+// Per-source quality overrides — file path (relative to public/) → format opts.
+// Use for the hero or any other image where file size matters less than
+// flawless detail. AVIF q80 + WebP q92 + JPG q92 = no visible artifacts on
+// large displays at the cost of larger files (~3-5× the default).
+const QUALITY_OVERRIDES = {
+  "hero/hero.jpg": {
+    avif: { quality: 80, effort: 9, chromaSubsampling: "4:4:4" },
+    webp: { quality: 92, effort: 6, smartSubsample: true },
+    jpg:  { quality: 92, mozjpeg: true, chromaSubsampling: "4:4:4" },
+  },
+};
+
 const stats = { processed: 0, generated: 0, skipped: 0, errors: 0 };
 
 async function walk(dir) {
@@ -70,12 +82,18 @@ async function processOne(srcPath) {
   }
   const naturalW = meta.width ?? 0;
 
+  // Look up per-file quality override (e.g. the hero).
+  const relSrc = relative(PUBLIC_DIR, srcPath).split("\\").join("/");
+  const override = QUALITY_OVERRIDES[relSrc];
+
   for (const w of WIDTHS) {
     if (w > naturalW) continue; // no upscale
     for (const f of FORMATS) {
       const outPath = join(dir, `${stem}-${w}.${f.ext}`);
-      // Skip if up-to-date.
-      if (existsSync(outPath)) {
+      const opts = override?.[f.ext] ?? f.opts;
+      // Skip if up-to-date — but force regen for overridden files so quality
+      // bumps take effect on the next run.
+      if (existsSync(outPath) && !override) {
         const outStat = await stat(outPath);
         if (outStat.mtimeMs >= srcStat.mtimeMs) {
           stats.skipped++;
@@ -84,9 +102,9 @@ async function processOne(srcPath) {
       }
       try {
         const pipe = sharp(srcPath).resize({ width: w, withoutEnlargement: true });
-        if (f.ext === "avif") await pipe.avif(f.opts).toFile(outPath);
-        else if (f.ext === "webp") await pipe.webp(f.opts).toFile(outPath);
-        else await pipe.jpeg(f.opts).toFile(outPath);
+        if (f.ext === "avif") await pipe.avif(opts).toFile(outPath);
+        else if (f.ext === "webp") await pipe.webp(opts).toFile(outPath);
+        else await pipe.jpeg(opts).toFile(outPath);
         stats.generated++;
       } catch (e) {
         console.error(`✗ ${relative(ROOT, outPath)}: ${e.message}`);
