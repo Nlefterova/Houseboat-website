@@ -7,12 +7,14 @@ interface Props {
   title?: string;
   description?: string;
   lang?: "ru" | "en";
+  solidHeader?: boolean;
 }
 
 const {
   title = "Expedition 65 Lux — Право на свободу маршрута · KARTEL",
   description = "Автономное судно Expedition 65 Lux для покорения северных широт. Корпус из нержавеющей стали, тик, дуб и технологии выживания.",
   lang = "ru",
+  solidHeader = false,
 } = Astro.props;
 ---
 
@@ -36,7 +38,7 @@ const {
     <title>{title}</title>
   </head>
   <body>
-    <Header lang={lang} />
+    <Header lang={lang} solid={solidHeader} />
     <main><slot /></main>
     <CookieBanner lang={lang} />
   </body>
