@@ -162,49 +162,59 @@ const copy = lang === "ru"
       <!-- RIGHT: form -->
       <form class="col-span-12 lg:col-span-7" autocomplete="on" novalidate>
         <div class="grid grid-cols-1 gap-x-8 gap-y-7 sm:grid-cols-2">
-          <label class="block">
+          <label class="block" for="inquire-name">
             <span class="text-[10px] uppercase tracking-[var(--tracking-wide-cap)] text-[var(--color-grey)]">
               {copy.labels.name} *
             </span>
             <input
+              id="inquire-name"
               type="text"
               name="name"
               required
+              autocomplete="name"
               placeholder={copy.placeholders.name}
               class="mt-2 w-full border-0 border-b border-[color-mix(in_srgb,var(--color-paper)_30%,transparent)] bg-transparent pb-2.5 text-[16px] text-[var(--color-paper)] placeholder:text-[var(--color-fog)] focus:border-[var(--color-paper)] focus:outline-none"
             />
           </label>
-          <label class="block">
+          <label class="block" for="inquire-phone">
             <span class="text-[10px] uppercase tracking-[var(--tracking-wide-cap)] text-[var(--color-grey)]">
               {copy.labels.phone} *
             </span>
             <input
+              id="inquire-phone"
               type="tel"
               name="phone"
               required
+              autocomplete="tel"
+              inputmode="tel"
               placeholder={copy.placeholders.phone}
               class="mt-2 w-full border-0 border-b border-[color-mix(in_srgb,var(--color-paper)_30%,transparent)] bg-transparent pb-2.5 text-[16px] text-[var(--color-paper)] placeholder:text-[var(--color-fog)] focus:border-[var(--color-paper)] focus:outline-none"
             />
           </label>
-          <label class="block">
+          <label class="block" for="inquire-email">
             <span class="text-[10px] uppercase tracking-[var(--tracking-wide-cap)] text-[var(--color-grey)]">
               {copy.labels.email} *
             </span>
             <input
+              id="inquire-email"
               type="email"
               name="email"
               required
+              autocomplete="email"
+              inputmode="email"
               placeholder={copy.placeholders.email}
               class="mt-2 w-full border-0 border-b border-[color-mix(in_srgb,var(--color-paper)_30%,transparent)] bg-transparent pb-2.5 text-[16px] text-[var(--color-paper)] placeholder:text-[var(--color-fog)] focus:border-[var(--color-paper)] focus:outline-none"
             />
           </label>
-          <label class="block">
+          <label class="block" for="inquire-city">
             <span class="text-[10px] uppercase tracking-[var(--tracking-wide-cap)] text-[var(--color-grey)]">
               {copy.labels.city} *
             </span>
             <select
+              id="inquire-city"
               name="city"
               required
+              autocomplete="address-level2"
               class="mt-2 w-full appearance-none border-0 border-b border-[color-mix(in_srgb,var(--color-paper)_30%,transparent)] bg-transparent pb-2.5 pr-6 text-[16px] text-[var(--color-paper)] focus:border-[var(--color-paper)] focus:outline-none"
               style="background-image: url('data:image/svg+xml;utf8,<svg xmlns=%22http://www.w3.org/2000/svg%22 width=%2210%22 height=%226%22 viewBox=%220 0 10 6%22 fill=%22none%22><path d=%22M1 1 L5 5 L9 1%22 stroke=%22%23ffffff%22 stroke-width=%221%22/></svg>'); background-repeat: no-repeat; background-position: right 0 bottom 12px;"
             >
