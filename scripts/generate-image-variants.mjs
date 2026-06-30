@@ -58,8 +58,10 @@ async function walk(dir) {
   for (const e of entries) {
     const full = join(dir, e.name);
     if (e.isDirectory()) out.push(...(await walk(full)));
-    else if (/\.(jpe?g|png)$/i.test(e.name) && !/-(\d+)\.(jpg|webp|avif)$/.test(e.name)) {
-      // Skip the variants themselves on reruns (they match the size-suffix pattern).
+    else if (/\.(jpe?g|png)$/i.test(e.name) && !new RegExp(`-(${WIDTHS.join("|")})\\.(jpg|webp|avif)$`).test(e.name)) {
+      // Skip the variants themselves on reruns. Match ONLY our exact width
+      // suffixes (480/800/1200/2400) so sources like `borei-62.jpg` and
+      // `poseidon-90.jpg` aren't mistaken for variants.
       out.push(full);
     }
   }

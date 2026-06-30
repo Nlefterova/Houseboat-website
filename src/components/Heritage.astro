@@ -93,7 +93,7 @@ const copy = lang === "ru"
     };
 ---
 
-<section id="heritage" class="border-t border-[var(--color-grey)] bg-[var(--color-paper)] py-16 sm:py-24">
+<section id="heritage" class="border-t border-[var(--color-grey)] bg-[var(--color-paper)] py-16 sm:pt-[120px] sm:pb-[120px]">
   <div class="mx-auto max-w-[1440px] px-8">
     <!-- BLOCK 1 — Корабельная Артель intro + vessels -->
     <div>
@@ -155,7 +155,7 @@ const copy = lang === "ru"
     </div>
 
     <!-- BLOCK 2 — Heritage & Legacy: video + story -->
-    <div class="mt-20 border-t border-[var(--color-grey)] pt-16">
+    <div class="mt-[120px]">
       <div class="grid grid-cols-12 gap-x-4 sm:gap-x-10 gap-y-8">
         <div class="col-span-12 lg:col-span-7">
           <div
@@ -203,7 +203,8 @@ const copy = lang === "ru"
 
         <div class="col-span-12 lg:col-span-5">
           <p class="eyebrow">{copy.legacyEyebrow}</p>
-          <h3 class="display mt-4 text-[28px] leading-[1.1] text-[var(--color-ink)] sm:text-[34px]">
+          <hr class="rule-ink mt-4" />
+          <h3 class="display mt-6 text-[28px] leading-[1.1] text-[var(--color-ink)] sm:text-[34px]">
             {copy.legacyTitle}
           </h3>
           <p class="heritage-body mt-5 text-[15px] leading-[1.7] text-[var(--color-deep-grey)]" set:html={copy.legacyBody1Html}></p>
@@ -224,7 +225,7 @@ const copy = lang === "ru"
     </div>
 
     <!-- BLOCK 3 — Strategic Partnership (RGO) -->
-    <div class="mt-20 border-t border-[var(--color-grey)] pt-16">
+    <div class="mt-[120px]">
       <!-- Eyebrow with compass icon -->
       <p class="eyebrow">{copy.partnerEyebrow}</p>
       <hr class="rule-ink mt-4" />
