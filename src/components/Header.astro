@@ -43,8 +43,9 @@ const closeLabel = lang === "ru" ? "Закрыть" : "Close";
 >
   <div class="mx-auto flex max-w-[1440px] items-center justify-between px-4 pt-3 pb-6 transition-[padding] duration-300 group-data-[scrolled]/sticky:pb-3 md:px-6">
     <a
-      href={lang === "en" ? "/en/" : "/"}
-      class="flex items-center gap-2 text-[var(--color-paper)] transition-colors duration-300 group-data-[scrolled]/sticky:text-[var(--color-ink)] md:gap-3"
+      href={lang === "en" ? "en/" : "./"}
+      data-logo-link
+      class="group/logo flex items-center gap-2 text-[var(--color-paper)] transition-colors duration-300 hover:text-[var(--color-neon-blue)] group-data-[scrolled]/sticky:text-[var(--color-ink)] group-data-[scrolled]/sticky:hover:text-[var(--color-neon-blue)] md:gap-3"
       aria-label="KARTEL Boats — Expedition 65 Lux"
     >
       <svg
@@ -61,21 +62,26 @@ const closeLabel = lang === "ru" ? "Закрыть" : "Close";
         <path d="M186.998 197.295L180.261 228.998H173.92L180.657 197.295H186.998ZM189.97 213.147L214.738 197.295H225.042L200.274 213.147L218.305 228.998H208.001L189.97 213.147Z" />
       </svg>
       <span class="hidden flex-col leading-tight sm:flex">
-        <span class="text-[10px] font-light uppercase tracking-[var(--tracking-wide-cap)] text-[color-mix(in_srgb,white_55%,transparent)] transition-colors duration-300 group-data-[scrolled]/sticky:text-[var(--color-fog)] md:text-[11px]">
+        <span class="text-[10px] font-light uppercase tracking-[var(--tracking-wide-cap)] text-[color-mix(in_srgb,white_55%,transparent)] transition-colors duration-300 group-hover/logo:text-[var(--color-neon-blue)] group-data-[scrolled]/sticky:text-[var(--color-fog)] md:text-[11px]">
           Expedition
         </span>
-        <span class="text-[15px] font-bold uppercase tracking-tight text-[var(--color-paper)] transition-colors duration-300 group-data-[scrolled]/sticky:text-[var(--color-ink)] md:text-[17px]">
+        <span class="text-[15px] font-bold uppercase tracking-tight text-[var(--color-paper)] transition-colors duration-300 group-hover/logo:text-[var(--color-neon-blue)] group-data-[scrolled]/sticky:text-[var(--color-ink)] md:text-[17px]">
           65&nbsp;Lux
         </span>
       </span>
     </a>
 
-    <!-- Desktop nav (≥xl) -->
+    <!-- Desktop nav (≥xl).
+         Two visual channels:
+           – hover  → text turns neon-blue (color flip)
+           – active → tiny neon-blue bar appears below the label (position cue)
+         Independent on purpose so the active item can also be hovered and you
+         can still tell which is which. -->
     <nav class="hidden items-center gap-5 xl:flex 2xl:gap-8">
       {nav.map((item) => (
         <a
           href={item.href}
-          class="text-[10px] font-bold tracking-[var(--tracking-cap)] uppercase text-[color-mix(in_srgb,white_75%,transparent)] transition-colors duration-300 hover:text-[var(--color-neon-blue)] group-data-[scrolled]/sticky:text-[var(--color-deep-grey)] group-data-[scrolled]/sticky:hover:text-[var(--color-neon-blue)]"
+          class="relative text-[10px] font-bold tracking-[var(--tracking-cap)] uppercase text-[color-mix(in_srgb,white_75%,transparent)] transition-colors duration-300 hover:text-[var(--color-neon-blue)] group-data-[scrolled]/sticky:text-[var(--color-deep-grey)] group-data-[scrolled]/sticky:hover:text-[var(--color-neon-blue)] after:absolute after:left-1/2 after:-bottom-2 after:h-[2px] after:w-3 after:-translate-x-1/2 after:rounded-full after:bg-[var(--color-neon-blue)] after:opacity-0 after:transition-opacity after:duration-300 after:content-[''] aria-[current=page]:after:opacity-100"
         >
           {item.label}
         </a>
@@ -177,6 +183,56 @@ const closeLabel = lang === "ru" ? "Закрыть" : "Close";
   window.addEventListener("scroll", updateScrollState, { passive: true });
   window.addEventListener("resize", updateScrollState, { passive: true });
   updateScrollState();
+
+  // === Logo: smooth-scroll to top when already on home ===
+  // Normal anchor navigation otherwise (e.g. clicking from /privacy/).
+  const logoLink = document.querySelector<HTMLAnchorElement>("[data-logo-link]");
+  logoLink?.addEventListener("click", (e) => {
+    const baseEl = document.querySelector("base");
+    const baseHref = baseEl?.getAttribute("href") || "/";
+    const basePath = new URL(baseHref, location.href).pathname;
+    const norm = (p: string) => p.replace(/\/+$/, "") || "/";
+    if (norm(location.pathname) === norm(basePath)) {
+      e.preventDefault();
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    }
+  });
+
+  // === Scroll-spy: stamp aria-current="page" on the nav item whose
+  // section is crossing the viewport's upper third. Narrow rootMargin
+  // window means at most one section is "current" at a time. ===
+  const navAnchors = Array.from(
+    document.querySelectorAll<HTMLAnchorElement>('header nav a[href^="#"]')
+  );
+  const sectionToAnchors = new Map<string, HTMLAnchorElement[]>();
+  navAnchors.forEach((a) => {
+    const id = a.getAttribute("href")?.slice(1);
+    if (!id) return;
+    if (!sectionToAnchors.has(id)) sectionToAnchors.set(id, []);
+    sectionToAnchors.get(id)!.push(a);
+  });
+  const trackedSections = Array.from(sectionToAnchors.keys())
+    .map((id) => document.getElementById(id))
+    .filter((el): el is HTMLElement => el !== null);
+
+  if (trackedSections.length > 0) {
+    const spy = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (!entry.isIntersecting) return;
+          const id = entry.target.id;
+          sectionToAnchors.forEach((anchors, key) => {
+            anchors.forEach((a) => {
+              if (key === id) a.setAttribute("aria-current", "page");
+              else a.removeAttribute("aria-current");
+            });
+          });
+        });
+      },
+      { rootMargin: "-30% 0px -65% 0px", threshold: 0 }
+    );
+    trackedSections.forEach((s) => spy.observe(s));
+  }
 
   // Mobile drawer
   const menu = document.querySelector<HTMLElement>("[data-mobile-menu]");
