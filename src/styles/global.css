@@ -63,10 +63,14 @@ body {
    Tertiary  — text links (map link, inline references).
                Grey text → blue on hover.
    ======================================================================== */
-/* Suppress all default focus rings on buttons and links. */
-button:focus,
-a:focus {
-  outline: none;
+/* Always-on focus ring on every focusable element — guarantees keyboard users
+   see where they are regardless of browser :focus-visible heuristics. WCAG 2.4.7.
+   Cost: brief ring also appears on mouse click. !important to beat Tailwind 4
+   preflight + utility-class overrides like `focus:outline-none`. */
+*:focus {
+  outline: 3px solid var(--color-neon-blue) !important;
+  outline-offset: 2px !important;
+  border-radius: 2px;
 }
 
 .btn-primary {
