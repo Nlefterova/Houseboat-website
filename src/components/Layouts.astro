@@ -38,6 +38,17 @@ const decks = lang === "ru"
 
 // Default active = Main deck (matches Bering Levanna 70 default)
 const activeIndex = 1;
+
+// Natural pixel dims per deck key — width/height aspect-ratio hints. All 4
+// deck SVGs share the same 1451x491 viewBox; plan JPGs vary.
+const PLAN_DIMS: Record<string, [number, number]> = {
+  upper:   [2400, 820],
+  main:    [2400, 766],
+  lower:   [2400, 766],
+  profile: [2400, 1083],
+};
+const DECK_W = 1451;
+const DECK_H = 491;
 ---
 
 <section id="layouts" class="bg-[var(--color-paper)] py-16 sm:py-24">
@@ -133,6 +144,8 @@ const activeIndex = 1;
             <img
               src={d.plan}
               alt={d.caption}
+              width={PLAN_DIMS[d.key]?.[0] ?? 2400}
+              height={PLAN_DIMS[d.key]?.[1] ?? 820}
               loading={i === activeIndex ? "eager" : "lazy"}
               class={`h-full w-full object-contain ${d.key === "profile" ? "scale-[1.15] translate-y-[20px]" : ""}`}
             />
@@ -148,6 +161,8 @@ const activeIndex = 1;
             data-guide-index={i}
             src={d.src}
             alt=""
+            width={DECK_W}
+            height={DECK_H}
             loading={i === activeIndex ? "eager" : "lazy"}
             aria-hidden="true"
             class={`absolute inset-0 h-full w-full object-contain transition-opacity duration-300 ${

@@ -55,6 +55,26 @@ const rooms = lang === "ru"
     ];
 
 const total = rooms.length;
+
+// Natural pixel dimensions per source file — used as the width/height
+// aspect-ratio hint on each <img>. The carousel wraps each photo in an
+// aspect-[16/9] container with object-cover, so these are purely for CLS
+// auditors / browser layout hints; the visible AR is enforced by the parent.
+const DIMS: Record<string, [number, number]> = {
+  "interior/salon.jpg":               [2400, 1792],
+  "interior/open-terrace.jpg":        [2400, 1339],
+  "interior/galley.jpg":              [2400, 1338],
+  "interior/lounge.jpg":              [2400, 1792],
+  "interior/master.jpg":              [2400, 1792],
+  "interior/guest.jpg":               [2400, 1792],
+  "interior/bunks-1.jpg":             [2400, 1792],
+  "interior/bunks-2.jpg":             [2400, 1792],
+  "interior/bathroom-sink-wide.jpg":  [2400, 1339],
+  "interior/bathroom-shower-wide.jpg":[2400, 1339],
+  "interior/pred-banya.jpg":          [2400, 1339],
+  "interior/sauna.jpg":               [2400, 1792],
+  "interior/wheelhouse.jpg":          [2400, 1339],
+};
 ---
 
 <section id="interior" class="bg-[color-mix(in_srgb,var(--color-light-grey)_50%,white)] py-16 sm:py-24">
@@ -101,6 +121,8 @@ const total = rooms.length;
               <img
                 src={r.src}
                 alt={r.name}
+                width={DIMS[r.src]?.[0] ?? 2400}
+                height={DIMS[r.src]?.[1] ?? 1350}
                 class="absolute inset-0 h-full w-full object-cover"
                 loading={i === 0 ? "eager" : "lazy"}
               />

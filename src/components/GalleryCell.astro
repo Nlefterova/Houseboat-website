@@ -6,6 +6,10 @@ interface Props {
   expandLabel: string;
   objectPosition?: string;
   extraClasses?: string;
+  /** Natural pixel dimensions — used for the width/height aspect-ratio hint
+   *  to prevent layout shift. Defaults match the current Exterior set. */
+  w?: number;
+  h?: number;
 }
 const {
   src,
@@ -14,6 +18,8 @@ const {
   expandLabel,
   objectPosition = "center",
   extraClasses = "",
+  w = 2400,
+  h = 1339,
 } = Astro.props;
 ---
 
@@ -29,6 +35,8 @@ const {
   <img
     src={src}
     alt={label}
+    width={w}
+    height={h}
     class="absolute inset-0 h-full w-full object-cover transition-transform duration-700 group-hover:scale-[1.03]"
     style={`object-position: ${objectPosition};`}
     loading={index === 0 ? "eager" : "lazy"}
