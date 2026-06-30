@@ -1,0 +1,296 @@
+---
+interface Props {
+  lang?: "ru" | "en";
+}
+const { lang = "ru" } = Astro.props;
+
+const copy = lang === "ru"
+  ? {
+      eyebrow: "Связаться с KARTEL",
+      title: "Свяжитесь с верфью",
+      lede: "Быстро. По делу. Без спама.",
+      closeLabel: "Закрыть",
+      labels: {
+        name: "Имя",
+        phone: "Телефон",
+        email: "Email",
+        city: "Город",
+        method: "Способ связи",
+      },
+      placeholders: {
+        name: "Ваше имя",
+        phone: "+7",
+        email: "name@example.com",
+        cityDefault: "Выберите город",
+      },
+      cities: [
+        "Москва",
+        "Санкт-Петербург",
+        "Саратов",
+        "Казань",
+        "Нижний Новгород",
+        "Екатеринбург",
+        "Новосибирск",
+        "Краснодар",
+        "Сочи",
+        "Владивосток",
+        "Другой город",
+      ],
+      methods: ["Звонок", "WhatsApp", "Telegram", "Email"],
+      submit: "Отправить запрос",
+      legal: "Нажимая кнопку, вы соглашаетесь на обратную связь от KARTEL Boats.",
+    }
+  : {
+      eyebrow: "Contact KARTEL",
+      title: "Contact the shipyard",
+      lede: "Direct. To the point. No spam.",
+      closeLabel: "Close",
+      labels: {
+        name: "Name",
+        phone: "Phone",
+        email: "Email",
+        city: "City",
+        method: "Preferred contact",
+      },
+      placeholders: {
+        name: "Your name",
+        phone: "+1",
+        email: "name@example.com",
+        cityDefault: "Select city",
+      },
+      cities: [
+        "Moscow",
+        "Saint Petersburg",
+        "Saratov",
+        "Kazan",
+        "Nizhny Novgorod",
+        "Yekaterinburg",
+        "Novosibirsk",
+        "Krasnodar",
+        "Sochi",
+        "Vladivostok",
+        "Other",
+      ],
+      methods: ["Call", "WhatsApp", "Telegram", "Email"],
+      submit: "Send Request",
+      legal: "By submitting, you agree to be contacted by KARTEL Boats.",
+    };
+---
+
+<!-- Native <dialog> contact modal. Triggered by any element with
+     data-open-contact-modal (currently the header CTA + mobile-drawer CTA).
+     IDs are prefixed `modal-` so labels don't collide with the bottom
+     Inquire form, which renders the same field set inline. -->
+<dialog
+  data-contact-modal
+  aria-labelledby="contact-modal-title"
+  class="m-auto w-[calc(100%-2rem)] max-w-[560px] rounded-[10px] bg-transparent p-0 backdrop:bg-[color-mix(in_srgb,black_70%,transparent)] backdrop:backdrop-blur-sm open:animate-[modalIn_180ms_ease-out]"
+>
+  <div class="relative max-h-[88vh] overflow-y-auto rounded-[10px] bg-[var(--color-paper)] text-[var(--color-ink)] shadow-[0_30px_80px_-10px_rgba(0,0,0,0.45)]">
+    <!-- Close (X) -->
+    <button
+      type="button"
+      data-close-contact-modal
+      aria-label={copy.closeLabel}
+      class="absolute right-3 top-3 z-10 flex h-10 w-10 items-center justify-center text-[var(--color-deep-grey)] transition-colors hover:text-[var(--color-neon-blue)]"
+    >
+      <svg width="18" height="18" viewBox="0 0 18 18" fill="none" aria-hidden="true">
+        <path d="M3 3 L15 15 M15 3 L3 15" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" />
+      </svg>
+    </button>
+
+    <div class="px-6 pt-9 pb-7 sm:px-8 sm:pt-10 sm:pb-8">
+      <!-- Header -->
+      <p class="text-[11px] uppercase tracking-[var(--tracking-wide-cap)] text-[var(--color-deep-grey)]">
+        {copy.eyebrow}
+      </p>
+      <hr class="mt-3 h-px w-10 border-0 bg-[var(--color-ink)]" />
+      <h2
+        id="contact-modal-title"
+        class="display mt-5 text-[22px] leading-[1.15] text-[var(--color-ink)] sm:text-[26px]"
+      >
+        {copy.title}
+      </h2>
+      <p class="mt-3 text-[14px] leading-[1.55] text-[var(--color-deep-grey)]">{copy.lede}</p>
+
+      <!-- Form -->
+      <form data-contact-modal-form class="mt-7" autocomplete="on" novalidate>
+        <div class="grid grid-cols-1 gap-x-6 gap-y-5 sm:grid-cols-2">
+          <label class="block" for="modal-name">
+            <span class="text-[11px] uppercase tracking-[var(--tracking-wide-cap)] text-[var(--color-deep-grey)]">
+              {copy.labels.name} *
+            </span>
+            <input
+              id="modal-name"
+              type="text"
+              name="name"
+              required
+              autocomplete="name"
+              placeholder={copy.placeholders.name}
+              class="mt-2 w-full border-0 border-b border-[var(--color-fog)] bg-transparent pb-2 text-[15px] text-[var(--color-ink)] placeholder:text-[var(--color-fog)] focus:border-[var(--color-neon-blue)] focus:outline-none"
+            />
+          </label>
+          <label class="block" for="modal-phone">
+            <span class="text-[11px] uppercase tracking-[var(--tracking-wide-cap)] text-[var(--color-deep-grey)]">
+              {copy.labels.phone} *
+            </span>
+            <input
+              id="modal-phone"
+              type="tel"
+              name="phone"
+              required
+              autocomplete="tel"
+              inputmode="tel"
+              placeholder={copy.placeholders.phone}
+              class="mt-2 w-full border-0 border-b border-[var(--color-fog)] bg-transparent pb-2 text-[15px] text-[var(--color-ink)] placeholder:text-[var(--color-fog)] focus:border-[var(--color-neon-blue)] focus:outline-none"
+            />
+          </label>
+          <label class="block" for="modal-email">
+            <span class="text-[11px] uppercase tracking-[var(--tracking-wide-cap)] text-[var(--color-deep-grey)]">
+              {copy.labels.email} *
+            </span>
+            <input
+              id="modal-email"
+              type="email"
+              name="email"
+              required
+              autocomplete="email"
+              inputmode="email"
+              placeholder={copy.placeholders.email}
+              class="mt-2 w-full border-0 border-b border-[var(--color-fog)] bg-transparent pb-2 text-[15px] text-[var(--color-ink)] placeholder:text-[var(--color-fog)] focus:border-[var(--color-neon-blue)] focus:outline-none"
+            />
+          </label>
+          <label class="block" for="modal-city">
+            <span class="text-[11px] uppercase tracking-[var(--tracking-wide-cap)] text-[var(--color-deep-grey)]">
+              {copy.labels.city} *
+            </span>
+            <select
+              id="modal-city"
+              name="city"
+              required
+              autocomplete="address-level2"
+              class="mt-2 w-full appearance-none border-0 border-b border-[var(--color-fog)] bg-transparent pb-2 pr-6 text-[15px] text-[var(--color-ink)] focus:border-[var(--color-neon-blue)] focus:outline-none"
+              style="background-image: url('data:image/svg+xml;utf8,<svg xmlns=%22http://www.w3.org/2000/svg%22 width=%2210%22 height=%226%22 viewBox=%220 0 10 6%22 fill=%22none%22><path d=%22M1 1 L5 5 L9 1%22 stroke=%22%23232323%22 stroke-width=%221%22/></svg>'); background-repeat: no-repeat; background-position: right 0 bottom 10px;"
+            >
+              <option value="">{copy.placeholders.cityDefault}</option>
+              {copy.cities.map((c) => (
+                <option value={c}>{c}</option>
+              ))}
+            </select>
+          </label>
+        </div>
+
+        <fieldset class="mt-7">
+          <legend class="text-[11px] uppercase tracking-[var(--tracking-wide-cap)] text-[var(--color-deep-grey)]">
+            {copy.labels.method} *
+          </legend>
+          <div class="mt-3 flex flex-wrap gap-2">
+            {copy.methods.map((m, i) => (
+              <label class="cursor-pointer">
+                <input
+                  type="radio"
+                  name="contact_method"
+                  value={m}
+                  required={i === 0}
+                  class="peer sr-only"
+                  checked={i === 0}
+                />
+                <span class="inline-flex items-center rounded-full border border-[var(--color-fog)] px-4 py-2 text-[11px] uppercase tracking-[var(--tracking-cap)] text-[var(--color-deep-grey)] transition-colors hover:border-[var(--color-ink)] hover:text-[var(--color-ink)] peer-checked:border-[var(--color-ink)] peer-checked:bg-[var(--color-ink)] peer-checked:text-[var(--color-paper)] peer-checked:hover:border-[var(--color-neon-blue)] peer-checked:hover:bg-[var(--color-neon-blue)] peer-checked:hover:text-[var(--color-paper)]">
+                  {m}
+                </span>
+              </label>
+            ))}
+          </div>
+        </fieldset>
+
+        <div class="mt-7 flex flex-col items-start gap-3">
+          <button
+            type="submit"
+            class="inline-flex items-center rounded-full bg-[var(--color-neon-blue)] px-6 py-3 text-[12px] font-semibold uppercase tracking-[var(--tracking-cap)] text-[var(--color-paper)] transition-colors hover:bg-[color-mix(in_srgb,var(--color-neon-blue)_85%,white)]"
+          >
+            {copy.submit}
+          </button>
+          <p class="text-[11px] leading-[1.55] text-[var(--color-fog)]">{copy.legal}</p>
+        </div>
+
+        <!-- Thank-you state (shown after submit until backend is wired). -->
+        <div data-contact-modal-thanks hidden class="mt-6 rounded-md border border-[var(--color-grey)] bg-[color-mix(in_srgb,var(--color-neon-blue)_8%,transparent)] px-4 py-3 text-[13px] text-[var(--color-ink)]">
+          {lang === "ru"
+            ? "Спасибо. Мы свяжемся с вами в ближайшее время."
+            : "Thank you. We will be in touch shortly."}
+        </div>
+      </form>
+    </div>
+  </div>
+</dialog>
+
+<style>
+  @keyframes modalIn {
+    from { opacity: 0; transform: translateY(8px) scale(0.98); }
+    to   { opacity: 1; transform: translateY(0)   scale(1);    }
+  }
+  /* Lock body scroll while the dialog is open (belt-and-suspenders;
+     native <dialog> usually handles this but Safari has been spotty). */
+  body:has(dialog[data-contact-modal][open]) {
+    overflow: hidden;
+  }
+</style>
+
+<script>
+  const modal = document.querySelector<HTMLDialogElement>("[data-contact-modal]");
+  const triggers = document.querySelectorAll<HTMLElement>("[data-open-contact-modal]");
+  const closers = document.querySelectorAll<HTMLElement>("[data-close-contact-modal]");
+  const form = document.querySelector<HTMLFormElement>("[data-contact-modal-form]");
+  const thanks = document.querySelector<HTMLElement>("[data-contact-modal-thanks]");
+
+  function openModal(e?: Event) {
+    if (!modal) return;
+    e?.preventDefault();
+    // If the mobile drawer is open, close it first so the modal is the
+    // only thing on top.
+    const drawer = document.querySelector<HTMLElement>("[data-mobile-menu]");
+    if (drawer?.hasAttribute("data-open")) {
+      drawer.removeAttribute("data-open");
+      drawer.setAttribute("aria-hidden", "true");
+      const opener = document.querySelector<HTMLButtonElement>("[data-mobile-menu-open]");
+      opener?.setAttribute("aria-expanded", "false");
+      document.body.style.overflow = "";
+    }
+    modal.showModal();
+  }
+
+  function closeModal() {
+    if (!modal) return;
+    modal.close();
+  }
+
+  triggers.forEach((t) => t.addEventListener("click", openModal));
+  closers.forEach((c) => c.addEventListener("click", closeModal));
+
+  // Click-on-backdrop closes (native <dialog> doesn't do this by default
+  // unless method="dialog" is used on a form. We're intercepting submit.)
+  modal?.addEventListener("click", (e) => {
+    if (e.target === modal) closeModal();
+  });
+
+  // Submit handler — no backend yet, so prevent default and show the
+  // thank-you state. Vitaly will wire the actual POST.
+  form?.addEventListener("submit", (e) => {
+    e.preventDefault();
+    if (thanks) thanks.hidden = false;
+    form.querySelector<HTMLButtonElement>("button[type=submit]")?.setAttribute("disabled", "");
+    // Auto-dismiss after a beat so the user sees confirmation, then can
+    // return to the page.
+    setTimeout(() => closeModal(), 2200);
+  });
+
+  // Reset form state every time the dialog opens, so a user who returns
+  // doesn't see stale "thank you" UI.
+  modal?.addEventListener("close", () => {
+    setTimeout(() => {
+      form?.reset();
+      if (thanks) thanks.hidden = true;
+      form?.querySelector<HTMLButtonElement>("button[type=submit]")?.removeAttribute("disabled");
+    }, 200);
+  });
+</script>

@@ -88,9 +88,11 @@ const closeLabel = lang === "ru" ? "Закрыть" : "Close";
       ))}
     </nav>
 
-    <!-- Desktop CTA (≥xl) -->
+    <!-- Desktop CTA (≥xl). Opens the modal; keeps href="#inquire" as a
+         no-JS fallback that still surfaces the bottom Inquire form. -->
     <a
       href="#inquire"
+      data-open-contact-modal
       class="hidden shrink-0 items-center whitespace-nowrap rounded-full border border-[color-mix(in_srgb,white_50%,transparent)] bg-[color-mix(in_srgb,black_40%,transparent)] px-5 py-2.5 text-[10px] font-bold uppercase tracking-[var(--tracking-cap)] text-[var(--color-paper)] backdrop-blur-md transition-colors duration-300 hover:border-[var(--color-neon-blue)] hover:bg-[var(--color-neon-blue)] group-data-[scrolled]/sticky:border-[var(--color-neon-blue)] group-data-[scrolled]/sticky:bg-[var(--color-neon-blue)] group-data-[scrolled]/sticky:text-[var(--color-paper)] group-data-[scrolled]/sticky:backdrop-blur-none xl:inline-flex"
     >
       {ctaLabel}
@@ -151,7 +153,7 @@ const closeLabel = lang === "ru" ? "Закрыть" : "Close";
 
       <a
         href="#inquire"
-        data-mobile-menu-link
+        data-open-contact-modal
         class="mt-12 inline-flex items-center justify-center rounded-full bg-[var(--color-neon-blue)] px-6 py-4 text-[12px] font-semibold uppercase tracking-[var(--tracking-cap)] text-[var(--color-paper)]"
       >
         {ctaLabel}

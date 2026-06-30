@@ -73,6 +73,14 @@ body {
   border-radius: 2px;
 }
 
+/* <dialog> grabs focus when opened modally; the global ring around the whole
+   panel looks like a stray box. Form fields inside the dialog still get the
+   ring (rule above), which is what matters for keyboard a11y. */
+dialog:focus,
+dialog:focus-visible {
+  outline: none !important;
+}
+
 .btn-primary {
   background-color: var(--color-ink);
   color: var(--color-paper);
