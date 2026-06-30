@@ -9,14 +9,112 @@ interface Props {
   description?: string;
   lang?: "ru" | "en";
   solidHeader?: boolean;
+  /** Page-type for OG: "website" for landing, "article" for /privacy, etc. */
+  ogType?: "website" | "article" | "product";
+  /** Override the OG image. Defaults to the hero photo. Use absolute or
+   *  path-relative-to-public (the SITE_URL is prepended automatically). */
+  image?: string;
+  /** Set true on pages we don't want indexed (drafts, internal). */
+  noindex?: boolean;
+  /** If false, the Product JSON-LD block is suppressed (e.g. on /privacy). */
+  productJsonLd?: boolean;
 }
+
+// Production canonical root. Keep in sync with astro.config site:.
+// Change when the domain moves.
+const SITE_URL = "https://expedition65.ru";
 
 const {
   title = "Expedition 65 Lux — Право на свободу маршрута · KARTEL",
-  description = "Автономное судно Expedition 65 Lux для покорения северных широт. Корпус из нержавеющей стали, тик, дуб и технологии выживания.",
+  description = "Автономное судно Expedition 65 Lux для покорения северных широт. Корпус из нержавеющей стали, тик, дуб и технологии выживания. 19,6 м · 4 сезона до −30 °C · 7+ суток автономности.",
   lang = "ru",
   solidHeader = false,
+  ogType = "website",
+  image = "hero/hero.jpg",
+  noindex = false,
+  productJsonLd = true,
 } = Astro.props;
+
+// Astro.url.pathname includes the configured base (e.g. "/Houseboat-website/")
+// for GitHub Pages preview builds; strip it so the canonical points at the
+// final production URL (expedition65.ru/, /privacy/, etc.).
+const basePath = import.meta.env.BASE_URL.replace(/\/+$/, "");
+const cleanPath = basePath
+  ? Astro.url.pathname.replace(new RegExp(`^${basePath}`), "") || "/"
+  : Astro.url.pathname;
+const canonical = `${SITE_URL}${cleanPath}`;
+const ogImageUrl = image.startsWith("http") ? image : `${SITE_URL}/${image.replace(/^\//, "")}`;
+
+// ─── Structured data ──────────────────────────────────────────────────
+// Tell search + AI engines what this site is. GEO benefit: ChatGPT /
+// Perplexity / Claude pull structured Q&A and Product facts verbatim.
+
+const organizationJsonLd = {
+  "@context": "https://schema.org",
+  "@type": "Organization",
+  name: "KARTEL Boats",
+  alternateName: ["Картель", "Корабельная Артель"],
+  url: SITE_URL,
+  logo: `${SITE_URL}/logo/kartel-tight.svg`,
+  description: "Российская верфь премиальных хаусботов и экспедиционных судов. Серия Expedition.",
+  foundingDate: "1992",
+  address: [
+    {
+      "@type": "PostalAddress",
+      addressCountry: "RU",
+      addressLocality: "Москва",
+      streetAddress: "Краснопресненская наб., 12, 6-й подъезд, 11 этаж, офис 1148",
+    },
+    {
+      "@type": "PostalAddress",
+      addressCountry: "RU",
+      addressLocality: "Саратов",
+      streetAddress: "ул. Огородная, 3",
+    },
+  ],
+  contactPoint: {
+    "@type": "ContactPoint",
+    telephone: "+7-495-741-82-58",
+    email: "office@kartelboats.ru",
+    contactType: "sales",
+    areaServed: "RU",
+    availableLanguage: ["ru", "en"],
+  },
+};
+
+const productJsonLdData = {
+  "@context": "https://schema.org",
+  "@type": "Product",
+  name: "Expedition 65 Lux",
+  description: "Автономный хаусбот 19,6 м. Корпус — нержавеющая сталь, отделка — тик и дуб. 5 кают, 12 гостей, сауна, рубка управления. Рассчитан на 4 сезона эксплуатации до −30 °C, автономность 7+ суток.",
+  brand: { "@type": "Brand", name: "KARTEL Boats" },
+  manufacturer: { "@type": "Organization", name: "Корабельная Артель", address: { "@type": "PostalAddress", addressCountry: "RU", addressLocality: "Саратов" } },
+  category: "Houseboat / Floating Home",
+  image: [`${SITE_URL}/hero/hero.jpg`],
+  url: `${SITE_URL}/`,
+  additionalProperty: [
+    { "@type": "PropertyValue", name: "Длина", value: "19,6 м" },
+    { "@type": "PropertyValue", name: "Ширина", value: "5,55 м" },
+    { "@type": "PropertyValue", name: "Осадка", value: "0,55 м" },
+    { "@type": "PropertyValue", name: "Водоизмещение", value: "30 т" },
+    { "@type": "PropertyValue", name: "Палуб", value: "3" },
+    { "@type": "PropertyValue", name: "Кают", value: "5" },
+    { "@type": "PropertyValue", name: "Гостей", value: "12" },
+    { "@type": "PropertyValue", name: "Сезоны эксплуатации", value: "4 сезона до −30 °C" },
+    { "@type": "PropertyValue", name: "Материал корпуса", value: "Нержавеющая сталь" },
+    { "@type": "PropertyValue", name: "Автономность", value: "7+ суток" },
+  ],
+  offers: {
+    "@type": "Offer",
+    availability: "https://schema.org/InStock",
+    priceCurrency: "RUB",
+    // Стоимость по запросу — Product schema requires a price field; "0" is the
+    // canonical "price on application" signal that won't generate misleading rich results.
+    price: "0",
+    priceValidUntil: "2027-12-31",
+    seller: { "@type": "Organization", name: "KARTEL Boats" },
+  },
+};
 ---
 
 <!doctype html>
@@ -25,9 +123,44 @@ const {
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="generator" content={Astro.generator} />
-    <!-- Anchor relative paths to the site root regardless of URL trailing slash.
-         Force trailing slash so the base reads as a directory, not a file. -->
+    <!-- Anchor relative paths to the site root regardless of URL trailing slash. -->
     <base href={import.meta.env.BASE_URL.endsWith("/") ? import.meta.env.BASE_URL : import.meta.env.BASE_URL + "/"} />
+
+    <!-- Indexing -->
+    {noindex && <meta name="robots" content="noindex, nofollow" />}
+
+    <!-- Canonical -->
+    <link rel="canonical" href={canonical} />
+
+    <!-- Title / description -->
+    <title>{title}</title>
+    <meta name="description" content={description} />
+
+    <!-- Open Graph (Telegram, WhatsApp, Signal, Facebook, LinkedIn link previews) -->
+    <meta property="og:type" content={ogType} />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonical} />
+    <meta property="og:image" content={ogImageUrl} />
+    <meta property="og:image:width" content="3200" />
+    <meta property="og:image:height" content="1786" />
+    <meta property="og:locale" content={lang === "ru" ? "ru_RU" : "en_US"} />
+    <meta property="og:site_name" content="KARTEL · Expedition 65 Lux" />
+
+    <!-- Twitter Card (also picked up by some messengers) -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={ogImageUrl} />
+
+    <!-- hreflang. The /en page doesn't exist yet but search engines warn if
+         language alternates are missing once the EN page lands. Uncomment
+         when /en/ ships. -->
+    <!-- <link rel="alternate" hreflang="ru" href={`${SITE_URL}/`} /> -->
+    <!-- <link rel="alternate" hreflang="en" href={`${SITE_URL}/en/`} /> -->
+    <!-- <link rel="alternate" hreflang="x-default" href={`${SITE_URL}/`} /> -->
+
+    <!-- Favicon + fonts -->
     <link rel="icon" type="image/svg+xml" href="favicon.svg" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -35,13 +168,48 @@ const {
       rel="stylesheet"
       href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap"
     />
-    <meta name="description" content={description} />
-    <title>{title}</title>
+
+    <!-- ═════════════════════════════════════════════════════════════════
+         VITALY · Yandex.Webmaster verification
+         ═════════════════════════════════════════════════════════════════
+         Ask Oleg for the verification code from
+         https://webmaster.yandex.ru/site/<our-site>/verification/
+         and drop the tag below this comment. Looks like:
+            <meta name="yandex-verification" content="abc1234567890def" />
+    -->
+
+    <!-- ═════════════════════════════════════════════════════════════════
+         VITALY · Google Search Console verification (optional, but free)
+         ═════════════════════════════════════════════════════════════════
+         If Oleg adds the site to Search Console, paste the verification
+         meta tag here:
+            <meta name="google-site-verification" content="..." />
+    -->
+
+    <!-- ═════════════════════════════════════════════════════════════════
+         JSON-LD structured data — Organization + Product
+         AI engines (ChatGPT, Perplexity, Claude, Yandex GPT) read these
+         to answer factual questions about the boat. Search engines use
+         them for rich result panels.
+         ═════════════════════════════════════════════════════════════════ -->
+    <script type="application/ld+json" set:html={JSON.stringify(organizationJsonLd)} />
+    {productJsonLd && (
+      <script type="application/ld+json" set:html={JSON.stringify(productJsonLdData)} />
+    )}
   </head>
   <body>
     <Header lang={lang} solid={solidHeader} />
     <main><slot /></main>
     <CookieBanner lang={lang} />
     <ContactModal lang={lang} />
+
+    <!-- ═════════════════════════════════════════════════════════════════
+         VITALY · Yandex.Metrika analytics
+         ═════════════════════════════════════════════════════════════════
+         Ask Oleg for the counter ID from https://metrika.yandex.ru/list
+         and paste the official Metrika snippet here (it's a single block
+         starting with `<!-- Yandex.Metrika counter -->`). Free service —
+         no billing impact. Required for any meaningful SEO work on .ru.
+    -->
   </body>
 </html>
