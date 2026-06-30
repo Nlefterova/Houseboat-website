@@ -384,6 +384,18 @@ const total = photos.length;
     let visibleTiles: HTMLButtonElement[] = [...tiles];
     let lbIndex = 0;
 
+    const VALID_FILTERS = new Set(["all", "exterior", "interior"]);
+
+    // Write/clear the ?gallery= search param without adding a history entry.
+    // Keeps hash anchors intact (#interior etc. still survive). When the
+    // gallery is closed, the param is removed entirely.
+    function syncUrl(filter: string | null) {
+      const url = new URL(location.href);
+      if (filter === null) url.searchParams.delete("gallery");
+      else url.searchParams.set("gallery", filter);
+      history.replaceState(null, "", url);
+    }
+
     function updateVisibleTiles() {
       visibleTiles = currentFilter === "all"
         ? [...tiles]
@@ -395,11 +407,13 @@ const total = photos.length;
       gallery!.classList.add("is-open");
       gallery!.setAttribute("aria-hidden", "false");
       document.body.style.overflow = "hidden";
+      syncUrl(currentFilter);
     }
     function closeGallery() {
       gallery!.classList.remove("is-open");
       gallery!.setAttribute("aria-hidden", "true");
       document.body.style.overflow = "";
+      syncUrl(null);
     }
 
     function setFilter(f: string) {
@@ -407,6 +421,9 @@ const total = photos.length;
       gallery!.dataset.filter = f === "all" ? "" : f;
       filterBtns.forEach((b) => b.classList.toggle("is-active", b.dataset.galleryFilter === f));
       updateVisibleTiles();
+      // Only sync the URL when the gallery is actually open; otherwise the
+      // initial-state hydration below would clobber the param it just read.
+      if (gallery!.classList.contains("is-open")) syncUrl(f);
     }
 
     function openLightboxFor(tile: HTMLButtonElement) {
@@ -456,5 +473,15 @@ const total = photos.length;
         closeGallery();
       }
     });
+
+    // On page load: if ?gallery=all|exterior|interior is in the URL, open
+    // the gallery with that filter pre-applied. Unknown values are ignored
+    // (gallery stays closed). Lets people share a deep link to a filtered
+    // view (expedition65.ru/?gallery=interior) and have it land there.
+    const initial = new URLSearchParams(location.search).get("gallery");
+    if (initial && VALID_FILTERS.has(initial)) {
+      setFilter(initial);
+      openGallery();
+    }
   }
 </script>
