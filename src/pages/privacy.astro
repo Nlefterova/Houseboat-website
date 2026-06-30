@@ -1,0 +1,82 @@
+---
+import Layout from "../layouts/Layout.astro";
+
+// Stub privacy policy — 152-ФЗ compliant skeleton. Final wording should be
+// reviewed by legal counsel before launch; consider adding controller
+// registration details (Роскомнадзор reg. number) once obtained.
+const sections = [
+  {
+    title: "1. Общие положения",
+    body: "Настоящая Политика конфиденциальности (далее — Политика) определяет порядок обработки персональных данных пользователей сайта expedition65.ru компанией «KARTEL Boats» (далее — Оператор) в соответствии с Федеральным законом от 27.07.2006 № 152-ФЗ «О персональных данных».",
+  },
+  {
+    title: "2. Какие данные мы собираем",
+    body: "Имя, телефон, e-mail, город, предпочтительный способ связи — добровольно указываемые при заполнении формы обратной связи. Технические данные браузера и cookie-файлы — для аналитики и корректной работы сайта.",
+  },
+  {
+    title: "3. Цели обработки",
+    body: "Связь с пользователем по запросу теста-драйва или консультации, информирование о продуктах и услугах KARTEL Boats, улучшение качества сайта.",
+  },
+  {
+    title: "4. Cookies",
+    body: "Сайт использует файлы cookie для работы интерфейса и сбора обезличенной статистики посещений (Яндекс.Метрика). Вы можете отключить cookies в настройках браузера или отказаться при первом посещении — функциональность некоторых элементов может быть ограничена.",
+  },
+  {
+    title: "5. Передача данных третьим лицам",
+    body: "Данные не передаются третьим лицам, за исключением случаев, предусмотренных законодательством РФ, или при оказании Оператору услуг (например, сервис аналитики Яндекс.Метрика — на условиях договора с ООО «Яндекс»).",
+  },
+  {
+    title: "6. Срок хранения",
+    body: "Персональные данные хранятся до достижения целей обработки или до отзыва согласия пользователем, но не более 5 лет с момента последнего взаимодействия.",
+  },
+  {
+    title: "7. Права пользователя",
+    body: "Вы имеете право запросить, изменить или удалить свои персональные данные, отозвать согласие на обработку. Для этого направьте письменный запрос на office@kartelboats.ru.",
+  },
+  {
+    title: "8. Контакты Оператора",
+    body: "«KARTEL Boats», г. Москва, Краснопресненская наб. 12. Email: office@kartelboats.ru. Телефон: +7 (495) 741-82-58.",
+  },
+];
+---
+
+<Layout
+  lang="ru"
+  title="Политика конфиденциальности · Expedition 65 Lux"
+  description="Политика обработки персональных данных KARTEL Boats в соответствии с 152-ФЗ."
+>
+  <section class="bg-[var(--color-paper)] pt-32 pb-24 sm:pt-40 sm:pb-32">
+    <div class="mx-auto max-w-[800px] px-6 sm:px-8">
+      <p class="eyebrow">152-ФЗ · KARTEL Boats</p>
+      <hr class="rule-ink mt-4" />
+
+      <h1 class="display mt-6 text-[36px] leading-[1.1] text-[var(--color-ink)] sm:text-[48px]">
+        Политика конфиденциальности
+      </h1>
+
+      <p class="mt-6 text-[14px] text-[var(--color-fog)]">
+        Действует с 30 июня 2026 г.
+      </p>
+
+      <div class="mt-12 space-y-10 text-[15px] leading-[1.7] text-[var(--color-deep-grey)]">
+        {sections.map((s) => (
+          <div>
+            <h2 class="text-[18px] font-semibold text-[var(--color-ink)] sm:text-[20px]">
+              {s.title}
+            </h2>
+            <p class="mt-3">{s.body}</p>
+          </div>
+        ))}
+      </div>
+
+      <div class="mt-16 border-t border-[var(--color-grey)] pt-8">
+        <a
+          href="/"
+          class="inline-flex items-center gap-2 text-[12px] uppercase tracking-[var(--tracking-cap)] text-[var(--color-neon-blue)] hover:underline"
+        >
+          ← На главную
+        </a>
+      </div>
+    </div>
+  </section>
+</Layout>

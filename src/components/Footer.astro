@@ -242,8 +242,11 @@ const copy = lang === "ru"
       ))}
     </nav>
 
-    <p class="mt-6 text-center text-[11px] uppercase tracking-[var(--tracking-cap)] text-[var(--color-fog)]">
-      {copy.copyright}
-    </p>
+    <div class="mt-6 flex flex-wrap items-center justify-center gap-x-6 gap-y-2 text-[11px] uppercase tracking-[var(--tracking-cap)] text-[var(--color-fog)]">
+      <a href="privacy/" class="hover:text-[var(--color-neon-blue)] transition-colors">
+        {lang === "ru" ? "Политика конфиденциальности" : "Privacy Policy"}
+      </a>
+      <span>{copy.copyright}</span>
+    </div>
   </div>
 </footer>

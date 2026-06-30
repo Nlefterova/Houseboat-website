@@ -1,0 +1,131 @@
+---
+interface Props {
+  lang?: "ru" | "en";
+}
+const { lang = "ru" } = Astro.props;
+
+const copy = lang === "ru"
+  ? {
+      title: "Cookies",
+      body: "Сайт использует cookies для работы и аналитики. Продолжая, вы соглашаетесь с обработкой данных по 152-ФЗ и нашей",
+      privacy: "Политикой конфиденциальности",
+      privacyHref: "privacy/",
+      accept: "Принять",
+      decline: "Отклонить",
+    }
+  : {
+      title: "Cookies",
+      body: "This site uses cookies for functionality and analytics. By continuing, you agree to data processing per our",
+      privacy: "Privacy Policy",
+      privacyHref: "privacy/",
+      accept: "Accept",
+      decline: "Decline",
+    };
+---
+
+<!-- Cookie consent — fixed-bottom, dismissible, remembered via localStorage.
+     Required for 152-ФЗ / РКН compliance on .ru. -->
+<div
+  data-cookie-banner
+  class="fixed inset-x-0 bottom-0 z-[70] hidden p-3 sm:p-5"
+  aria-hidden="true"
+  role="dialog"
+  aria-label={copy.title}
+>
+  <div class="mx-auto flex max-w-[1100px] flex-col gap-4 rounded-[8px] border border-[var(--color-grey)] bg-[var(--color-paper)] p-4 shadow-[0_10px_40px_-10px_rgba(0,0,0,0.25)] sm:flex-row sm:items-center sm:gap-5 sm:p-5">
+    <!-- Bitten cookie icon, neon-blue, on-brand -->
+    <svg
+      width="40"
+      height="40"
+      viewBox="0 0 32 32"
+      fill="none"
+      class="flex-none text-[var(--color-neon-blue)]"
+      aria-hidden="true"
+    >
+      <!-- Cookie outline — circle minus the top-right where bite is -->
+      <path
+        d="M 21 4.5 A 12 12 0 1 0 27.5 11"
+        stroke="currentColor"
+        stroke-width="1.6"
+        stroke-linecap="round"
+        fill="none"
+      />
+      <!-- Bite indent: wavy concave arc between the two cookie endpoints -->
+      <path
+        d="M 21 4.5 Q 23 7, 22.5 9 Q 24 11, 27.5 11"
+        stroke="currentColor"
+        stroke-width="1.6"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+        fill="none"
+      />
+      <!-- Chocolate chips -->
+      <circle cx="11" cy="13" r="1.4" fill="currentColor" />
+      <circle cx="13" cy="21" r="1.1" fill="currentColor" />
+      <circle cx="20" cy="20" r="1.3" fill="currentColor" />
+    </svg>
+
+    <p class="flex-1 text-[13px] leading-[1.55] text-[var(--color-deep-grey)] sm:text-[14px]">
+      {copy.body}{" "}
+      <a
+        href={copy.privacyHref}
+        class="text-[var(--color-neon-blue)] underline underline-offset-2 hover:no-underline"
+      >
+        {copy.privacy}
+      </a>.
+    </p>
+
+    <div class="flex shrink-0 gap-2 sm:gap-3">
+      <button
+        type="button"
+        data-cookie-decline
+        class="rounded-full border border-[var(--color-ink)] bg-[var(--color-paper)] px-5 py-2.5 text-[11px] font-semibold uppercase tracking-[var(--tracking-cap)] text-[var(--color-ink)] transition-colors hover:border-[var(--color-neon-blue)] hover:text-[var(--color-neon-blue)]"
+      >
+        {copy.decline}
+      </button>
+      <button
+        type="button"
+        data-cookie-accept
+        class="rounded-full bg-[var(--color-neon-blue)] px-5 py-2.5 text-[11px] font-semibold uppercase tracking-[var(--tracking-cap)] text-[var(--color-paper)] transition-colors hover:bg-[color-mix(in_srgb,var(--color-neon-blue)_85%,white)]"
+      >
+        {copy.accept}
+      </button>
+    </div>
+  </div>
+</div>
+
+<script>
+  const STORAGE_KEY = "kartel-cookie-consent";
+  const banner = document.querySelector<HTMLElement>("[data-cookie-banner]");
+  const acceptBtn = document.querySelector<HTMLButtonElement>("[data-cookie-accept]");
+  const declineBtn = document.querySelector<HTMLButtonElement>("[data-cookie-decline]");
+
+  function getStoredConsent(): string | null {
+    try {
+      return localStorage.getItem(STORAGE_KEY);
+    } catch {
+      return null;
+    }
+  }
+
+  function setConsent(value: "accept" | "decline") {
+    try {
+      localStorage.setItem(STORAGE_KEY, value);
+    } catch {
+      /* Storage unavailable — banner still dismisses for this session. */
+    }
+    if (banner) {
+      banner.classList.add("hidden");
+      banner.setAttribute("aria-hidden", "true");
+    }
+  }
+
+  // Show only if no prior decision recorded.
+  if (banner && !getStoredConsent()) {
+    banner.classList.remove("hidden");
+    banner.setAttribute("aria-hidden", "false");
+  }
+
+  acceptBtn?.addEventListener("click", () => setConsent("accept"));
+  declineBtn?.addEventListener("click", () => setConsent("decline"));
+</script>
