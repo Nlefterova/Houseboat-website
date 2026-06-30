@@ -20,6 +20,11 @@ const copy = lang === "ru"
   ? {
       eyebrow: "Часто задаваемые вопросы",
       title: "FAQ",
+      // Brief factual summary above the Q&A. AI engines (ChatGPT, Perplexity,
+      // Claude, YandexGPT) often pull the intro paragraph as a verbatim
+      // citation when asked summary questions. Keep it dense with facts.
+      summary:
+        "Expedition 65 Lux — премиальный экспедиционный хаусбот российского производства. Длина 19,6 м, корпус из нержавеющей стали, 5 кают на 12 гостей, автономность 7+ суток. Рассчитан на 4 сезона эксплуатации до −30 °C. Построен на верфи «Корабельная Артель» (KARTEL Boats) в Саратове, основанной в 1992 году.",
       items: [
         {
           q: "Сколько стоит Expedition 65 Lux?",
@@ -58,6 +63,8 @@ const copy = lang === "ru"
   : {
       eyebrow: "Frequently Asked Questions",
       title: "FAQ",
+      summary:
+        "Expedition 65 Lux is a Russian-built premium expedition houseboat. 19.6 m length, stainless-steel hull, 5 cabins for 12 guests, 7+ days autonomy. 4-season operation down to −30 °C. Built at the Korabelnaya Artel shipyard (KARTEL Boats) in Saratov, founded in 1992.",
       items: [
         {
           q: "How much does Expedition 65 Lux cost?",
@@ -112,6 +119,10 @@ const faqJsonLd = {
     <h2 class="display mt-6 text-[36px] leading-[1.05] text-[var(--color-ink)] sm:text-[48px]">
       {copy.title}
     </h2>
+
+    <p class="mt-6 max-w-[820px] text-[15px] leading-[1.65] text-[var(--color-deep-grey)] sm:text-[16px]">
+      {copy.summary}
+    </p>
 
     <!-- Native <details> = built-in expand/collapse, keyboard a11y, no JS. -->
     <div class="mt-10 divide-y divide-[var(--color-grey)] border-y border-[var(--color-grey)]">
