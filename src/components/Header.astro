@@ -218,14 +218,28 @@ const closeLabel = lang === "ru" ? "Закрыть" : "Close";
     const spy = new IntersectionObserver(
       (entries) => {
         entries.forEach((entry) => {
-          if (!entry.isIntersecting) return;
           const id = entry.target.id;
-          sectionToAnchors.forEach((anchors, key) => {
-            anchors.forEach((a) => {
-              if (key === id) a.setAttribute("aria-current", "page");
-              else a.removeAttribute("aria-current");
+          const anchors = sectionToAnchors.get(id);
+          if (!anchors) return;
+          if (entry.isIntersecting) {
+            // This section is now in the spy band — claim aria-current,
+            // clear it from every other section's anchors.
+            sectionToAnchors.forEach((aList, key) => {
+              aList.forEach((a) => {
+                if (key === id) a.setAttribute("aria-current", "page");
+                else a.removeAttribute("aria-current");
+              });
             });
-          });
+          } else {
+            // This section left the band with nothing replacing it
+            // (e.g. scrolled back up into the hero). Clear only this
+            // section's anchors so a stale indicator doesn't linger.
+            anchors.forEach((a) => {
+              if (a.getAttribute("aria-current") === "page") {
+                a.removeAttribute("aria-current");
+              }
+            });
+          }
         });
       },
       { rootMargin: "-30% 0px -65% 0px", threshold: 0 }
