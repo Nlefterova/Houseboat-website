@@ -1,4 +1,5 @@
 ---
+import ResponsiveImage from "./ResponsiveImage.astro";
 interface Props {
   lang?: "ru" | "en";
 }
@@ -186,11 +187,12 @@ const total = photos.length;
           class="gallery-tile gallery-hero group relative block w-full overflow-hidden rounded-[2px] bg-[color-mix(in_srgb,var(--color-paper)_5%,transparent)]"
           style="aspect-ratio: 21 / 9;"
         >
-          <img
+          <ResponsiveImage
             src={h.src}
             alt={caption(h)}
             width={h.w}
             height={h.h}
+            sizes="100vw"
             loading="eager"
             class="absolute inset-0 h-full w-full object-cover transition-transform duration-500 group-hover:scale-[1.03]"
           />
@@ -217,11 +219,12 @@ const total = photos.length;
                 aria-label={caption(p)}
                 class="gallery-tile group relative block w-full overflow-hidden rounded-[2px] bg-[color-mix(in_srgb,var(--color-paper)_5%,transparent)]"
               >
-                <img
+                <ResponsiveImage
                   src={p.src}
                   alt={caption(p)}
                   width={p.w}
                   height={p.h}
+                  sizes="(min-width: 1024px) 25vw, 50vw"
                   loading="lazy"
                   class="block w-full h-auto transition-transform duration-500 group-hover:scale-[1.03]"
                 />

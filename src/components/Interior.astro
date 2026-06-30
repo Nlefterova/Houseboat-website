@@ -1,4 +1,5 @@
 ---
+import ResponsiveImage from "./ResponsiveImage.astro";
 interface Props {
   lang?: "ru" | "en";
 }
@@ -118,13 +119,14 @@ const DIMS: Record<string, [number, number]> = {
             aria-hidden={i !== 0}
           >
             {r.src ? (
-              <img
+              <ResponsiveImage
                 src={r.src}
                 alt={r.name}
                 width={DIMS[r.src]?.[0] ?? 2400}
                 height={DIMS[r.src]?.[1] ?? 1350}
-                class="absolute inset-0 h-full w-full object-cover"
+                sizes="(min-width: 1024px) 1400px, 100vw"
                 loading={i === 0 ? "eager" : "lazy"}
+                class="absolute inset-0 h-full w-full object-cover"
               />
             ) : (
               <span class="absolute right-20 top-6 text-[10px] uppercase tracking-[var(--tracking-wide-cap)] text-[color-mix(in_srgb,white_30%,transparent)]">

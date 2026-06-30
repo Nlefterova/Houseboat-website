@@ -1,4 +1,5 @@
 ---
+import ResponsiveImage from "./ResponsiveImage.astro";
 interface Props {
   lang?: "ru" | "en";
 }
@@ -505,11 +506,12 @@ const detailCaption = (p: DetailPhoto) => (lang === "ru" ? p.ru : p.en);
             aria-label={detailCaption(p)}
             class="group relative aspect-square w-20 shrink-0 overflow-hidden rounded-[2px] bg-[var(--color-light-grey)] sm:w-24"
           >
-            <img
+            <ResponsiveImage
               src={p.src}
               alt={detailCaption(p)}
               width={p.w}
               height={p.h}
+              sizes="(min-width: 640px) 96px, 80px"
               loading="lazy"
               class="absolute inset-0 h-full w-full object-cover transition-transform duration-500 group-hover:scale-[1.06]"
             />

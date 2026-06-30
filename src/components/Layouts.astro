@@ -1,4 +1,5 @@
 ---
+import ResponsiveImage from "./ResponsiveImage.astro";
 interface Props {
   lang?: "ru" | "en";
 }
@@ -141,11 +142,12 @@ const DECK_H = 491;
             }`}
             aria-hidden={i !== activeIndex}
           >
-            <img
+            <ResponsiveImage
               src={d.plan}
               alt={d.caption}
               width={PLAN_DIMS[d.key]?.[0] ?? 2400}
               height={PLAN_DIMS[d.key]?.[1] ?? 820}
+              sizes="(min-width: 1024px) 80vw, 100vw"
               loading={i === activeIndex ? "eager" : "lazy"}
               class={`h-full w-full object-contain ${d.key === "profile" ? "scale-[1.15] translate-y-[20px]" : ""}`}
             />
