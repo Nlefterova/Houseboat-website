@@ -40,6 +40,23 @@ body {
   margin: 0;
 }
 
+/* Respect the OS-level "Reduce Motion" preference (Mac, iOS, Win, Android).
+   Users with vestibular disorders / migraines / motion-triggered conditions
+   toggle this on and expect every site to honour it. Standard catch-all:
+   collapse all transitions and animations to near-zero (1/100ms instead of
+   true 0 so transitionend / animationend listeners still fire), and disable
+   smooth scroll. No effect for users without the OS setting on. */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
 ::selection {
   background: var(--color-ink);
   color: var(--color-paper);
