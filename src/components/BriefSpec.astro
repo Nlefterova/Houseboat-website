@@ -563,7 +563,7 @@ const detailCaption = (p: DetailPhoto) => (lang === "ru" ? p.ru : p.en);
     <img
       data-detail-lightbox-img
       src=""
-      alt=""
+      alt={lang === "ru" ? "Просмотр детали спецификации" : "Spec detail viewer"}
       class="max-h-[88vh] max-w-[92vw] object-contain"
     />
     <p

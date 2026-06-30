@@ -24,6 +24,7 @@ const copy = lang === "ru"
       tagline: "Право на свободу маршрута.",
       primary: "Запросить стоимость",
       secondary: "Спецификация",
+      heroAlt: "Expedition 65 Lux на спокойной воде в утреннем тумане — корпус отражается в зеркальной поверхности озера",
     }
   : {
       eyebrow: "KARTEL · Expedition Project",
@@ -44,6 +45,7 @@ const copy = lang === "ru"
       tagline: "The right to freedom of route.",
       primary: "Request Pricing",
       secondary: "Specification",
+      heroAlt: "Expedition 65 Lux on calm water in morning mist — the hull mirrored on a glass-still lake",
     };
 ---
 
@@ -53,7 +55,7 @@ const copy = lang === "ru"
   <div class="absolute inset-0 -z-10">
     <img
       src="hero/hero.jpg"
-      alt=""
+      alt={copy.heroAlt}
       class="absolute inset-0 h-full w-full object-cover"
       style="transform: scale(1.5) translateX(15%); transform-origin: center;"
       loading="eager"
