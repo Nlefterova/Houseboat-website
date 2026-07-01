@@ -98,6 +98,13 @@ dialog:focus-visible {
   outline: none !important;
 }
 
+/* <summary> shows a focus ring on mouse-click that wraps the FAQ card and
+   reads as a stray blue line. Suppress mouse-click focus; keep keyboard
+   focus visible via :focus-visible (which doesn't fire on click). */
+summary:focus:not(:focus-visible) {
+  outline: none !important;
+}
+
 .btn-primary {
   background-color: var(--color-ink);
   color: var(--color-paper);

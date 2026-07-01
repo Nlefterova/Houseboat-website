@@ -20,11 +20,9 @@ const copy = lang === "ru"
   ? {
       eyebrow: "Часто задаваемые вопросы",
       title: "FAQ",
-      // Brief factual summary above the Q&A. AI engines (ChatGPT, Perplexity,
-      // Claude, YandexGPT) often pull the intro paragraph as a verbatim
-      // citation when asked summary questions. Keep it dense with facts.
-      summary:
-        "Expedition 65 Lux — премиальный экспедиционный хаусбот российского производства. Длина 19,6 м, корпус из нержавеющей стали, 5 кают на 12 гостей, автономность 7+ суток. Рассчитан на 4 сезона эксплуатации до −30 °C. Построен на верфи «Корабельная Артель» (KARTEL Boats) в Саратове, основанной в 1992 году.",
+      description: "Если ваш вопрос здесь не нашёлся — напишите. Ответим лично.",
+      closerTitle: "Остались вопросы?",
+      closerCta: "Связаться с верфью",
       items: [
         {
           q: "Сколько стоит Expedition 65 Lux?",
@@ -35,36 +33,37 @@ const copy = lang === "ru"
           a: "Корабельная Артель, верфь в Саратове, ул. Огородная, 3. Шоурум — ул. Большая Затонская. Офис продаж — Москва, Краснопресненская наб., 12.",
         },
         {
-          q: "В каких климатических условиях работает Expedition 65 Lux?",
-          a: "4 сезона эксплуатации, до −30 °C. Корпус из нержавеющей стали выдерживает обледенение и северные широты. Подходит для круглогодичной швартовки.",
+          q: "Можно ли настроить судно под себя?",
+          a: `Базовая планировка и архитектура серии не изменяются — мы строим по утверждённому проекту. Под заказчика настраиваются отделочные материалы, цветовые палитры, наполнение интерьера и пакеты оборудования — из доступных опций, согласованных верфью. Полный список — в разделе <a href="#options" class="text-[var(--color-neon-blue)] underline underline-offset-2 hover:no-underline">«Дополнительные опции»</a>.`,
         },
         {
-          q: "Какая автономность судна?",
-          a: "7+ суток без подключения к береговой инфраструктуре. На борту автономные системы водоснабжения, отопления и энергообеспечения.",
+          q: "Что отличает Expedition 65 Lux от других хаусботов?",
+          a: "Большинство хаусботов — летние, алюминиевые, ограниченные тёплой водой. Expedition 65 Lux построен на нержавеющей стали 12Х18Н10Т, рассчитан на 4 сезона эксплуатации до −30 °C, автономность 7+ суток. Инженерная база — та же, что у «Сибирского Исследователя», созданного для Русского географического общества.",
         },
         {
-          q: "Сколько гостей размещается на борту?",
-          a: "12 человек в 5 каютах: мастер-каюта, 2 гостевые, 2 двухъярусные. 5 санузлов, 2 камбуза, сауна.",
+          q: "Нужны ли права на управление и сертифицированный капитан?",
+          a: "Да. Для судов этого класса в РФ нужны права ГИМС категории «маломерное судно» (до 20 м). Мы помогаем с обучением, можем подобрать профессионального капитана или организовать обслуживающую команду.",
         },
         {
-          q: "Какие технические характеристики?",
-          a: "Длина 19,6 м, ширина 5,55 м, осадка 0,55 м, водоизмещение 30 т, 3 палубы, 5 кают. Корпус — нержавеющая сталь, отделка — тик и дуб.",
+          q: "Как Kartel Boats связаны с Русским географическим обществом?",
+          a: "Верфь «Корабельная Артель» построила «Сибирский Исследователь» — 18-метровое стальное судно класса «река-море» для арктических миссий РГО. Тот же инженерный подход — корпус из нержавеющей стали, автономность на недели вперёд, работа в высоких широтах — лёг в основу Expedition 65 Lux.",
         },
         {
-          q: "Можно ли осмотреть судно вживую?",
-          a: "Тест-драйв и осмотр корпуса проводятся по записи в Саратове. Свяжитесь с верфью для записи.",
+          q: "Можно ли увидеть судно вживую?",
+          a: `Да, конечно. Показ и тест-драйв проводим в Саратове по предварительной записи — покажем корпус на верфи, интерьер в шоуруме и ответим на вопросы лично. Оставьте заявку в разделе <a href="#inquire" class="text-[var(--color-neon-blue)] underline underline-offset-2 hover:no-underline">«Связаться с верфью»</a>, и мы согласуем удобную дату.`,
         },
         {
-          q: "Кто производитель?",
-          a: "KARTEL Boats / Корабельная Артель — российская верфь премиальных хаусботов и экспедиционных судов, основана в 1992 году.",
+          q: "Кто такие Kartel Boats?",
+          a: "Верфь «Корабельная Артель», Саратов, с 1992 года. За тридцать лет — десятки проектов: от круизеров и траулеров до экспедиционных кораблей класса «река-море».",
         },
       ],
     }
   : {
       eyebrow: "Frequently Asked Questions",
       title: "FAQ",
-      summary:
-        "Expedition 65 Lux is a Russian-built premium expedition houseboat. 19.6 m length, stainless-steel hull, 5 cabins for 12 guests, 7+ days autonomy. 4-season operation down to −30 °C. Built at the Korabelnaya Artel shipyard (KARTEL Boats) in Saratov, founded in 1992.",
+      description: "If your question isn't here — write to us. We'll answer personally.",
+      closerTitle: "Still have a question?",
+      closerCta: "Contact us now",
       items: [
         {
           q: "How much does Expedition 65 Lux cost?",
@@ -75,31 +74,35 @@ const copy = lang === "ru"
           a: "Korabelnaya Artel shipyard in Saratov, Ogorodnaya St. 3. Showroom on Bolshaya Zatonskaya St. Sales office in Moscow, Krasnopresnenskaya emb. 12.",
         },
         {
-          q: "What climate conditions does it handle?",
-          a: "4-season operation down to −30 °C. Stainless steel hull withstands icing and northern latitudes. Suitable for year-round mooring.",
+          q: "Can I customize it for myself?",
+          a: `The base layout and architecture of the series are fixed — we build to the approved design. What we customize for each owner: finishes, color palettes, interior outfitting, and equipment packages — selected from options approved by the shipyard. The full list is in the <a href="#options" class="text-[var(--color-neon-blue)] underline underline-offset-2 hover:no-underline">Additional Options</a> section.`,
         },
         {
-          q: "What is the autonomy?",
-          a: "7+ days off shore-side infrastructure. On-board autonomous water, heating, and power systems.",
+          q: "What sets Expedition 65 Lux apart from other houseboats?",
+          a: "Most houseboats are summer-only aluminum vessels built for warm water. Expedition 65 Lux is built on 12Х18Н10Т stainless steel, rated for 4-season operation to −30 °C, with 7+ days of autonomy. The engineering baseline is the same as the Siberian Explorer, built for the Russian Geographical Society.",
         },
         {
-          q: "How many guests can it accommodate?",
-          a: "12 people in 5 cabins: master, 2 guest, 2 bunk. 5 bathrooms, 2 galleys, sauna.",
+          q: "Do I need a license or certified captain?",
+          a: "Yes. In Russia, vessels of this class require a GIMS (small craft) license — for vessels under 20 m. We can arrange training, source a professional captain, or organise a full operating crew.",
         },
         {
-          q: "What are the technical specifications?",
-          a: "Length 19.6 m, beam 5.55 m, draft 0.55 m, displacement 30 t, 3 decks, 5 cabins. Stainless steel hull, teak and oak interior finish.",
+          q: "How is Kartel Boats connected to the Russian Geographical Society?",
+          a: "Korabelnaya Artel built the Siberian Explorer — an 18-metre steel “river-sea” class vessel for RGO missions in the high Arctic. The same engineering approach — stainless-steel hull, weeks of autonomy, operation at high latitudes — carried over into Expedition 65 Lux.",
         },
         {
-          q: "Can I inspect the vessel in person?",
-          a: "Sea trials and hull inspections are by appointment in Saratov. Contact the shipyard to book.",
+          q: "Can I see the vessel in person?",
+          a: `Yes, absolutely. Showings and sea trials take place in Saratov by appointment — we walk you through the hull at the shipyard, the interior in the showroom, and answer questions in person. Leave a request in the <a href="#inquire" class="text-[var(--color-neon-blue)] underline underline-offset-2 hover:no-underline">Contact the Shipyard</a> section and we'll coordinate a date that works for you.`,
         },
         {
-          q: "Who is the manufacturer?",
-          a: "KARTEL Boats / Korabelnaya Artel — a Russian premium houseboat and expedition vessel shipyard, founded 1992.",
+          q: "Who are Kartel Boats?",
+          a: "Korabelnaya Artel shipyard, Saratov, since 1992. Over thirty years — dozens of projects: from cruisers and trawlers to river-sea expedition ships.",
         },
       ],
     };
+
+// Answers may contain inline HTML (e.g. an anchor to another section). The
+// schema wants plain text, so strip tags before feeding it into FAQPage JSON-LD.
+const stripHtml = (s: string) => s.replace(/<[^>]+>/g, "");
 
 const faqJsonLd = {
   "@context": "https://schema.org",
@@ -107,7 +110,7 @@ const faqJsonLd = {
   mainEntity: copy.items.map((it) => ({
     "@type": "Question",
     name: it.q,
-    acceptedAnswer: { "@type": "Answer", text: it.a },
+    acceptedAnswer: { "@type": "Answer", text: stripHtml(it.a) },
   })),
 };
 ---
@@ -120,30 +123,53 @@ const faqJsonLd = {
       {copy.title}
     </h2>
 
-    <p class="mt-6 max-w-[820px] text-[15px] leading-[1.65] text-[var(--color-deep-grey)] sm:text-[16px]">
-      {copy.summary}
+    <p class="mt-5 max-w-[720px] text-[14px] leading-[1.6] text-[var(--color-deep-grey)] sm:text-[15px]">
+      {copy.description}
     </p>
 
-    <!-- Native <details> = built-in expand/collapse, keyboard a11y, no JS. -->
-    <div class="mt-10 divide-y divide-[var(--color-grey)] border-y border-[var(--color-grey)]">
+    <!-- Card-style Q&A list.
+         Each card: white bg, soft shadow, 4px neon-blue left accent, circular
+         (+) icon on the right that rotates 45° to become an (×) when open.
+         Open state tints the card light neon-blue. Native <details> drives the
+         a11y + keyboard interaction; no JS. -->
+    <div class="mt-10 flex flex-col gap-3 sm:gap-4">
       {copy.items.map((it) => (
-        <details class="group py-5">
-          <summary class="flex cursor-pointer list-none items-start justify-between gap-6 text-[16px] font-medium text-[var(--color-ink)] transition-colors hover:text-[var(--color-neon-blue)] sm:text-[18px]">
+        <details class="group relative overflow-hidden rounded-md border-l-[6px] border-[var(--color-neon-blue)] bg-[var(--color-paper)] shadow-[0_2px_10px_-2px_rgba(0,0,0,0.08)] transition-colors duration-200 hover:bg-[color-mix(in_srgb,var(--color-neon-blue)_6%,transparent)]">
+          <summary class="flex cursor-pointer list-none items-center justify-between gap-6 py-4 pl-6 pr-4 text-[14px] font-semibold text-[var(--color-ink)] sm:text-[15px]">
             <span>{it.q}</span>
             <span
-              class="mt-1 flex h-6 w-6 shrink-0 items-center justify-center text-[var(--color-fog)] transition-transform duration-300 group-open:rotate-45 group-hover:text-[var(--color-neon-blue)]"
+              class="flex h-8 w-8 shrink-0 items-center justify-center rounded-full border border-[var(--color-neon-blue)] text-[var(--color-neon-blue)] transition-transform duration-300 group-open:rotate-45"
               aria-hidden="true"
             >
               <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
-                <path d="M7 1 V13 M1 7 H13" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" />
+                <path d="M7 1 V13 M1 7 H13" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" />
               </svg>
             </span>
           </summary>
-          <p class="mt-3 max-w-[820px] text-[14px] leading-[1.65] text-[var(--color-deep-grey)] sm:text-[15px]">
-            {it.a}
-          </p>
+          <!-- Answer "subcard": grey-tinted area inside the same rounded
+               container. Question stays on white above; this opens below it.
+               `set:html` because answers may include inline anchors (e.g. Q3
+               links to #options). Plain-text version is used for JSON-LD. -->
+          <p
+            class="bg-[var(--color-light-grey)] px-6 py-5 text-[14px] leading-[1.65] text-[var(--color-ink)] sm:text-[15px]"
+            set:html={it.a}
+          ></p>
         </details>
       ))}
+    </div>
+
+    <!-- Closer: heading + primary CTA that triggers the contact modal. -->
+    <div class="mt-14 flex flex-col items-center text-center sm:mt-20">
+      <h3 class="display text-[28px] leading-[1.15] text-[var(--color-neon-blue)] sm:text-[36px]">
+        {copy.closerTitle}
+      </h3>
+      <a
+        href="#inquire"
+        data-open-contact-modal
+        class="mt-6 inline-flex items-center rounded-full bg-[var(--color-neon-blue)] px-7 py-3.5 text-[12px] font-semibold uppercase tracking-[var(--tracking-cap)] text-[var(--color-paper)] transition-colors hover:bg-[color-mix(in_srgb,var(--color-neon-blue)_85%,white)]"
+      >
+        {copy.closerCta}
+      </a>
     </div>
   </div>
 
