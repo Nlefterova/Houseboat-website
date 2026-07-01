@@ -1,0 +1,193 @@
+---
+import Layout from "../layouts/Layout.astro";
+import Footer from "./Footer.astro";
+
+/**
+ * Shared layout for legal pages (Privacy, Terms). Matches the reference Figma:
+ *   – Big black title block on top with rule-ink kicker + subtitle + "last updated"
+ *   – Left column: sticky Table of Contents with neon-blue links (replaces the
+ *     reference's pink accent color)
+ *   – Right column: numbered sections with headings + body prose
+ *
+ * Sections support optional subsections (e.g. "4.1 - Retention"). Body copy
+ * is HTML so we can embed anchors, tables, lists.
+ *
+ * ⚠️ LEGAL: Body copy on legal pages is written by Кот as a competent draft.
+ * It is NOT legal advice and must be reviewed by a lawyer familiar with
+ * 152-ФЗ before any client / press / РКН filing.
+ */
+
+export interface SubSection {
+  id: string;
+  number: string;
+  title: string;
+  body: string;
+}
+export interface Section {
+  id: string;
+  number: string;   // "OVERVIEW", "SECTION 1", etc.
+  title: string;
+  body?: string;    // Optional lead paragraph before subsections
+  subsections?: SubSection[];
+}
+
+interface Props {
+  lang?: "ru" | "en";
+  title: string;
+  subtitle?: string;
+  updated: string;
+  sections: Section[];
+  eyebrow?: string;
+}
+
+const {
+  lang = "ru",
+  title,
+  subtitle,
+  updated,
+  sections,
+  eyebrow = "152-ФЗ · KARTEL Boats",
+} = Astro.props;
+
+const tocLabel = lang === "ru" ? "Оглавление" : "Table of Contents";
+---
+
+<Layout
+  lang={lang}
+  title={`${title} · Expedition 65 Lux`}
+  description={subtitle || title}
+  solidHeader={true}
+  ogType="article"
+  productJsonLd={false}
+>
+  <section class="bg-[var(--color-paper)] pt-32 pb-24 sm:pt-40 sm:pb-32">
+    <div class="mx-auto max-w-[1440px] px-6 sm:px-8">
+      <!-- Title block -->
+      <p class="eyebrow">{eyebrow}</p>
+      <hr class="rule-ink mt-4" />
+      <h1 class="display mt-6 text-[36px] leading-[1.05] text-[var(--color-ink)] sm:text-[52px]">
+        {title}
+      </h1>
+      {subtitle && (
+        <p class="mt-4 max-w-[820px] text-[16px] leading-[1.55] text-[var(--color-deep-grey)] sm:text-[18px]">
+          {subtitle}
+        </p>
+      )}
+      <p class="mt-3 text-[13px] uppercase tracking-[var(--tracking-wide-cap)] text-[var(--color-fog)]">
+        {updated}
+      </p>
+
+      <!-- Two-column layout: ToC left, content right -->
+      <div class="mt-16 grid grid-cols-12 gap-x-8 gap-y-12 lg:gap-x-16">
+        <!-- Table of Contents (sticky on lg+) -->
+        <aside class="col-span-12 lg:col-span-4">
+          <div class="lg:sticky lg:top-24 lg:self-start">
+            <p class="eyebrow">{tocLabel}</p>
+            <hr class="rule-ink mt-3" />
+            <nav class="mt-6 flex flex-col gap-2 text-[14px]">
+              {sections.map((s) => (
+                <>
+                  <a
+                    href={`#${s.id}`}
+                    class="block text-[var(--color-ink)] transition-colors hover:text-[var(--color-neon-blue)]"
+                  >
+                    {s.number}{s.number && s.title ? " — " : ""}{s.title}
+                  </a>
+                  {s.subsections && s.subsections.length > 0 && (
+                    <div class="ml-6 flex flex-col gap-2">
+                      {s.subsections.map((sub) => (
+                        <a
+                          href={`#${sub.id}`}
+                          class="block text-[13px] text-[var(--color-neon-blue)] transition-colors hover:underline"
+                        >
+                          {sub.number} — {sub.title}
+                        </a>
+                      ))}
+                    </div>
+                  )}
+                </>
+              ))}
+            </nav>
+          </div>
+        </aside>
+
+        <!-- Body content -->
+        <div class="col-span-12 space-y-14 lg:col-span-8">
+          {sections.map((s) => (
+            <section id={s.id} class="scroll-mt-24">
+              <h2 class="text-[22px] font-semibold uppercase tracking-[0.02em] text-[var(--color-ink)] sm:text-[26px]">
+                {s.number}{s.number && s.title ? " — " : ""}{s.title}
+              </h2>
+              {s.body && (
+                <div
+                  class="legal-body mt-5 text-[15px] leading-[1.7] text-[var(--color-deep-grey)] sm:text-[16px]"
+                  set:html={s.body}
+                />
+              )}
+              {s.subsections && s.subsections.map((sub) => (
+                <div id={sub.id} class="mt-10 scroll-mt-24">
+                  <h3 class="text-[17px] font-semibold text-[var(--color-ink)] sm:text-[19px]">
+                    {sub.number} — {sub.title}
+                  </h3>
+                  <div
+                    class="legal-body mt-3 text-[15px] leading-[1.7] text-[var(--color-deep-grey)] sm:text-[16px]"
+                    set:html={sub.body}
+                  />
+                </div>
+              ))}
+            </section>
+          ))}
+
+          <!-- Back-to-home link at the bottom -->
+          <div class="border-t border-[var(--color-grey)] pt-8">
+            <a
+              href="./"
+              class="inline-flex items-center gap-2 text-[12px] uppercase tracking-[var(--tracking-cap)] text-[var(--color-neon-blue)] hover:underline"
+            >
+              ← {lang === "ru" ? "На главную" : "Home"}
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <Footer lang={lang} />
+</Layout>
+
+<style is:global>
+  /* Legal body typography — paragraphs, lists, tables. */
+  .legal-body p + p { margin-top: 1rem; }
+  .legal-body ul,
+  .legal-body ol { margin: 1rem 0 1rem 1.5rem; }
+  .legal-body ul li { list-style: disc; margin-top: 0.35rem; }
+  .legal-body ol li { list-style: decimal; margin-top: 0.35rem; }
+  .legal-body strong { color: var(--color-ink); }
+  .legal-body a {
+    color: var(--color-neon-blue);
+    text-decoration: underline;
+    text-underline-offset: 2px;
+  }
+  .legal-body a:hover { text-decoration: none; }
+  .legal-body table {
+    width: 100%;
+    margin: 1.25rem 0;
+    border-collapse: collapse;
+    font-size: 13px;
+  }
+  .legal-body th,
+  .legal-body td {
+    border: 1px solid var(--color-grey);
+    padding: 10px 12px;
+    text-align: left;
+    vertical-align: top;
+  }
+  .legal-body th {
+    background: var(--color-light-grey);
+    font-weight: 600;
+    color: var(--color-ink);
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    font-size: 11px;
+  }
+</style>

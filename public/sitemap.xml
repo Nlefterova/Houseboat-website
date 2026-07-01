@@ -19,7 +19,19 @@
   </url>
   <url>
     <loc>https://expedition65.ru/privacy/</loc>
-    <lastmod>2026-06-30</lastmod>
+    <lastmod>2026-07-01</lastmod>
+    <changefreq>yearly</changefreq>
+    <priority>0.3</priority>
+  </url>
+  <url>
+    <loc>https://expedition65.ru/terms/</loc>
+    <lastmod>2026-07-01</lastmod>
+    <changefreq>yearly</changefreq>
+    <priority>0.3</priority>
+  </url>
+  <url>
+    <loc>https://expedition65.ru/cookies/</loc>
+    <lastmod>2026-07-01</lastmod>
     <changefreq>yearly</changefreq>
     <priority>0.3</priority>
   </url>

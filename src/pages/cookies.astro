@@ -1,0 +1,188 @@
+---
+import LegalPage from "../components/LegalPage.astro";
+
+/**
+ * Политика cookies — dedicated page linked from the cookie-consent banner.
+ * Extracts Section 5 from /privacy into a standalone document so users
+ * clicking "Подробнее" from the banner land somewhere focused on cookies,
+ * not a full privacy policy they have to scroll through.
+ *
+ * ⚠️ LEGAL — TO BE REVIEWED BY COUNSEL BEFORE LAUNCH.
+ * Same disclaimer as /privacy and /terms.
+ */
+
+const sections = [
+  // OVERVIEW
+  {
+    id: "overview",
+    number: "ОБЗОР",
+    title: "",
+    body: `
+      <p>Настоящая Политика cookies («Политика») описывает, какие cookie-файлы использует сайт <a href="https://expedition65.ru">expedition65.ru</a> («Сайт»), для каких целей и как вы можете управлять их использованием.</p>
+      <p>Настоящая Политика является частью общей <a href="privacy/">Политики конфиденциальности</a> KARTEL Boats. При наличии противоречий приоритет имеют условия Политики конфиденциальности.</p>
+    `,
+  },
+
+  // SECTION 1
+  {
+    id: "what",
+    number: "РАЗДЕЛ 1",
+    title: "ЧТО ТАКОЕ COOKIES",
+    body: `
+      <p>Cookie — небольшой фрагмент текстовых данных, который веб-сайт сохраняет в браузере вашего устройства при посещении. Cookies позволяют сайту запоминать ваши действия и настройки (например, выбор языка, факт согласия с плашкой уведомления), а также собирать обезличенную статистику посещаемости.</p>
+      <p>Cookies не содержат вирусов и не могут выполнять программный код. Они не позволяют идентифицировать вас лично без сопоставления с другими данными.</p>
+    `,
+  },
+
+  // SECTION 2
+  {
+    id: "consent",
+    number: "РАЗДЕЛ 2",
+    title: "СОГЛАСИЕ НА COOKIES",
+    body: `
+      <p>При первом посещении Сайта в нижней части экрана появляется плашка уведомления о cookies с двумя опциями:</p>
+      <ul>
+        <li><strong>«Принять всё»</strong> — вы разрешаете использование всех cookies, включая аналитические (Yandex.Metrika).</li>
+        <li><strong>«Отклонить»</strong> — используются только обязательные (функциональные) cookies. Аналитические не устанавливаются.</li>
+      </ul>
+      <p>Ваш выбор сохраняется в локальном хранилище браузера. Изменить решение можно, очистив cookies браузера — при следующем посещении плашка появится снова.</p>
+    `,
+  },
+
+  // SECTION 3
+  {
+    id: "functional",
+    number: "РАЗДЕЛ 3",
+    title: "ФУНКЦИОНАЛЬНЫЕ COOKIES",
+    body: `
+      <p>Обязательные cookies, необходимые для базовой работы Сайта. Устанавливаются автоматически и не требуют вашего согласия — без них Сайт не может корректно работать. Не содержат персональной информации.</p>
+      <table>
+        <thead>
+          <tr>
+            <th>Название</th>
+            <th>Назначение</th>
+            <th>Срок хранения</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>kartel-cookie-consent</td>
+            <td>Хранит ваш выбор по плашке cookies (принято / отклонено), чтобы не показывать её повторно</td>
+            <td>Постоянно (до очистки браузера)</td>
+          </tr>
+        </tbody>
+      </table>
+    `,
+  },
+
+  // SECTION 4
+  {
+    id: "analytics",
+    number: "РАЗДЕЛ 4",
+    title: "АНАЛИТИЧЕСКИЕ COOKIES",
+    body: `
+      <p>Cookies сервиса аналитики <strong>Yandex.Metrika</strong> (ООО «Яндекс»). Устанавливаются <strong>только при вашем согласии</strong> через плашку cookies. Собирают обезличенную статистику: посещаемость страниц, источники трафика, поведение пользователей.</p>
+      <p>Мы используем эти данные, чтобы улучшать Сайт и понимать, какие разделы вам интересны. Никакие данные, позволяющие идентифицировать вас лично, не собираются и не передаются рекламодателям.</p>
+      <table>
+        <thead>
+          <tr>
+            <th>Название</th>
+            <th>Назначение</th>
+            <th>Срок хранения</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>_ym_uid</td>
+            <td>Обезличенный идентификатор посетителя</td>
+            <td>1 год</td>
+          </tr>
+          <tr>
+            <td>_ym_d</td>
+            <td>Дата первого визита на Сайт</td>
+            <td>1 год</td>
+          </tr>
+          <tr>
+            <td>_ym_isad</td>
+            <td>Индикатор наличия блокировщика рекламы</td>
+            <td>2 дня</td>
+          </tr>
+          <tr>
+            <td>_ym_visorc_*</td>
+            <td>Записи сессий (Вебвизор) — воспроизведение обезличенных действий на Сайте</td>
+            <td>Сеанс</td>
+          </tr>
+        </tbody>
+      </table>
+      <p>Политика конфиденциальности Yandex.Metrika: <a href="https://yandex.ru/legal/metrica_termsofuse/" target="_blank" rel="noopener">yandex.ru/legal/metrica_termsofuse</a>.</p>
+    `,
+  },
+
+  // SECTION 5
+  {
+    id: "manage",
+    number: "РАЗДЕЛ 5",
+    title: "КАК УПРАВЛЯТЬ COOKIES",
+    body: `
+      <p>Вы можете управлять cookies несколькими способами:</p>
+      <ul>
+        <li><strong>Через плашку на Сайте</strong> — при первом посещении. Чтобы вернуть плашку, очистите cookies браузера для домена expedition65.ru.</li>
+        <li><strong>Через настройки браузера</strong> — заблокировать все cookies, разрешить только для определённых сайтов, автоматически удалять cookies при закрытии.</li>
+        <li><strong>Через отказ от Yandex.Metrika</strong> — по адресу <a href="https://yandex.ru/support/metrica/general/opt-out.html" target="_blank" rel="noopener">yandex.ru/support/metrica/general/opt-out</a>.</li>
+      </ul>
+      <p><strong>Обратите внимание:</strong> отключение всех cookies может повлиять на работу отдельных элементов Сайта, но не помешает вам связаться с нами через форму обратной связи.</p>
+      <p>Инструкции по управлению cookies в популярных браузерах:</p>
+      <ul>
+        <li><a href="https://support.google.com/chrome/answer/95647" target="_blank" rel="noopener">Google Chrome</a></li>
+        <li><a href="https://support.mozilla.org/ru/kb/kuki-informaciya-kotoruyu-veb-sajty-hranyat-na-vas" target="_blank" rel="noopener">Mozilla Firefox</a></li>
+        <li><a href="https://support.apple.com/ru-ru/guide/safari/sfri11471/mac" target="_blank" rel="noopener">Safari</a></li>
+        <li><a href="https://yandex.ru/support/browser/personal-data-protection/cookies.html" target="_blank" rel="noopener">Яндекс.Браузер</a></li>
+      </ul>
+    `,
+  },
+
+  // SECTION 6
+  {
+    id: "dnt",
+    number: "РАЗДЕЛ 6",
+    title: "DO NOT TRACK",
+    body: `
+      <p>Некоторые браузеры позволяют отправлять сайтам сигнал Do Not Track (DNT), указывающий, что пользователь не желает быть отслеженным. В настоящее время не существует единого стандарта распознавания и обработки этого сигнала, поэтому мы его не обрабатываем.</p>
+      <p>Для отказа от аналитики используйте плашку cookies при первом посещении или инструкции из <a href="#manage">Раздела 5</a>.</p>
+    `,
+  },
+
+  // SECTION 7
+  {
+    id: "changes",
+    number: "РАЗДЕЛ 7",
+    title: "ИЗМЕНЕНИЯ В ПОЛИТИКЕ",
+    body: `
+      <p>Мы можем периодически обновлять настоящую Политику — например, при добавлении новых сервисов аналитики или изменении законодательства. Актуальная версия всегда публикуется по адресу <a href="cookies/">expedition65.ru/cookies</a>. Дата последнего обновления указана в начале документа.</p>
+    `,
+  },
+
+  // SECTION 8
+  {
+    id: "contact",
+    number: "РАЗДЕЛ 8",
+    title: "КОНТАКТЫ",
+    body: `
+      <p>По вопросам, связанным с использованием cookies на Сайте:</p>
+      <p><strong>KARTEL Boats / «Корабельная Артель»</strong></p>
+      <p><strong>Email:</strong> <a href="mailto:office@kartelboats.ru">office@kartelboats.ru</a></p>
+      <p><strong>Телефон:</strong> +7 (495) 741-82-58</p>
+      <p style="margin-top: 1.5rem;">Полная <a href="privacy/">Политика конфиденциальности</a> · <a href="terms/">Условия использования</a></p>
+    `,
+  },
+];
+---
+
+<LegalPage
+  lang="ru"
+  title="Политика cookies"
+  subtitle="Какие cookie-файлы использует expedition65.ru и как ими управлять."
+  updated="Действует с 1 июля 2026 г."
+  eyebrow="Cookies · KARTEL Boats"
+  sections={sections}
+/>
