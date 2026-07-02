@@ -1,0 +1,27 @@
+# KARTEL · Expedition 65 Lux — robots.txt
+# Permissive by intent. We want both classic search engines (Yandex, Google)
+# AND AI engines (ChatGPT, Perplexity, Claude, Yandex GPT) to index + cite
+# this page. Blocking AI crawlers would hurt GEO — for a one-off luxury
+# product, citations from AI answers are net-new exposure we want.
+
+User-agent: *
+Allow: /
+Disallow: /api/
+
+# Generative AI crawlers — explicitly allowed.
+User-agent: GPTBot
+Allow: /
+User-agent: PerplexityBot
+Allow: /
+User-agent: ClaudeBot
+Allow: /
+User-agent: anthropic-ai
+Allow: /
+User-agent: YandexGPT
+Allow: /
+User-agent: Google-Extended
+Allow: /
+User-agent: CCBot
+Allow: /
+
+Sitemap: https://expedition65.ru/sitemap.xml
