@@ -1,0 +1,220 @@
+---
+/**
+ * 404 — Point Nemo.
+ *
+ * Full-bleed AI-generated video of a nautical channel marker buoy in a stormy
+ * open sea. Video hosted on GitHub Releases (out of the deploy artifact).
+ * A CSS scrim provides text contrast; no JavaScript, no canvas — the earlier
+ * interactive drafts are archived in Vault/Kartel Boats/Expedition_65_Lux/
+ * 404 draft/.
+ */
+
+const SITE_URL = "https://expedition65.ru";
+const VIDEO_URL =
+  "https://github.com/Nlefterova/Houseboat-website/releases/download/nemo-video-v1/point-nemo-loop.mp4";
+
+const baseHref = import.meta.env.BASE_URL.endsWith("/")
+  ? import.meta.env.BASE_URL
+  : import.meta.env.BASE_URL + "/";
+---
+
+<!doctype html>
+<html lang="ru">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <base href={baseHref} />
+    <meta name="robots" content="noindex, nofollow" />
+    <link rel="canonical" href={`${SITE_URL}/404/`} />
+    <title>404 — Точка Немо · Expedition 65 Lux</title>
+    <meta
+      name="description"
+      content="Вы достигли точки Немо — самой отдалённой точки мирового океана."
+    />
+    <link rel="icon" type="image/svg+xml" href="favicon.svg" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap"
+    />
+    <style>
+      :root {
+        --nemo-fg: #eef4f6;
+        --nemo-fg-soft: #ced7dc;
+        --nemo-fg-mute: #a8b3ba;
+        --nemo-fg-dim: #8992a0;
+        --nemo-bg: #04070a;
+      }
+      html,
+      body {
+        margin: 0;
+        padding: 0;
+        height: 100%;
+        background: var(--nemo-bg);
+        overflow: hidden;
+        font-family: "Helvetica Now Display", "Inter", -apple-system,
+          BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      }
+      * {
+        box-sizing: border-box;
+      }
+
+      .nemo-stage {
+        position: fixed;
+        inset: 0;
+        overflow: hidden;
+      }
+
+      /* Background video fills the whole viewport, cropped as needed. */
+      #nemo-video {
+        position: absolute;
+        inset: 0;
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        display: block;
+      }
+
+      /* Dark scrim for text contrast — kept subtle so the video reads sharp;
+         legibility comes mostly from lifted text colors and heavier shadows. */
+      .nemo-scrim {
+        position: absolute;
+        inset: 0;
+        pointer-events: none;
+        background:
+          linear-gradient(
+            to bottom,
+            rgba(4, 8, 12, 0.6) 0%,
+            rgba(4, 8, 12, 0.22) 30%,
+            rgba(4, 8, 12, 0) 55%,
+            rgba(4, 8, 12, 0.3) 85%,
+            rgba(4, 8, 12, 0.65) 100%
+          );
+      }
+
+      .nemo-copy {
+        position: absolute;
+        inset: 0;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        padding-top: 6vh;
+        pointer-events: none;
+        text-align: center;
+        user-select: none;
+        z-index: 6;
+      }
+      .nemo-404 {
+        font-weight: 700;
+        letter-spacing: 0.02em;
+        line-height: 0.9;
+        font-size: clamp(120px, 23vw, 340px);
+        color: var(--nemo-fg);
+        text-shadow:
+          0 0 120px rgba(0, 0, 0, 0.75),
+          0 0 60px rgba(120, 160, 180, 0.22),
+          0 6px 40px rgba(0, 0, 0, 0.95);
+        margin: 0;
+      }
+      .nemo-headline {
+        margin-top: 18px;
+        font-weight: 500;
+        letter-spacing: 0.42em;
+        text-transform: uppercase;
+        font-size: clamp(15px, 2vw, 26px);
+        color: var(--nemo-fg-soft);
+        padding-left: 0.42em;
+        text-shadow:
+          0 0 40px rgba(0, 0, 0, 0.85),
+          0 2px 20px rgba(0, 0, 0, 0.95);
+      }
+      .nemo-sub {
+        margin-top: 14px;
+        font-style: italic;
+        font-weight: 300;
+        font-size: clamp(13px, 1.4vw, 17px);
+        color: var(--nemo-fg-mute);
+        letter-spacing: 0.04em;
+        text-shadow:
+          0 0 30px rgba(0, 0, 0, 0.85),
+          0 2px 16px rgba(0, 0, 0, 0.95);
+      }
+      .nemo-coords {
+        margin-top: 24px;
+        font-weight: 400;
+        font-size: clamp(12px, 1.15vw, 15px);
+        letter-spacing: 0.34em;
+        color: var(--nemo-fg-dim);
+        text-shadow:
+          0 0 26px rgba(0, 0, 0, 0.85),
+          0 2px 14px rgba(0, 0, 0, 0.95);
+      }
+
+      .nemo-foot {
+        position: absolute;
+        left: 0;
+        right: 0;
+        bottom: 5.5vh;
+        display: flex;
+        justify-content: center;
+        z-index: 6;
+      }
+      .nemo-cta {
+        pointer-events: auto;
+        font-weight: 500;
+        letter-spacing: 0.28em;
+        text-transform: uppercase;
+        font-size: 13px;
+        color: var(--nemo-fg);
+        text-decoration: none;
+        padding: 13px 30px;
+        border: 1px solid rgba(180, 195, 205, 0.4);
+        border-radius: 2px;
+        background: rgba(6, 12, 18, 0.55);
+        backdrop-filter: blur(2px);
+        -webkit-backdrop-filter: blur(2px);
+        transition:
+          border-color 0.3s ease,
+          color 0.3s ease,
+          background-color 0.3s ease;
+      }
+      .nemo-cta:hover,
+      .nemo-cta:focus-visible {
+        border-color: var(--color-neon-blue, #0047bb);
+        color: #eef4f7;
+        background: rgba(14, 24, 36, 0.65);
+        outline: none;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="nemo-stage">
+      <video
+        id="nemo-video"
+        autoplay
+        loop
+        muted
+        playsinline
+        preload="metadata"
+        poster="video/point-nemo-poster.jpg"
+      >
+        <source src={VIDEO_URL} type="video/mp4" />
+      </video>
+      <div class="nemo-scrim"></div>
+
+      <div class="nemo-copy">
+        <div class="nemo-404">404</div>
+        <div class="nemo-headline">Вы достигли точки Немо</div>
+        <div class="nemo-sub">самая отдалённая точка мирового океана</div>
+        <div class="nemo-coords">
+          48°52.6′ Ю.Ш. &nbsp;·&nbsp; 123°23.6′ З.Д.
+        </div>
+      </div>
+
+      <div class="nemo-foot">
+        <a href="./" class="nemo-cta">Вернуться в гавань</a>
+      </div>
+    </div>
+  </body>
+</html>
