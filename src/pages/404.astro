@@ -3,19 +3,30 @@
  * 404 — Point Nemo.
  *
  * Full-bleed AI-generated video of a nautical channel marker buoy in a stormy
- * open sea. Video hosted on GitHub Releases (out of the deploy artifact).
- * A CSS scrim provides text contrast; no JavaScript, no canvas — the earlier
- * interactive drafts are archived in Vault/Kartel Boats/Expedition_65_Lux/
- * 404 draft/.
+ * open ocean. Video normally hosted on GitHub Releases (out of the deploy
+ * artifact); the local path below is a dev-preview swap that gets replaced
+ * with the Releases URL right before merging to main.
+ *
+ * No JavaScript, no canvas. Semantic <main>/<h1>/<p> structure with hidden
+ * screen-reader context; decorative background is aria-hidden. The video
+ * is replaced with the static poster for prefers-reduced-motion users.
  */
 
 const SITE_URL = "https://expedition65.ru";
 const VIDEO_URL =
   "https://github.com/Nlefterova/Houseboat-website/releases/download/nemo-video-v1/point-nemo-loop.mp4";
 
+const POSTER_URL = "video/point-nemo-poster.jpg";
+
 const baseHref = import.meta.env.BASE_URL.endsWith("/")
   ? import.meta.env.BASE_URL
   : import.meta.env.BASE_URL + "/";
+
+const OG_TITLE = "404 — Точка Немо · Expedition 65 Lux";
+const OG_DESCRIPTION =
+  "Вы достигли точки Немо — самой отдалённой точки мирового океана.";
+const OG_IMAGE = `${SITE_URL}/video/point-nemo-poster.jpg`;
+const CANONICAL = `${SITE_URL}/404/`;
 ---
 
 <!doctype html>
@@ -25,12 +36,27 @@ const baseHref = import.meta.env.BASE_URL.endsWith("/")
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <base href={baseHref} />
     <meta name="robots" content="noindex, nofollow" />
-    <link rel="canonical" href={`${SITE_URL}/404/`} />
-    <title>404 — Точка Немо · Expedition 65 Lux</title>
-    <meta
-      name="description"
-      content="Вы достигли точки Немо — самой отдалённой точки мирового океана."
-    />
+    <link rel="canonical" href={CANONICAL} />
+    <title>{OG_TITLE}</title>
+    <meta name="description" content={OG_DESCRIPTION} />
+
+    <!-- Open Graph -->
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content={OG_TITLE} />
+    <meta property="og:description" content={OG_DESCRIPTION} />
+    <meta property="og:url" content={CANONICAL} />
+    <meta property="og:image" content={OG_IMAGE} />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="690" />
+    <meta property="og:locale" content="ru_RU" />
+    <meta property="og:site_name" content="KARTEL · Expedition 65 Lux" />
+
+    <!-- Twitter -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={OG_TITLE} />
+    <meta name="twitter:description" content={OG_DESCRIPTION} />
+    <meta name="twitter:image" content={OG_IMAGE} />
+
     <link rel="icon" type="image/svg+xml" href="favicon.svg" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -59,6 +85,15 @@ const baseHref = import.meta.env.BASE_URL.endsWith("/")
       * {
         box-sizing: border-box;
       }
+      /* Reset browser default margins on the semantic elements we use so the
+         explicit spacing in .nemo-404 / .nemo-headline / .nemo-sub / .nemo-coords
+         is what actually lands. */
+      main,
+      h1,
+      p {
+        margin: 0;
+        padding: 0;
+      }
 
       .nemo-stage {
         position: fixed;
@@ -66,7 +101,6 @@ const baseHref = import.meta.env.BASE_URL.endsWith("/")
         overflow: hidden;
       }
 
-      /* Background video fills the whole viewport, cropped as needed. */
       #nemo-video {
         position: absolute;
         inset: 0;
@@ -76,8 +110,6 @@ const baseHref = import.meta.env.BASE_URL.endsWith("/")
         display: block;
       }
 
-      /* Dark scrim for text contrast — kept subtle so the video reads sharp;
-         legibility comes mostly from lifted text colors and heavier shadows. */
       .nemo-scrim {
         position: absolute;
         inset: 0;
@@ -102,8 +134,8 @@ const baseHref = import.meta.env.BASE_URL.endsWith("/")
         padding-top: 6vh;
         pointer-events: none;
         text-align: center;
-        user-select: none;
         z-index: 6;
+        margin: 0;
       }
       .nemo-404 {
         font-weight: 700;
@@ -118,7 +150,7 @@ const baseHref = import.meta.env.BASE_URL.endsWith("/")
         margin: 0;
       }
       .nemo-headline {
-        margin-top: 18px;
+        margin: 18px 0 0;
         font-weight: 500;
         letter-spacing: 0.42em;
         text-transform: uppercase;
@@ -130,7 +162,7 @@ const baseHref = import.meta.env.BASE_URL.endsWith("/")
           0 2px 20px rgba(0, 0, 0, 0.95);
       }
       .nemo-sub {
-        margin-top: 14px;
+        margin: 14px 0 0;
         font-style: italic;
         font-weight: 300;
         font-size: clamp(13px, 1.4vw, 17px);
@@ -141,7 +173,7 @@ const baseHref = import.meta.env.BASE_URL.endsWith("/")
           0 2px 16px rgba(0, 0, 0, 0.95);
       }
       .nemo-coords {
-        margin-top: 24px;
+        margin: 24px 0 0;
         font-weight: 400;
         font-size: clamp(12px, 1.15vw, 15px);
         letter-spacing: 0.34em;
@@ -186,10 +218,29 @@ const baseHref = import.meta.env.BASE_URL.endsWith("/")
         background: rgba(14, 24, 36, 0.65);
         outline: none;
       }
+      .nemo-cta:focus-visible {
+        outline: 2px solid var(--color-neon-blue, #0047bb);
+        outline-offset: 3px;
+      }
+
+      /* Respect user motion preferences — swap the autoplaying loop for the
+         static poster so reduced-motion users get the same imagery without
+         movement. */
+      @media (prefers-reduced-motion: reduce) {
+        #nemo-video {
+          display: none;
+        }
+        .nemo-stage {
+          background:
+            var(--nemo-bg)
+            url("video/point-nemo-poster.jpg")
+            center / cover no-repeat;
+        }
+      }
     </style>
   </head>
   <body>
-    <div class="nemo-stage">
+    <main class="nemo-stage">
       <video
         id="nemo-video"
         autoplay
@@ -197,24 +248,28 @@ const baseHref = import.meta.env.BASE_URL.endsWith("/")
         muted
         playsinline
         preload="metadata"
-        poster="video/point-nemo-poster.jpg"
+        poster={POSTER_URL}
+        aria-hidden="true"
       >
         <source src={VIDEO_URL} type="video/mp4" />
       </video>
-      <div class="nemo-scrim"></div>
+      <div class="nemo-scrim" aria-hidden="true"></div>
 
       <div class="nemo-copy">
-        <div class="nemo-404">404</div>
-        <div class="nemo-headline">Вы достигли точки Немо</div>
-        <div class="nemo-sub">самая отдалённая точка мирового океана</div>
-        <div class="nemo-coords">
+        <h1 class="nemo-404" aria-label="Ошибка 404">404</h1>
+        <p class="nemo-headline">Вы достигли точки Немо</p>
+        <p class="nemo-sub">самая отдалённая точка мирового океана</p>
+        <p
+          class="nemo-coords"
+          aria-label="Координаты: 48 градусов 52.6 минут южной широты, 123 градуса 23.6 минут западной долготы"
+        >
           48°52.6′ Ю.Ш. &nbsp;·&nbsp; 123°23.6′ З.Д.
-        </div>
+        </p>
       </div>
 
       <div class="nemo-foot">
         <a href="./" class="nemo-cta">Вернуться в гавань</a>
       </div>
-    </div>
+    </main>
   </body>
 </html>
