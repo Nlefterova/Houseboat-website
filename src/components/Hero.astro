@@ -6,20 +6,16 @@ const { lang = "ru" } = Astro.props;
 
 const copy = lang === "ru"
   ? {
-      eyebrow: "KARTEL · Экспедиционный проект",
+      eyebrow: "Экспедиционный проект · 2026",
       title: "Expedition 65",
       subtitle: "Lux",
-      meta: [
-        { label: "Серия", value: "Lux" },
-        { label: "Год", value: "2026" },
-      ],
       specs: [
         { label: "Длина", value: "19,6", unit: "м" },
         { label: "Каюты", value: "5", unit: "" },
         { label: "Гостей", value: "12", unit: "" },
         { label: "Сезоны", value: "4", unit: "до −30 °C" },
         { label: "Корпус", value: "Сталь", unit: "нерж." },
-        { label: "Автономность", value: "7+", unit: "суток" },
+        { label: "Год", value: "2026", unit: "" },
       ],
       tagline: "Право на свободу маршрута.",
       primary: "Запросить стоимость",
@@ -27,20 +23,16 @@ const copy = lang === "ru"
       heroAlt: "Expedition 65 Lux на спокойной воде в утреннем тумане — корпус отражается в зеркальной поверхности озера",
     }
   : {
-      eyebrow: "KARTEL · Expedition Project",
+      eyebrow: "Expedition Project · 2026",
       title: "Expedition 65",
       subtitle: "Lux",
-      meta: [
-        { label: "Series", value: "Lux" },
-        { label: "Year", value: "2026" },
-      ],
       specs: [
         { label: "Length", value: "19.6", unit: "m" },
         { label: "Cabins", value: "5", unit: "" },
         { label: "Guests", value: "12", unit: "" },
         { label: "Seasons", value: "4", unit: "to −30 °C" },
         { label: "Hull", value: "Steel", unit: "stainless" },
-        { label: "Autonomy", value: "7+", unit: "days" },
+        { label: "Year", value: "2026", unit: "" },
       ],
       tagline: "The right to freedom of route.",
       primary: "Request Pricing",
@@ -49,7 +41,7 @@ const copy = lang === "ru"
     };
 ---
 
-<section class="relative isolate min-h-[100svh] w-full overflow-hidden bg-[var(--color-ink)]">
+<section class="relative isolate min-h-[100svh] w-full overflow-hidden bg-[var(--color-paper)] sm:bg-[var(--color-ink)]">
   <!-- Hero photo: Канон/Expedition/EXP_15_Calm Lake Reflection.jpeg
        Intentionally NOT wrapped in <ResponsiveImage>. The hero is the single
        highest-impact visual on the site — quality > bandwidth. Every device
@@ -57,7 +49,7 @@ const copy = lang === "ru"
        AVIF/WebP variant; the perceptible softening at AVIF q80 was not
        acceptable here. Costs ~800 KB extra on initial load; for one image
        on a luxury product page that's the right tradeoff. -->
-  <div class="absolute inset-0 -z-10">
+  <div class="absolute inset-x-0 top-0 -z-10 h-[52vh] overflow-hidden sm:inset-0 sm:h-auto">
     <img
       src="hero/hero.jpg"
       alt={copy.heroAlt}
@@ -66,8 +58,7 @@ const copy = lang === "ru"
       loading="eager"
       fetchpriority="high"
       decoding="sync"
-      class="absolute inset-0 h-full w-full object-cover"
-      style="transform: scale(1.5) translateX(15%); transform-origin: center;"
+      class="absolute inset-0 h-full w-full origin-center scale-150 translate-x-[8%] object-cover sm:translate-x-[15%]"
     />
     <!-- Dark gradient overlay — keeps the glass card legible on the left. -->
     <div
@@ -81,53 +72,41 @@ const copy = lang === "ru"
     ></div>
   </div>
 
-  <div class="mx-auto flex min-h-[100svh] max-w-[1440px] items-end px-8 pb-16 pt-36 lg:items-center">
+  <div class="mx-auto flex min-h-[100svh] max-w-[1440px] items-start px-6 pb-6 pt-[calc(52vh+1rem)] sm:items-end sm:px-8 sm:pb-16 sm:pt-36 lg:items-center">
     <div class="grid w-full grid-cols-12 gap-8">
       <!-- Bering-70 style translucent card, pinned left -->
       <div class="col-span-12 sm:col-span-10 md:col-span-7 lg:col-span-5 xl:col-span-5">
         <div
-          class="rounded-[2px] border border-[color-mix(in_srgb,white_15%,transparent)] bg-[color-mix(in_srgb,black_55%,transparent)] p-8 backdrop-blur-xl sm:p-10"
+          class="p-0 sm:rounded-[2px] sm:border sm:border-[color-mix(in_srgb,white_15%,transparent)] sm:bg-[color-mix(in_srgb,black_55%,transparent)] sm:p-10 sm:backdrop-blur-xl"
         >
-          <p class="text-[11px] uppercase tracking-[var(--tracking-wide-cap)] text-[color-mix(in_srgb,white_70%,transparent)]">
+          <p class="hidden text-[11px] uppercase tracking-[var(--tracking-wide-cap)] text-[color-mix(in_srgb,black_60%,transparent)] sm:block sm:text-[color-mix(in_srgb,white_70%,transparent)]">
             {copy.eyebrow}
           </p>
 
-          <div class="mt-6 flex flex-wrap items-baseline gap-x-3 gap-y-1">
-            <h1 class="display whitespace-nowrap text-[40px] leading-[0.95] text-[var(--color-paper)] sm:text-[52px]">
+          <div class="mt-0 flex flex-wrap items-baseline gap-x-3 gap-y-1 sm:mt-6">
+            <h1 class="display whitespace-nowrap text-[34px] leading-[0.95] text-[var(--color-ink)] sm:text-[52px] sm:text-[var(--color-paper)]">
               {copy.title}
             </h1>
-            <span class="text-[20px] font-light italic tracking-tight text-[color-mix(in_srgb,white_75%,transparent)] sm:text-[24px]">
+            <span class="text-[18px] font-light italic tracking-tight text-[color-mix(in_srgb,black_55%,transparent)] sm:text-[24px] sm:text-[color-mix(in_srgb,white_75%,transparent)]">
               {copy.subtitle}
             </span>
           </div>
 
-          <!-- Bering pattern: small label/value meta row (Name+Year / Series+Year) -->
-          <dl class="mt-6 grid grid-cols-2 gap-x-6 gap-y-3 border-t border-[color-mix(in_srgb,white_15%,transparent)] pt-6">
-            {copy.meta.map((m) => (
-              <div>
-                <dt class="text-[10px] font-semibold uppercase tracking-[var(--tracking-cap)] text-[color-mix(in_srgb,white_70%,transparent)]">
-                  {m.label}
-                </dt>
-                <dd class="mt-1 text-[16px] text-[var(--color-paper)]">{m.value}</dd>
-              </div>
-            ))}
-          </dl>
-
           <!-- Spec grid 3x2 -->
-          <dl class="mt-6 grid grid-cols-2 gap-x-6 gap-y-5 border-t border-[color-mix(in_srgb,white_15%,transparent)] pt-6">
+          <dl class="mt-4 grid grid-cols-3 gap-x-4 gap-y-4 sm:mt-6 sm:grid-cols-2 sm:gap-x-6 sm:gap-y-5 sm:border-t sm:border-[color-mix(in_srgb,white_15%,transparent)] sm:pt-6">
             {copy.specs.map((s) => (
               <div>
-                <dt class="text-[10px] font-semibold uppercase tracking-[var(--tracking-cap)] text-[color-mix(in_srgb,white_70%,transparent)]">
+                <dt class="text-[10px] font-semibold uppercase tracking-[var(--tracking-cap)] text-[color-mix(in_srgb,black_60%,transparent)] sm:text-[color-mix(in_srgb,white_70%,transparent)]">
                   {s.label}
                 </dt>
-                <dd class="mt-1 text-[26px] font-light leading-none tracking-[-0.02em] text-[var(--color-paper)]">
+                <dd class="mt-1 text-[18px] font-light leading-none tracking-[-0.02em] text-[var(--color-ink)] sm:text-[26px] sm:text-[var(--color-paper)]">
                   {s.value}
                   {s.unit && !s.unit.includes("°") && !s.unit.includes("экипаж") && !s.unit.includes("crew") && !s.unit.includes("суток") && !s.unit.includes("days") && !s.unit.includes("нерж") && !s.unit.includes("stainless") && (
-                    <span class="text-[14px] text-[color-mix(in_srgb,white_55%,transparent)]"> {s.unit}</span>
+                    <span class="text-[14px] text-[color-mix(in_srgb,black_45%,transparent)] sm:text-[color-mix(in_srgb,white_55%,transparent)]"> {s.unit}</span>
                   )}
                 </dd>
                 {s.unit && (s.unit.includes("°") || s.unit.includes("экипаж") || s.unit.includes("crew") || s.unit.includes("суток") || s.unit.includes("days") || s.unit.includes("нерж") || s.unit.includes("stainless")) && (
-                  <dd class="mt-1 text-[10px] uppercase tracking-[var(--tracking-cap)] text-[color-mix(in_srgb,white_55%,transparent)]">
+                  <dd class="mt-1 text-[10px] uppercase tracking-[var(--tracking-cap)] text-[color-mix(in_srgb,black_45%,transparent)] sm:text-[color-mix(in_srgb,white_55%,transparent)]">
                     {s.unit}
                   </dd>
                 )}
@@ -135,20 +114,20 @@ const copy = lang === "ru"
             ))}
           </dl>
 
-          <p class="display mt-8 text-[18px] italic text-[color-mix(in_srgb,white_80%,transparent)]">
+          <p class="display mt-8 hidden text-[18px] italic text-[color-mix(in_srgb,black_65%,transparent)] sm:block sm:text-[color-mix(in_srgb,white_80%,transparent)]">
             {copy.tagline}
           </p>
 
-          <div class="mt-7 flex flex-wrap items-center gap-3">
+          <div class="mt-7 flex items-center gap-3 sm:flex-wrap">
             <a
               href="#inquire"
-              class="inline-flex items-center gap-2 rounded-full bg-[var(--color-paper)] px-6 py-3 text-[11px] uppercase tracking-[var(--tracking-cap)] text-[var(--color-ink)] transition-colors hover:bg-[var(--color-neon-blue)] hover:text-[var(--color-paper)]"
+              class="inline-flex items-center gap-2 whitespace-nowrap rounded-full bg-[var(--color-ink)] px-4 py-2.5 text-[10px] uppercase tracking-[var(--tracking-cap)] text-[var(--color-paper)] transition-colors hover:bg-[var(--color-neon-blue)] hover:text-[var(--color-paper)] sm:bg-[var(--color-paper)] sm:px-6 sm:py-3 sm:text-[11px] sm:text-[var(--color-ink)]"
             >
               {copy.primary}
             </a>
             <a
               href="#spec"
-              class="inline-flex items-center gap-2 rounded-full border border-[color-mix(in_srgb,white_45%,transparent)] px-6 py-3 text-[11px] uppercase tracking-[var(--tracking-cap)] text-[var(--color-paper)] transition-[border-color,box-shadow] duration-200 hover:border-[var(--color-neon-blue)] hover:[box-shadow:inset_0_0_0_3px_var(--color-neon-blue)]"
+              class="inline-flex items-center gap-2 whitespace-nowrap rounded-full border border-[color-mix(in_srgb,black_45%,transparent)] px-4 py-2.5 text-[10px] uppercase tracking-[var(--tracking-cap)] text-[var(--color-ink)] transition-[border-color,box-shadow] duration-200 hover:border-[var(--color-neon-blue)] hover:[box-shadow:inset_0_0_0_3px_var(--color-neon-blue)] sm:border-[color-mix(in_srgb,white_45%,transparent)] sm:px-6 sm:py-3 sm:text-[11px] sm:text-[var(--color-paper)]"
             >
               {copy.secondary}
             </a>
@@ -159,7 +138,7 @@ const copy = lang === "ru"
   </div>
 
   <!-- Scroll cue, bottom-center -->
-  <div class="pointer-events-none absolute inset-x-0 bottom-6 flex justify-center">
+  <div class="pointer-events-none absolute inset-x-0 bottom-6 hidden justify-center sm:flex">
     <div class="flex flex-col items-center gap-2">
       <span class="text-[10px] uppercase tracking-[var(--tracking-wide-cap)] text-[color-mix(in_srgb,white_50%,transparent)]">
         {lang === "ru" ? "Маршрут вниз" : "Scroll"}
