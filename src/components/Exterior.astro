@@ -48,7 +48,7 @@ const label = (i: number) =>
   lang === "ru" ? photos[i].labelRu : photos[i].labelEn;
 ---
 
-<section id="exterior" class="bg-[color-mix(in_srgb,var(--color-light-grey)_50%,white)] pt-12 pb-24 sm:pt-[120px] sm:pb-0">
+<section id="exterior" class="bg-[color-mix(in_srgb,var(--color-light-grey)_50%,white)] pt-12 pb-0 sm:pt-[120px] sm:pb-0">
   <div class="mx-auto max-w-[1440px] px-8">
     <div class="pb-3">
       <div class="max-w-2xl">
@@ -59,7 +59,7 @@ const label = (i: number) =>
         {copy.title}
       </h2>
       <div class="mt-3 flex items-end justify-between gap-6">
-        <p class="max-w-xl text-[14px] leading-[1.6] text-[var(--color-deep-grey)]">
+        <p class="max-w-xl text-[12px] leading-[1.6] text-[var(--color-deep-grey)] sm:text-[14px]">
           {copy.lede}
         </p>
         <button

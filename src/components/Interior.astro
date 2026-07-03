@@ -90,7 +90,7 @@ const DIMS: Record<string, [number, number]> = {
         {copy.title}
       </h2>
       <div class="mt-3 flex items-end justify-between gap-6">
-        <p class="max-w-xl text-[14px] leading-[1.6] text-[var(--color-deep-grey)]">
+        <p class="max-w-xl text-[12px] leading-[1.6] text-[var(--color-deep-grey)] sm:text-[14px]">
           {copy.lede}
         </p>
         <button
@@ -104,10 +104,10 @@ const DIMS: Record<string, [number, number]> = {
     </div>
 
     <!-- Carousel -->
-    <div data-interior-carousel data-total={total}>
+    <div data-interior-carousel data-total={total} class="-mx-8 sm:mx-0">
       <!-- Photo card -->
       <div
-        class="relative aspect-[16/9] w-full overflow-hidden rounded-[2px] bg-[var(--color-ink)]"
+        class="relative aspect-[4/3] w-full overflow-hidden bg-[var(--color-ink)] sm:aspect-[16/9] sm:rounded-[2px]"
       >
         {rooms.map((r, i) => (
           <div
@@ -138,17 +138,17 @@ const DIMS: Record<string, [number, number]> = {
 
         <!-- Top-left chip -->
         <span
-          class="absolute left-6 top-6 inline-flex items-center gap-2 rounded-[2px] border border-[color-mix(in_srgb,white_50%,transparent)] px-3 py-1.5 text-[11px] uppercase tracking-[var(--tracking-cap)] text-[var(--color-paper)] backdrop-blur-md"
+          class="absolute left-4 top-4 inline-flex items-center gap-1.5 rounded-[2px] border border-[color-mix(in_srgb,white_50%,transparent)] px-2 py-1 text-[9px] uppercase tracking-[var(--tracking-cap)] text-[var(--color-paper)] backdrop-blur-md sm:left-6 sm:top-6 sm:gap-2 sm:px-3 sm:py-1.5 sm:text-[11px]"
         >
           {copy.chipLabel}
         </span>
 
         <!-- Top-right counter -->
         <div
-          class="absolute right-6 top-6 flex items-baseline gap-1 text-[var(--color-paper)]"
+          class="absolute right-4 top-4 flex items-baseline gap-1 text-[var(--color-paper)] sm:right-6 sm:top-6"
         >
-          <span data-current-index class="text-[16px] font-light tabular-nums">01</span>
-          <span class="text-[10px] uppercase tracking-[var(--tracking-cap)] text-[color-mix(in_srgb,white_55%,transparent)]">
+          <span data-current-index class="text-[13px] font-light tabular-nums sm:text-[16px]">01</span>
+          <span class="text-[9px] uppercase tracking-[var(--tracking-cap)] text-[color-mix(in_srgb,white_55%,transparent)] sm:text-[10px]">
             / {String(total).padStart(2, "0")}
           </span>
         </div>
@@ -158,9 +158,9 @@ const DIMS: Record<string, [number, number]> = {
           type="button"
           data-prev
           aria-label="Previous"
-          class="absolute left-4 top-1/2 z-10 flex h-12 w-12 -translate-y-1/2 items-center justify-center rounded-[2px] bg-[color-mix(in_srgb,black_55%,transparent)] text-[var(--color-paper)] backdrop-blur-md transition-colors hover:bg-[var(--color-paper)] hover:text-[var(--color-ink)]"
+          class="absolute left-3 top-1/2 z-10 flex h-9 w-9 -translate-y-1/2 items-center justify-center rounded-[2px] bg-[color-mix(in_srgb,black_55%,transparent)] text-[var(--color-paper)] backdrop-blur-md transition-colors hover:bg-[var(--color-paper)] hover:text-[var(--color-ink)] sm:left-4 sm:h-12 sm:w-12"
         >
-          <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+          <svg width="16" height="16" viewBox="0 0 20 20" fill="none" class="sm:h-5 sm:w-5">
             <path d="M12 4 L6 10 L12 16" stroke="currentColor" stroke-width="1.6" stroke-linecap="square" />
           </svg>
         </button>
@@ -168,9 +168,9 @@ const DIMS: Record<string, [number, number]> = {
           type="button"
           data-next
           aria-label="Next"
-          class="absolute right-4 top-1/2 z-10 flex h-12 w-12 -translate-y-1/2 items-center justify-center rounded-[2px] bg-[color-mix(in_srgb,black_55%,transparent)] text-[var(--color-paper)] backdrop-blur-md transition-colors hover:bg-[var(--color-paper)] hover:text-[var(--color-ink)]"
+          class="absolute right-3 top-1/2 z-10 flex h-9 w-9 -translate-y-1/2 items-center justify-center rounded-[2px] bg-[color-mix(in_srgb,black_55%,transparent)] text-[var(--color-paper)] backdrop-blur-md transition-colors hover:bg-[var(--color-paper)] hover:text-[var(--color-ink)] sm:right-4 sm:h-12 sm:w-12"
         >
-          <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+          <svg width="16" height="16" viewBox="0 0 20 20" fill="none" class="sm:h-5 sm:w-5">
             <path d="M8 4 L14 10 L8 16" stroke="currentColor" stroke-width="1.6" stroke-linecap="square" />
           </svg>
         </button>
@@ -182,16 +182,16 @@ const DIMS: Record<string, [number, number]> = {
         ></div>
 
         <!-- Caption OVERLAID on the photo, bottom-left -->
-        <div class="absolute inset-x-6 bottom-6 sm:inset-x-10 sm:bottom-10">
+        <div class="absolute inset-x-4 bottom-4 sm:inset-x-10 sm:bottom-10">
           <p
             data-caption-deck
-            class="text-[11px] uppercase tracking-[var(--tracking-wide-cap)] text-[color-mix(in_srgb,white_70%,transparent)]"
+            class="text-[9px] uppercase tracking-[var(--tracking-wide-cap)] text-[color-mix(in_srgb,white_70%,transparent)] sm:text-[11px]"
           >
             {rooms[0].deck}
           </p>
           <h3
             data-caption-name
-            class="display mt-3 text-[36px] leading-[1.05] text-[var(--color-paper)] sm:text-[52px]"
+            class="display mt-2 text-[22px] leading-[1.05] text-[var(--color-paper)] sm:mt-3 sm:text-[52px]"
           >
             {rooms[0].name}
           </h3>
@@ -199,7 +199,7 @@ const DIMS: Record<string, [number, number]> = {
       </div>
 
       <!-- Progress segments -->
-      <div class="mt-5 flex gap-1.5">
+      <div class="mt-5 flex gap-1.5 px-8 sm:px-0">
         {rooms.map((_, i) => (
           <button
             type="button"
