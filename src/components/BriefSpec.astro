@@ -457,7 +457,7 @@ const detailCaption = (p: DetailPhoto) => (lang === "ru" ? p.ru : p.en);
         >
           {copy.title}
         </h2>
-        <p class="mt-6 max-w-2xl text-[14px] leading-[1.6] text-[var(--color-deep-grey)]">
+        <p class="mt-3 max-w-2xl text-[14px] leading-[1.6] text-[var(--color-deep-grey)] sm:mt-6">
           {copy.lede}
         </p>
       </div>
@@ -479,12 +479,12 @@ const detailCaption = (p: DetailPhoto) => (lang === "ru" ? p.ru : p.en);
           class="grid grid-cols-12 gap-x-4 sm:gap-x-8 gap-y-1 border-b border-[var(--color-grey)] py-2.5 sm:py-3"
         >
           <dt
-            class="col-span-12 text-[12px] uppercase tracking-[var(--tracking-cap)] text-[var(--color-ink)] sm:col-span-5"
+            class="col-span-6 whitespace-nowrap text-[10px] uppercase tracking-[var(--tracking-cap)] text-[var(--color-ink)] sm:col-span-5 sm:whitespace-normal sm:text-[12px]"
           >
             {r.label}
           </dt>
           <dd
-            class="col-span-12 text-[14px] leading-[1.35] text-[var(--color-neon-blue)] sm:col-span-7 sm:text-[15px]"
+            class="col-span-6 min-w-0 overflow-hidden text-ellipsis whitespace-nowrap text-right text-[11px] leading-[1.35] text-[var(--color-neon-blue)] sm:col-span-7 sm:overflow-visible sm:whitespace-normal sm:text-left sm:text-[15px]"
           >
             {r.value}
           </dd>
@@ -605,10 +605,22 @@ const detailCaption = (p: DetailPhoto) => (lang === "ru" ? p.ru : p.en);
         {copy.fullSpecSubtitle}
       </p>
     </div>
+    <!-- Mobile: icon-only white circle -->
     <button
       type="button"
       data-fullspec-close
-      class="btn-secondary inline-flex shrink-0 items-center gap-2 rounded-full px-5 py-2.5 text-[11px] uppercase tracking-[var(--tracking-cap)]"
+      aria-label={copy.closeLabel}
+      class="fs-close-mobile inline-flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-[var(--color-paper)] text-[var(--color-ink)] shadow-sm transition-colors hover:text-[var(--color-neon-blue)] sm:hidden"
+    >
+      <svg width="14" height="14" viewBox="0 0 12 12" fill="none">
+        <path d="M2 2 L10 10 M10 2 L2 10" stroke="currentColor" stroke-width="1.4" stroke-linecap="square" />
+      </svg>
+    </button>
+    <!-- Desktop: text pill -->
+    <button
+      type="button"
+      data-fullspec-close
+      class="btn-secondary hidden shrink-0 items-center gap-2 rounded-full px-5 py-2.5 text-[11px] uppercase tracking-[var(--tracking-cap)] sm:inline-flex"
     >
       <span>{copy.closeLabel}</span>
       <svg width="12" height="12" viewBox="0 0 12 12" fill="none">
@@ -638,7 +650,7 @@ const detailCaption = (p: DetailPhoto) => (lang === "ru" ? p.ru : p.en);
   </nav>
 
   <!-- Scrollable body: categorized spec rows -->
-  <div data-fullspec-body class="flex-1 overflow-y-auto px-6 py-8 sm:px-10 sm:py-10">
+  <div data-fullspec-body class="min-h-0 flex-1 overflow-y-auto overscroll-contain px-6 py-8 sm:px-10 sm:py-10">
     <div class="mx-auto max-w-[1100px] space-y-10">
       {fullSpec.map((group, i) => (
         <section id={`spec-cat-${i}`} class="scroll-mt-6">
@@ -677,6 +689,30 @@ const detailCaption = (p: DetailPhoto) => (lang === "ru" ? p.ru : p.en);
   .fullspec-modal.is-open {
     display: flex;
   }
+  /* Kill Safari's default focus rectangle on the mobile close button (was
+     showing as a blue square around the circular icon). Desktop pill keeps
+     its normal focus ring. */
+  .fullspec-modal .fs-close-mobile {
+    -webkit-tap-highlight-color: transparent;
+  }
+  .fullspec-modal .fs-close-mobile:focus,
+  .fullspec-modal .fs-close-mobile:focus-visible {
+    outline: none !important;
+    box-shadow: none !important;
+  }
+  /* Mobile: iOS Safari doesn't reliably scroll nested flex-1+overflow-y containers
+     inside a position:fixed modal. Make the modal itself the scroll container. */
+  @media (max-width: 639px) {
+    .fullspec-modal.is-open {
+      overflow-y: auto;
+      -webkit-overflow-scrolling: touch;
+    }
+    .fullspec-modal [data-fullspec-body] {
+      flex: none;
+      overflow: visible;
+      min-height: 0;
+    }
+  }
   .fullspec-modal [data-fullspec-jump].is-active-pill {
     background-color: var(--color-neon-blue);
     color: var(--color-paper);
@@ -712,12 +748,24 @@ const detailCaption = (p: DetailPhoto) => (lang === "ru" ? p.ru : p.en);
     );
   }
 
+  // iOS-safe body scroll lock: overflow:hidden alone leaves the page scrollable
+  // via touch on iOS Safari, and also blocks nested overflow-y:auto scrollers
+  // from receiving touch events. Fixing the body at the current scroll offset
+  // is the standard workaround.
+  let savedScrollY = 0;
+
   function open() {
     if (!modal) return;
     modal.classList.add("is-open");
     modal.setAttribute("aria-hidden", "false");
-    document.body.style.overflow = "hidden";
+    savedScrollY = window.scrollY;
+    document.body.style.position = "fixed";
+    document.body.style.top = `-${savedScrollY}px`;
+    document.body.style.left = "0";
+    document.body.style.right = "0";
+    document.body.style.width = "100%";
     if (body) body.scrollTop = 0;
+    modal.scrollTop = 0;
     setActive(0);
     closeBtns[0]?.focus();
   }
@@ -726,7 +774,12 @@ const detailCaption = (p: DetailPhoto) => (lang === "ru" ? p.ru : p.en);
     if (!modal) return;
     modal.classList.remove("is-open");
     modal.setAttribute("aria-hidden", "true");
-    document.body.style.overflow = "";
+    document.body.style.position = "";
+    document.body.style.top = "";
+    document.body.style.left = "";
+    document.body.style.right = "";
+    document.body.style.width = "";
+    window.scrollTo(0, savedScrollY);
   }
 
   openBtns.forEach((b) => b.addEventListener("click", open));
@@ -735,16 +788,17 @@ const detailCaption = (p: DetailPhoto) => (lang === "ru" ? p.ru : p.en);
   jumpBtns.forEach((b, idx) => {
     b.addEventListener("click", () => {
       const id = b.dataset.fullspecJump;
-      if (!id || !body) return;
+      if (!id || !body || !modal) return;
       const target = body.querySelector<HTMLElement>(`#${id}`);
       if (!target) return;
-      // getBoundingClientRect is reliable even when offsetParent isn't the scroll container.
+      // Mobile: whole modal is the scroll container. Desktop: inner body scrolls.
+      const scroller = window.matchMedia("(max-width: 639px)").matches ? modal : body;
       const top =
         target.getBoundingClientRect().top -
-        body.getBoundingClientRect().top +
-        body.scrollTop -
+        scroller.getBoundingClientRect().top +
+        scroller.scrollTop -
         24;
-      body.scrollTo({ top, behavior: "smooth" });
+      scroller.scrollTo({ top, behavior: "smooth" });
       setActive(idx);
     });
   });
