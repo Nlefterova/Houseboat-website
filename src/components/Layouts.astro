@@ -25,16 +25,16 @@ const copy = lang === "ru"
 
 const decks = lang === "ru"
   ? [
-      { key: "upper", label: "Верхняя палуба", caption: "Открытая палуба под тентом, лаунж-зона, обзор 360°", src: "layouts/deck-upper.svg", plan: "layouts/plan-upper.jpg" },
-      { key: "main", label: "Главная палуба", caption: "Кают-компания, верхний камбуз, обеденная на 12 человек, санузел", src: "layouts/deck-main.svg", plan: "layouts/plan-main.jpg" },
-      { key: "lower", label: "Нижняя палуба", caption: "Мастер-каюта, 2 гостевые каюты, 2 детские каюты, нижний камбуз, три санузла, СПА, сауна", src: "layouts/deck-lower.svg", plan: "layouts/plan-lower.jpg" },
-      { key: "profile", label: "Профиль", caption: "Длина 19,6 м · Ширина 5,55 м · Осадка 0,55 м · 30 т · 3 палубы · 5 кают", src: "layouts/deck-full.svg", plan: "layouts/plan-profile.jpg" },
+      { key: "upper", label: "Верхняя палуба", labelShort: "Верхняя", caption: "Открытая палуба под тентом, лаунж-зона, обзор 360°", src: "layouts/deck-upper.svg", plan: "layouts/plan-upper.jpg" },
+      { key: "main", label: "Главная палуба", labelShort: "Главная", caption: "Кают-компания, верхний камбуз, обеденная на 12 человек, санузел", src: "layouts/deck-main.svg", plan: "layouts/plan-main.jpg" },
+      { key: "lower", label: "Нижняя палуба", labelShort: "Нижняя", caption: "Мастер-каюта, 2 гостевые каюты, 2 детские каюты, нижний камбуз, три санузла, СПА, сауна", src: "layouts/deck-lower.svg", plan: "layouts/plan-lower.jpg" },
+      { key: "profile", label: "Профиль", labelShort: "Профиль", caption: "Длина 19,6 м · Ширина 5,55 м · Осадка 0,55 м · 30 т · 3 палубы · 5 кают", src: "layouts/deck-full.svg", plan: "layouts/plan-profile.jpg" },
     ]
   : [
-      { key: "upper", label: "Upper Deck", caption: "Upper deck · Solarium", src: "layouts/deck-upper.svg", plan: "layouts/plan-upper.jpg" },
-      { key: "main", label: "Main Deck", caption: "Main deck · Salon + galley", src: "layouts/deck-main.svg", plan: "layouts/plan-main.jpg" },
-      { key: "lower", label: "Lower Deck", caption: "Lower deck · Cabins + sauna", src: "layouts/deck-lower.svg", plan: "layouts/plan-lower.jpg" },
-      { key: "profile", label: "Profile", caption: "Side profile", src: "layouts/deck-full.svg", plan: "layouts/plan-profile.jpg" },
+      { key: "upper", label: "Upper Deck", labelShort: "Upper", caption: "Upper deck · Solarium", src: "layouts/deck-upper.svg", plan: "layouts/plan-upper.jpg" },
+      { key: "main", label: "Main Deck", labelShort: "Main", caption: "Main deck · Salon + galley", src: "layouts/deck-main.svg", plan: "layouts/plan-main.jpg" },
+      { key: "lower", label: "Lower Deck", labelShort: "Lower", caption: "Lower deck · Cabins + sauna", src: "layouts/deck-lower.svg", plan: "layouts/plan-lower.jpg" },
+      { key: "profile", label: "Profile", labelShort: "Profile", caption: "Side profile", src: "layouts/deck-full.svg", plan: "layouts/plan-profile.jpg" },
     ];
 
 // Default active = Main deck (matches Bering Levanna 70 default)
@@ -65,16 +65,33 @@ const DECK_H = 491;
 
     <!-- Card -->
     <div
-      class="layouts-card relative rounded-[4px] bg-[var(--color-light-grey)] p-5 sm:p-8"
+      class="layouts-card relative -mx-8 bg-[var(--color-light-grey)] p-5 sm:mx-0 sm:rounded-[4px] sm:p-8"
       data-layouts-card
       data-active={activeIndex}
     >
-      <!-- Fullscreen-only: close pill (top-right) + zoom controls (right edge) -->
+      <!-- Fullscreen-only close.
+           Mobile: icon-only white circle sitting above the tab strip (top-right).
+           Desktop: text pill at bottom-right (unchanged). -->
+      <button
+        type="button"
+        data-fullscreen-close
+        aria-label={copy.closeLabel}
+        class="fs-only fs-only-mobile z-10 mb-3 h-10 w-10 items-center justify-center self-end rounded-full bg-[var(--color-paper)] text-[var(--color-ink)] shadow-sm transition-colors hover:text-[var(--color-neon-blue)]"
+      >
+        <svg width="14" height="14" viewBox="0 0 12 12" fill="none">
+          <path
+            d="M2 2 L10 10 M10 2 L2 10"
+            stroke="currentColor"
+            stroke-width="1.4"
+            stroke-linecap="square"
+          />
+        </svg>
+      </button>
       <button
         type="button"
         data-fullscreen-close
         aria-label="Close"
-        class="btn-secondary fs-only absolute bottom-8 right-8 z-10 inline-flex items-center gap-2 rounded-full px-5 py-2.5 text-[11px] uppercase tracking-[var(--tracking-cap)] shadow-sm"
+        class="btn-secondary fs-only fs-only-desktop absolute bottom-8 right-8 z-10 items-center gap-2 rounded-full px-5 py-2.5 text-[11px] uppercase tracking-[var(--tracking-cap)] shadow-sm"
       >
         <span data-fullscreen-close-label>{copy.closeLabel}</span>
         <svg width="12" height="12" viewBox="0 0 12 12" fill="none">
@@ -86,8 +103,9 @@ const DECK_H = 491;
           />
         </svg>
       </button>
+      <!-- Desktop zoom controls: right-edge of card, vertically centered (original). -->
       <div
-        class="fs-only absolute right-10 top-1/2 z-10 flex -translate-y-1/2 flex-col gap-3"
+        class="fs-only fs-only-desktop absolute right-10 top-1/2 z-10 flex -translate-y-1/2 flex-col gap-3"
       >
         <button
           type="button"
@@ -120,19 +138,43 @@ const DECK_H = 491;
           <button
             type="button"
             data-tab-index={i}
-            class={`flex-1 min-w-0 rounded-[3px] px-4 py-3 text-[11px] uppercase tracking-[var(--tracking-cap)] transition-colors ${
+            class={`flex-1 min-w-0 truncate rounded-[3px] px-2 py-2 text-[9px] uppercase tracking-[var(--tracking-cap)] transition-colors sm:px-4 sm:py-3 sm:text-[11px] ${
               i === activeIndex
                 ? "bg-[var(--color-neon-blue)] text-[var(--color-paper)]"
                 : "text-[var(--color-deep-grey)] hover:bg-[color-mix(in_srgb,white_60%,transparent)]"
             }`}
           >
-            {d.label}
+            <span class="sm:hidden">{d.labelShort}</span>
+            <span class="hidden sm:inline">{d.label}</span>
           </button>
         ))}
       </div>
 
       <!-- Plan area — top-down deck plan per tab. -->
-      <div data-plan-area class="relative mt-6 aspect-[16/5] w-full overflow-hidden rounded-[2px] bg-[var(--color-paper)]">
+      <div data-plan-area class="relative mt-6 aspect-[16/8] w-full overflow-hidden rounded-[2px] bg-[var(--color-paper)] sm:aspect-[16/5]">
+        <!-- Mobile-only zoom controls: sit in the bottom-right corner of the white plan area. -->
+        <div class="fs-only fs-only-mobile absolute bottom-3 right-3 z-10 flex flex-row gap-2">
+          <button
+            type="button"
+            data-zoom="in"
+            aria-label="Zoom in"
+            class="flex h-9 w-9 items-center justify-center rounded-full bg-[var(--color-ink)] text-[var(--color-paper)] shadow-sm transition-colors hover:bg-[var(--color-deep-grey)] disabled:cursor-not-allowed disabled:opacity-30"
+          >
+            <svg width="14" height="14" viewBox="0 0 16 16" fill="none">
+              <path d="M8 3 V13 M3 8 H13" stroke="currentColor" stroke-width="1.6" stroke-linecap="square" />
+            </svg>
+          </button>
+          <button
+            type="button"
+            data-zoom="out"
+            aria-label="Zoom out"
+            class="flex h-9 w-9 items-center justify-center rounded-full bg-[var(--color-ink)] text-[var(--color-paper)] shadow-sm transition-colors hover:bg-[var(--color-deep-grey)] disabled:cursor-not-allowed disabled:opacity-30"
+          >
+            <svg width="14" height="14" viewBox="0 0 16 16" fill="none">
+              <path d="M3 8 H13" stroke="currentColor" stroke-width="1.6" stroke-linecap="square" />
+            </svg>
+          </button>
+        </div>
         {decks.map((d, i) => (
           <div
             data-plan-index={i}
@@ -157,7 +199,7 @@ const DECK_H = 491;
 
       <!-- Side-profile guide — sits on the grey card, shows which deck is active.
            Not the layout sketch; an orientation strip like Bering Levanna 70. -->
-      <div class="relative mt-5 aspect-[1451/491] w-full max-w-[400px] mx-auto">
+      <div class="relative mt-5 aspect-[1451/491] w-full max-w-[240px] mx-auto sm:max-w-[400px]">
         {decks.map((d, i) => (
           <img
             data-guide-index={i}
@@ -177,7 +219,7 @@ const DECK_H = 491;
       <!-- Caption centered directly under the guide -->
       <p
         data-active-caption
-        class="mt-3 text-center text-[15px] font-medium text-[var(--color-ink)] sm:text-[16px]"
+        class="mt-3 text-center text-[11px] font-medium text-[var(--color-ink)] sm:text-[16px]"
       >
         {decks[activeIndex].caption}
       </p>
@@ -185,12 +227,39 @@ const DECK_H = 491;
       <!-- Fullscreen pill, right-aligned on its own row.
            Hidden in fullscreen mode — top-right X handles closing instead. -->
       <div class="fs-hide mt-4 flex justify-end">
+        <!-- Mobile: icon-only white circle -->
         <button
           type="button"
           data-fullscreen-toggle
           data-open-label={copy.fullscreenLabel}
           data-close-label={copy.closeLabel}
-          class="btn-secondary inline-flex items-center gap-2 rounded-full px-5 py-2.5 text-[11px] uppercase tracking-[var(--tracking-cap)]"
+          aria-label={copy.fullscreenLabel}
+          class="inline-flex h-10 w-10 items-center justify-center rounded-full bg-[var(--color-paper)] text-[var(--color-ink)] shadow-sm transition-colors hover:text-[var(--color-neon-blue)] sm:hidden"
+        >
+          <svg data-fullscreen-icon-open width="14" height="14" viewBox="0 0 12 12" fill="none">
+            <path
+              d="M2 7 V10 H5 M10 5 V2 H7 M2 10 L5 7 M10 2 L7 5"
+              stroke="currentColor"
+              stroke-width="1.2"
+              stroke-linecap="square"
+            />
+          </svg>
+          <svg data-fullscreen-icon-close width="14" height="14" viewBox="0 0 12 12" fill="none" class="hidden">
+            <path
+              d="M2 2 L10 10 M10 2 L2 10"
+              stroke="currentColor"
+              stroke-width="1.2"
+              stroke-linecap="square"
+            />
+          </svg>
+        </button>
+        <!-- Desktop: text pill -->
+        <button
+          type="button"
+          data-fullscreen-toggle
+          data-open-label={copy.fullscreenLabel}
+          data-close-label={copy.closeLabel}
+          class="btn-secondary hidden items-center gap-2 rounded-full px-5 py-2.5 text-[11px] uppercase tracking-[var(--tracking-cap)] sm:inline-flex"
         >
           <span data-fullscreen-label>{copy.fullscreenLabel}</span>
           <svg data-fullscreen-icon-open width="12" height="12" viewBox="0 0 12 12" fill="none">
@@ -220,6 +289,13 @@ const DECK_H = 491;
   .layouts-card.is-fullscreen { display: flex; }
   .layouts-card.is-fullscreen .fs-only { display: inline-flex; }
   .layouts-card.is-fullscreen .fs-hide { display: none; }
+  /* Show only the mobile close on <640px fullscreen, only the desktop pill on >=640px */
+  @media (min-width: 640px) {
+    .layouts-card.is-fullscreen .fs-only-mobile { display: none; }
+  }
+  @media (max-width: 639px) {
+    .layouts-card.is-fullscreen .fs-only-desktop { display: none; }
+  }
   .layouts-card.is-fullscreen {
     position: fixed;
     inset: 0;
@@ -235,6 +311,15 @@ const DECK_H = 491;
     flex: 1 1 auto;
     min-height: 0;
   }
+  @media (max-width: 639px) {
+    .layouts-card.is-fullscreen [data-plan-area] {
+      flex: 0 0 auto;
+      height: 50vh;
+    }
+    .layouts-card.is-fullscreen [data-active-caption] {
+      font-size: 15px;
+    }
+  }
 </style>
 
 <script>
@@ -243,13 +328,14 @@ const DECK_H = 491;
     const plans = root.querySelectorAll<HTMLElement>("[data-plan-index]");
     const guides = root.querySelectorAll<HTMLElement>("[data-guide-index]");
     const caption = root.querySelector<HTMLElement>("[data-active-caption]");
-    const fsBtn = root.querySelector<HTMLButtonElement>("[data-fullscreen-toggle]");
-    const fsLabel = root.querySelector<HTMLElement>("[data-fullscreen-label]");
-    const fsIconOpen = root.querySelector<HTMLElement>("[data-fullscreen-icon-open]");
-    const fsIconClose = root.querySelector<HTMLElement>("[data-fullscreen-icon-close]");
-    const fsCloseBtn = root.querySelector<HTMLButtonElement>("[data-fullscreen-close]");
-    const zoomInBtn = root.querySelector<HTMLButtonElement>('[data-zoom="in"]');
-    const zoomOutBtn = root.querySelector<HTMLButtonElement>('[data-zoom="out"]');
+    const fsBtns = root.querySelectorAll<HTMLButtonElement>("[data-fullscreen-toggle]");
+    const fsBtn = fsBtns[0];
+    const fsLabels = root.querySelectorAll<HTMLElement>("[data-fullscreen-label]");
+    const fsIconOpens = root.querySelectorAll<HTMLElement>("[data-fullscreen-icon-open]");
+    const fsIconCloses = root.querySelectorAll<HTMLElement>("[data-fullscreen-icon-close]");
+    const fsCloseBtns = root.querySelectorAll<HTMLButtonElement>("[data-fullscreen-close]");
+    const zoomInBtns = root.querySelectorAll<HTMLButtonElement>('[data-zoom="in"]');
+    const zoomOutBtns = root.querySelectorAll<HTMLButtonElement>('[data-zoom="out"]');
 
     const ZOOM_LEVELS = [1.0, 1.5, 2.0, 2.5];
     let zoomIndex = 0;
@@ -278,8 +364,8 @@ const DECK_H = 491;
         active.style.cursor = isDragging ? "grabbing" : "grab";
         active.style.touchAction = "none";
       }
-      if (zoomInBtn) zoomInBtn.disabled = zoomIndex >= ZOOM_LEVELS.length - 1;
-      if (zoomOutBtn) zoomOutBtn.disabled = zoomIndex <= 0;
+      zoomInBtns.forEach((b) => (b.disabled = zoomIndex >= ZOOM_LEVELS.length - 1));
+      zoomOutBtns.forEach((b) => (b.disabled = zoomIndex <= 0));
     }
 
     function applyZoom() {
@@ -331,38 +417,45 @@ const DECK_H = 491;
     function setFullscreen(on: boolean) {
       root.classList.toggle("is-fullscreen", on);
       document.body.style.overflow = on ? "hidden" : "";
-      if (fsLabel && fsBtn) {
-        fsLabel.textContent = on
+      if (fsBtn) {
+        const label = on
           ? fsBtn.dataset.closeLabel ?? "Close"
           : fsBtn.dataset.openLabel ?? "Fullscreen";
+        fsLabels.forEach((el) => (el.textContent = label));
       }
-      fsIconOpen?.classList.toggle("hidden", on);
-      fsIconClose?.classList.toggle("hidden", !on);
+      fsIconOpens.forEach((el) => el.classList.toggle("hidden", on));
+      fsIconCloses.forEach((el) => el.classList.toggle("hidden", !on));
       if (!on) {
         zoomIndex = 0;
         applyZoom();
       }
     }
 
-    fsBtn?.addEventListener("click", () => {
-      setFullscreen(!root.classList.contains("is-fullscreen"));
-    });
+    fsBtns.forEach((btn) =>
+      btn.addEventListener("click", () => {
+        setFullscreen(!root.classList.contains("is-fullscreen"));
+      })
+    );
 
-    fsCloseBtn?.addEventListener("click", () => setFullscreen(false));
+    fsCloseBtns.forEach((btn) => btn.addEventListener("click", () => setFullscreen(false)));
 
-    zoomInBtn?.addEventListener("click", () => {
-      if (zoomIndex < ZOOM_LEVELS.length - 1) {
-        zoomIndex++;
-        applyZoom();
-      }
-    });
+    zoomInBtns.forEach((b) =>
+      b.addEventListener("click", () => {
+        if (zoomIndex < ZOOM_LEVELS.length - 1) {
+          zoomIndex++;
+          applyZoom();
+        }
+      })
+    );
 
-    zoomOutBtn?.addEventListener("click", () => {
-      if (zoomIndex > 0) {
-        zoomIndex--;
-        applyZoom();
-      }
-    });
+    zoomOutBtns.forEach((b) =>
+      b.addEventListener("click", () => {
+        if (zoomIndex > 0) {
+          zoomIndex--;
+          applyZoom();
+        }
+      })
+    );
 
     document.addEventListener("keydown", (e) => {
       if (e.key === "Escape" && root.classList.contains("is-fullscreen")) {
