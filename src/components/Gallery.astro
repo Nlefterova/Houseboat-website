@@ -136,18 +136,34 @@ const total = photos.length;
 >
   <!-- Header: title + filter chips + close -->
   <div
-    class="flex flex-col gap-6 border-b border-[color-mix(in_srgb,var(--color-paper)_15%,transparent)] px-6 py-5 sm:flex-row sm:items-center sm:justify-between sm:px-10 sm:py-6"
+    class="flex flex-col gap-5 border-b border-[color-mix(in_srgb,var(--color-paper)_15%,transparent)] px-6 py-5 sm:flex-row sm:items-center sm:justify-between sm:gap-6 sm:px-10 sm:py-6"
   >
-    <div class="flex flex-wrap items-baseline gap-x-4 gap-y-1">
-      <h2
-        id="gallery-title"
-        class="text-[20px] uppercase tracking-[var(--tracking-cap)] text-[var(--color-paper)] sm:text-[22px]"
+    <!-- Mobile: title + icon-close on the same row. Desktop: `sm:contents`
+         dissolves this wrapper so the title flows into the outer flex directly. -->
+    <div class="flex items-start justify-between gap-4 sm:contents">
+      <div class="flex flex-wrap items-baseline gap-x-4 gap-y-1">
+        <h2
+          id="gallery-title"
+          class="text-[20px] uppercase tracking-[var(--tracking-cap)] text-[var(--color-paper)] sm:text-[22px]"
+        >
+          {copy.title}
+        </h2>
+        <p class="text-[11px] uppercase tracking-[var(--tracking-wide-cap)] text-[color-mix(in_srgb,var(--color-paper)_55%,transparent)]">
+          {copy.subtitle} · <span data-gallery-count>{total}</span>
+        </p>
+      </div>
+
+      <!-- Mobile-only close (icon). Pinned top-right of the header row. -->
+      <button
+        type="button"
+        data-gallery-close
+        aria-label={copy.closeLabel}
+        class="inline-flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-[var(--color-paper)] text-[var(--color-ink)] transition-colors hover:text-[var(--color-neon-blue)] sm:hidden"
       >
-        {copy.title}
-      </h2>
-      <p class="text-[11px] uppercase tracking-[var(--tracking-wide-cap)] text-[color-mix(in_srgb,var(--color-paper)_55%,transparent)]">
-        {copy.subtitle} · <span data-gallery-count>{total}</span>
-      </p>
+        <svg width="12" height="12" viewBox="0 0 12 12" fill="none">
+          <path d="M2 2 L10 10 M10 2 L2 10" stroke="currentColor" stroke-width="1.6" stroke-linecap="square" />
+        </svg>
+      </button>
     </div>
 
     <div class="flex flex-wrap items-center gap-2">
@@ -161,10 +177,11 @@ const total = photos.length;
         class="gallery-chip rounded-full border border-[color-mix(in_srgb,var(--color-paper)_25%,transparent)] px-4 py-2 text-[11px] uppercase tracking-[var(--tracking-cap)] transition-colors"
       >{copy.filterInterior}</button>
 
+      <!-- Desktop-only text close. Hidden on mobile — the icon-close above handles it. -->
       <button
         type="button"
         data-gallery-close
-        class="ml-2 inline-flex items-center gap-2 rounded-full bg-[var(--color-paper)] px-5 py-2 text-[11px] uppercase tracking-[var(--tracking-cap)] text-[var(--color-ink)] transition-[color,box-shadow,text-shadow] duration-200 ease-out hover:text-[var(--color-neon-blue)] hover:[box-shadow:0_0_0_2px_var(--color-neon-blue)] hover:[text-shadow:0_0_0.4px_currentColor]"
+        class="ml-2 hidden items-center gap-2 rounded-full bg-[var(--color-paper)] px-5 py-2 text-[11px] uppercase tracking-[var(--tracking-cap)] text-[var(--color-ink)] transition-[color,box-shadow,text-shadow] duration-200 ease-out hover:text-[var(--color-neon-blue)] hover:[box-shadow:0_0_0_2px_var(--color-neon-blue)] hover:[text-shadow:0_0_0.4px_currentColor] sm:inline-flex"
       >
         <span>{copy.closeLabel}</span>
         <svg width="12" height="12" viewBox="0 0 12 12" fill="none">
@@ -209,37 +226,33 @@ const total = photos.length;
       ))}
 
       <div data-gallery-grid class="gallery-columns mt-2 sm:mt-3">
-        {cols4.map((col, ci) => (
-          <div class={`gallery-col gallery-col-${ci + 1}`}>
-            {col.map((p) => (
-              <button
-                type="button"
-                data-gallery-tile
-                data-tile-cat={p.cat}
-                aria-label={caption(p)}
-                class="gallery-tile group relative block w-full overflow-hidden rounded-[2px] bg-[color-mix(in_srgb,var(--color-paper)_5%,transparent)]"
-              >
-                <ResponsiveImage
-                  src={p.src}
-                  alt={caption(p)}
-                  width={p.w}
-                  height={p.h}
-                  sizes="(min-width: 1024px) 25vw, 50vw"
-                  loading="lazy"
-                  class="block w-full h-auto transition-transform duration-500 group-hover:scale-[1.03]"
-                />
-                <div
-                  class="pointer-events-none absolute inset-x-0 bottom-0 h-1/2 opacity-0 transition-opacity duration-300 group-hover:opacity-100"
-                  style="background: linear-gradient(180deg, rgba(0,0,0,0) 0%, rgba(0,0,0,0.7) 100%);"
-                ></div>
-                <span
-                  class="pointer-events-none absolute bottom-3 left-3 text-[11px] uppercase tracking-[var(--tracking-wide-cap)] text-[var(--color-paper)] opacity-0 transition-opacity duration-300 group-hover:opacity-100 sm:bottom-4 sm:left-4"
-                >
-                  {caption(p)}
-                </span>
-              </button>
-            ))}
-          </div>
+        {cols4.flat().map((p) => (
+          <button
+            type="button"
+            data-gallery-tile
+            data-tile-cat={p.cat}
+            aria-label={caption(p)}
+            class="gallery-tile group relative mb-2 block w-full overflow-hidden rounded-[2px] bg-[color-mix(in_srgb,var(--color-paper)_5%,transparent)] sm:mb-3"
+          >
+            <ResponsiveImage
+              src={p.src}
+              alt={caption(p)}
+              width={p.w}
+              height={p.h}
+              sizes="(min-width: 1024px) 25vw, 50vw"
+              loading="lazy"
+              class="block w-full h-auto transition-transform duration-500 group-hover:scale-[1.03]"
+            />
+            <div
+              class="pointer-events-none absolute inset-x-0 bottom-0 h-1/2 opacity-0 transition-opacity duration-300 group-hover:opacity-100"
+              style="background: linear-gradient(180deg, rgba(0,0,0,0) 0%, rgba(0,0,0,0.7) 100%);"
+            ></div>
+            <span
+              class="pointer-events-none absolute bottom-3 left-3 text-[11px] uppercase tracking-[var(--tracking-wide-cap)] text-[var(--color-paper)] opacity-0 transition-opacity duration-300 group-hover:opacity-100 sm:bottom-4 sm:left-4"
+            >
+              {caption(p)}
+            </span>
+          </button>
         ))}
       </div>
 
@@ -317,27 +330,25 @@ const total = photos.length;
   .gallery-overlay.is-open { display: flex; }
   .lightbox-overlay.is-open { display: flex; }
 
-  /* Mobile/tablet: hero full-width on top, then 2-col grid of flex-columns.
-     Desktop (>=1024px): hero spans cols 1-2 top-left; cols 1-2 sit below it
-     (row 2); cols 3-4 span both rows on the right. */
-  /* Hero is a full-width 21:9 banner; the 4 balanced columns sit below it. */
+  /* CSS multi-column layout — photos reflow naturally when filtered
+     (display:none items are removed from the flow, browser rebalances heights).
+     Previous grid-of-flex-columns approach left row-height gaps when column
+     heights became uneven under a filter. Hero is a full-width 21:9 banner
+     above the columns. */
   .gallery-columns {
-    display: grid;
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: 0.5rem;
+    column-count: 2;
+    column-gap: 0.5rem;
   }
-  .gallery-col {
-    display: flex;
-    flex-direction: column;
-    gap: 0.5rem;
-    min-width: 0;
+  .gallery-tile {
+    break-inside: avoid;
+    -webkit-column-break-inside: avoid;
+    page-break-inside: avoid;
   }
   @media (min-width: 1024px) {
     .gallery-columns {
-      grid-template-columns: repeat(4, minmax(0, 1fr));
-      gap: 0.75rem;
+      column-count: 4;
+      column-gap: 0.75rem;
     }
-    .gallery-col { gap: 0.75rem; }
   }
 
   .gallery-chip.is-active {

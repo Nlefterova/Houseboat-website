@@ -64,7 +64,7 @@ const tocLabel = lang === "ru" ? "Оглавление" : "Table of Contents";
     <div class="mx-auto max-w-[1440px] px-6 sm:px-8">
       <!-- Title block -->
       <p class="eyebrow">{eyebrow}</p>
-      <hr class="rule-ink mt-4" />
+      <hr class="rule-ink mt-2 sm:mt-4" />
       <h1 class="display mt-6 text-[36px] leading-[1.05] text-[var(--color-ink)] sm:text-[52px]">
         {title}
       </h1>
@@ -83,7 +83,7 @@ const tocLabel = lang === "ru" ? "Оглавление" : "Table of Contents";
         <aside class="col-span-12 lg:col-span-4">
           <div class="lg:sticky lg:top-24 lg:self-start">
             <p class="eyebrow">{tocLabel}</p>
-            <hr class="rule-ink mt-3" />
+            <hr class="rule-ink mt-2 sm:mt-4" />
             <nav class="mt-6 flex flex-col gap-2 text-[14px]">
               {sections.map((s) => (
                 <>
