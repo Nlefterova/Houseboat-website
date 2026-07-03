@@ -41,7 +41,7 @@ const copy = lang === "ru"
     };
 ---
 
-<section class="relative isolate min-h-[100svh] w-full overflow-hidden bg-[var(--color-paper)] sm:bg-[var(--color-ink)]">
+<section class="relative isolate w-full overflow-hidden bg-[var(--color-paper)] sm:min-h-[100svh] sm:bg-[var(--color-ink)]">
   <!-- Hero photo: Канон/Expedition/EXP_15_Calm Lake Reflection.jpeg
        Intentionally NOT wrapped in <ResponsiveImage>. The hero is the single
        highest-impact visual on the site — quality > bandwidth. Every device
@@ -72,7 +72,7 @@ const copy = lang === "ru"
     ></div>
   </div>
 
-  <div class="mx-auto flex min-h-[100svh] max-w-[1440px] items-start px-6 pb-6 pt-[calc(52vh+1rem)] sm:items-end sm:px-8 sm:pb-16 sm:pt-36 lg:items-center">
+  <div class="mx-auto flex max-w-[1440px] items-start px-6 pb-6 pt-[calc(52vh+1rem)] sm:min-h-[100svh] sm:items-end sm:px-8 sm:pb-16 sm:pt-36 lg:items-center">
     <div class="grid w-full grid-cols-12 gap-8">
       <!-- Bering-70 style translucent card, pinned left -->
       <div class="col-span-12 sm:col-span-10 md:col-span-7 lg:col-span-5 xl:col-span-5">
@@ -95,7 +95,7 @@ const copy = lang === "ru"
           <!-- Spec grid 3x2 -->
           <dl class="mt-4 grid grid-cols-3 gap-x-4 gap-y-4 sm:mt-6 sm:grid-cols-2 sm:gap-x-6 sm:gap-y-5 sm:border-t sm:border-[color-mix(in_srgb,white_15%,transparent)] sm:pt-6">
             {copy.specs.map((s) => (
-              <div>
+              <div class="text-center sm:text-left">
                 <dt class="text-[10px] font-semibold uppercase tracking-[var(--tracking-cap)] text-[color-mix(in_srgb,black_60%,transparent)] sm:text-[color-mix(in_srgb,white_70%,transparent)]">
                   {s.label}
                 </dt>

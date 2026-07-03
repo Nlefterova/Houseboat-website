@@ -169,9 +169,10 @@ const closeLabel = lang === "ru" ? "Закрыть" : "Close";
 
   function updateScrollState() {
     if (!header || lockedSolid) return;
-    // Flip to scrolled state once user has cleared ~70% of the viewport height.
-    // Cheap and robust — no IntersectionObserver / hero sentinel needed.
-    const threshold = window.innerHeight * 0.7;
+    // Flip to scrolled state after the hero image is out of view.
+    // Mobile hero image is 52vh; desktop uses the older ~70vh cue.
+    const isMobile = window.matchMedia("(max-width: 639px)").matches;
+    const threshold = window.innerHeight * (isMobile ? 0.5 : 0.7);
     if (window.scrollY > threshold) {
       header.setAttribute("data-scrolled", "");
     } else {
