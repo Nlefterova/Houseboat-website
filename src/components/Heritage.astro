@@ -164,12 +164,16 @@ const copy = lang === "ru"
           >
             <video
               data-video-el
-              src="https://github.com/Nlefterova/Houseboat-website/releases/download/videos-v1/siberian.mp4"
               poster="video/siberian-poster.jpg"
               preload="metadata"
               playsinline
               class="absolute inset-0 h-full w-full object-cover"
-            ></video>
+            >
+              <source
+                src="https://github.com/Nlefterova/Houseboat-website/releases/download/videos-v1/siberian.mp4"
+                type="video/mp4"
+              />
+            </video>
 
             <!-- Overlay (badges + play). Hidden once playback starts. -->
             <div data-video-overlay class="pointer-events-none absolute inset-0 transition-opacity duration-500">
